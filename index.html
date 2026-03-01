@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pravin's trading journal</title>
-    <!-- High-quality Blue Upward Arrow / Bull Favicon -->
+    <!-- High-quality White Upward Arrow / Bull Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232962ff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='23 6 13.5 15.5 8.5 10.5 1 18'></polyline><polyline points='17 6 23 6 23 12'></polyline></svg>">
     <style>
         /* TradingView Inspired Dark Theme */
@@ -20,8 +20,6 @@
             --profit-green: #089981;
             --loss-red: #f23645;
             --warning-yellow: #eeb422;
-            --ai-purple: #9333ea;
-            --ai-purple-hover: #a855f7;
             --hover-bg: #2a2e39;
             --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
@@ -40,9 +38,9 @@
         .sticky-nav {
             position: sticky; 
             top: 0; 
-            height: 72px; /* Fixed height so table headers know exactly where to dock */
-            background-color: var(--bg-color); /* Solid background hides scrolling rows */
-            z-index: 100; /* Stays above everything */
+            height: 72px; 
+            background-color: var(--bg-color); 
+            z-index: 100; 
             border-bottom: 1px solid var(--border-color); 
             display: flex;
             align-items: center;
@@ -82,37 +80,71 @@
         }
         .icon-btn:hover { color: var(--text-main); border-color: var(--text-main); background: var(--hover-bg); }
 
-        /* Icon-Only Buttons for Table Rows (Blended into background) */
+        /* Icon-Only Buttons for Table Rows (Blended into background initially) */
         .btn-icon-only {
             width: 32px; height: 32px; padding: 0; display: inline-flex; align-items: center; justify-content: center;
-            border-radius: 4px; cursor: pointer; transition: all 0.2s ease;
-            background-color: var(--panel-bg); /* Blends with table */
-            border: 1px solid var(--border-color); /* Blends with table */
-            color: var(--text-muted); /* Blends with text */
+            border-radius: 4px; cursor: pointer; transition: all 0.3s ease;
+            background-color: var(--panel-bg); 
+            border: 1px solid transparent; /* Hidden border initially */
+            color: var(--text-muted); 
         }
 
-        /* Hover states for Table Icons */
-        .btn-ai:hover { background-color: var(--ai-purple); border-color: var(--ai-purple); color: white; transform: translateY(-1px); box-shadow: 0 4px 10px rgba(147, 51, 234, 0.3); }
-        .btn-edit:hover { background-color: var(--warning-yellow); border-color: var(--warning-yellow); color: #000; }
-        .btn-danger:hover { background-color: var(--loss-red); border-color: var(--loss-red); color: white; }
+        /* Modern Glossy Hover states for Table Icons */
+        .btn-edit:hover { 
+            background-color: #2a2e39; 
+            border-color: #3b82f6; /* Soft blue neon */
+            color: #60a5fa; 
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.3); /* Soft blue glow */
+            transform: translateY(-1px);
+        }
+        .btn-danger:hover { 
+            background-color: #2a2e39; 
+            border-color: var(--loss-red); /* Soft red neon */
+            color: var(--loss-red); 
+            box-shadow: 0 0 10px rgba(242, 54, 69, 0.3); /* Soft red glow */
+            transform: translateY(-1px);
+        }
 
         /* Stats Bar */
         .stats-bar {
-            display: flex; gap: 24px; margin-bottom: 20px; padding: 16px;
+            display: flex; gap: 24px; margin-bottom: 24px; padding: 16px;
             background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 6px; flex-wrap: wrap;
         }
         .stat-item { display: flex; flex-direction: column; }
         .stat-label { font-size: 12px; color: var(--text-muted); }
         .stat-value { font-size: 18px; font-weight: 600; }
 
-        /* Tabs & Views Wrapper */
-        .tabs { display: flex; gap: 16px; margin-bottom: 16px; }
-        .tab { 
-            padding: 8px 16px; cursor: pointer; border-radius: 4px; font-weight: 500; 
-            color: var(--text-muted); transition: all 0.2s;
-            display: flex; align-items: center; gap: 8px; /* For glassy SVG icons */
+        /* Modern Segmented Control (Tabs) */
+        .tabs { 
+            display: inline-flex; 
+            background-color: var(--bg-color); /* Dark container pill */
+            padding: 4px; 
+            border-radius: 8px; 
+            gap: 4px; 
+            margin-bottom: 24px; 
+            border: 1px solid var(--border-color);
         }
-        .tab.active { background-color: var(--panel-bg); color: var(--text-main); border: 1px solid var(--border-color); }
+        .tab { 
+            padding: 8px 20px; 
+            cursor: pointer; 
+            border-radius: 6px; 
+            font-weight: 500; 
+            color: var(--text-muted); 
+            transition: all 0.3s ease;
+            display: flex; 
+            align-items: center; 
+            gap: 8px;
+            border: none;
+            background: transparent;
+        }
+        .tab:hover:not(.active) { color: #ffffff; }
+        .tab.active { 
+            background-color: var(--accent-blue); 
+            color: #ffffff; 
+            box-shadow: 0 4px 12px rgba(41, 98, 255, 0.4); /* Subtle drop shadow */
+            /* Glossy top highlight */
+            background-image: linear-gradient(180deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0) 100%);
+        }
 
         .views-wrapper { display: grid; position: relative; }
         .view-container { grid-area: 1 / 1; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.3s ease, visibility 0.3s ease; }
@@ -144,7 +176,6 @@
             background-color: var(--card-bg); /* Solid background hides rows underneath */
             z-index: 50; 
             color: var(--text-muted); font-weight: 600; white-space: nowrap; 
-            /* Replace normal borders with box-shadows so they don't break when scrolling */
             border-bottom: none; border-right: none;
             box-shadow: inset 0 -1px 0 var(--border-color), inset -1px 0 0 var(--border-color);
         }
@@ -175,60 +206,6 @@
         .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
         .card-title { font-size: 16px; font-weight: 600; }
         .card-details { font-size: 13px; color: var(--text-muted); margin-bottom: 8px; }
-
-        /* Floating AI Mentor Chat UI */
-        .chat-toggle-btn {
-            position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px;
-            border-radius: 50%; background-color: #2a2e39; color: #ffffff; 
-            border: 1px solid var(--border-color); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-            cursor: pointer; z-index: 999; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;
-        }
-        .chat-toggle-btn:hover { transform: scale(1.05); box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7); background-color: var(--accent-blue); border-color: var(--accent-blue); }
-
-        .chat-window {
-            position: fixed; bottom: 100px; right: 30px; width: 380px; height: 550px;
-            background-color: var(--panel-bg); border: 1px solid var(--border-color);
-            border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.6); display: flex; flex-direction: column; z-index: 1000;
-            opacity: 0; visibility: hidden; transform: translateY(20px) scale(0.95); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .chat-window.show { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
-
-        .chat-header {
-            padding: 16px; background-color: var(--card-bg); border-bottom: 1px solid var(--border-color);
-            border-radius: 12px 12px 0 0; display: flex; justify-content: space-between; align-items: center;
-        }
-        .chat-header h3 { font-size: 15px; margin: 0; display: flex; align-items: center; gap: 8px; }
-
-        .chat-body { flex: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; }
-        .chat-body::-webkit-scrollbar { width: 6px; }
-        .chat-body::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
-
-        .chat-msg { max-width: 85%; padding: 10px 14px; border-radius: 12px; font-size: 14px; line-height: 1.5; word-wrap: break-word; }
-        .user-msg { align-self: flex-end; background-color: var(--accent-blue); color: white; border-bottom-right-radius: 2px; }
-        .ai-msg { align-self: flex-start; background-color: var(--card-bg); border: 1px solid var(--border-color); border-bottom-left-radius: 2px; color: var(--text-main); }
-        
-        .chat-input-area { padding: 12px; background-color: var(--card-bg); border-top: 1px solid var(--border-color); border-radius: 0 0 12px 12px; display: flex; gap: 8px; align-items: center;}
-        
-        /* Defeating the Password Manager with a Textarea */
-        .chat-input-area textarea { 
-            flex: 1; background: var(--bg-color); border: 1px solid var(--border-color); 
-            padding: 10px 14px; border-radius: 20px; color: var(--text-main); 
-            font-family: var(--font-family); outline: none; resize: none; overflow: hidden;
-            line-height: 20px; height: 42px; box-sizing: border-box;
-        }
-        .chat-input-area textarea:focus { border-color: var(--accent-blue); }
-
-        .chat-send-btn {
-            background-color: var(--accent-blue); color: white; border: none; border-radius: 20px;
-            padding: 0 16px; height: 40px; cursor: pointer; font-weight: 500; transition: background 0.2s;
-        }
-        .chat-send-btn:hover { background-color: var(--accent-blue-hover); }
-
-        .loading-pulse { display: flex; gap: 4px; align-items: center; padding: 4px 0; }
-        .loading-pulse span { width: 6px; height: 6px; background-color: var(--accent-blue); border-radius: 50%; animation: bounce 1.4s infinite ease-in-out both; }
-        .loading-pulse span:nth-child(1) { animation-delay: -0.32s; }
-        .loading-pulse span:nth-child(2) { animation-delay: -0.16s; }
-        @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
 
         /* Modals & Lightbox */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(4px); z-index: 3000; justify-content: center; align-items: center; }
@@ -287,6 +264,7 @@
             <div class="stat-item"><span class="stat-label">Win Rate (Executed)</span><span class="stat-value" id="stat-win-rate">0%</span></div>
         </div>
 
+        <!-- Segmented Control Tabs -->
         <div class="tabs">
             <!-- Glassy SVG Icons for Tabs -->
             <div class="tab active" data-target="tableView">
@@ -329,29 +307,6 @@
                 </div>
                 <div class="gallery-grid" id="galleryGrid"></div>
             </div>
-        </div>
-    </div>
-
-    <!-- Floating Chat Button -->
-    <button class="chat-toggle-btn" id="chatToggleBtn" title="Open AI Mentor">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"></path>
-        </svg>
-    </button>
-
-    <!-- Chat Window -->
-    <div class="chat-window" id="chatWindow">
-        <div class="chat-header">
-            <h3>✨ AI Trading Partner</h3>
-            <button class="close-btn" id="closeChatBtn" style="font-size: 20px;">&times;</button>
-        </div>
-        <div class="chat-body" id="chatBody">
-            <div class="chat-msg ai-msg">Hey Pravin! 👋 I'm Gemini, your expert trading partner. Let's analyze your setups and crush the markets together. What are we looking at today? 🚀</div>
-        </div>
-        <div class="chat-input-area">
-            <!-- Textarea completely defeats password manager popups -->
-            <textarea id="chat-message-input" rows="1" spellcheck="false" autocomplete="new-password" data-lpignore="true" placeholder="Ask a question..."></textarea>
-            <button class="chat-send-btn" id="sendChatBtn">Send</button>
         </div>
     </div>
 
@@ -407,16 +362,6 @@
         <div class="modal">
             <div class="modal-header"><h2>⚙️ Settings & Data</h2><button class="close-btn" id="closeSettingsBtn">&times;</button></div>
             <div class="form-group">
-                <label>Gemini API Key</label>
-                <!-- autocomplete off to prevent autofill issues -->
-                <input type="password" id="apiKeyInput" placeholder="AIzaSy..." autocomplete="new-password" data-lpignore="true">
-                <p style="font-size: 12px; color: var(--text-muted); margin-top: 6px;">Required for AI Mentor. Stored locally in your browser.</p>
-            </div>
-            <button class="btn" id="saveSettingsBtn" style="width: 100%; margin-bottom: 16px;">Save Key</button>
-            
-            <hr style="border: none; border-top: 1px solid var(--border-color); margin-bottom: 16px;">
-            
-            <div class="form-group">
                 <label>Danger Zone</label>
                 <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;">Clear all stored data to reset the journal completely.</p>
                 <button class="btn btn-danger-solid" id="clearDataBtn" style="width: 100%;">Clear All Data</button>
@@ -432,7 +377,6 @@
         ];
 
         let trades = JSON.parse(localStorage.getItem('pravinTradingJournal')) || dummyTrades;
-        let chatHistory =[]; 
         
         let editingTradeId = null;
         let currentVaultFilter = 'All';
@@ -442,7 +386,6 @@
         function init() {
             renderUI();
             toggleExecutionFields(); 
-            document.getElementById('apiKeyInput').value = localStorage.getItem('pravinGeminiApiKey') || '';
         }
 
         function renderUI() { renderTable(); renderGallery(); updateStats(); saveData(); }
@@ -465,8 +408,7 @@
 
             const sortedTrades =[...filteredTrades].sort((a, b) => new Date(b.date) - new Date(a.date));
 
-            // Minimalist SVG Icons for Action Buttons
-            const aiIcon = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"></path></svg>`;
+            // Minimalist SVG Icons for Action Buttons (Edit and Delete Only)
             const editIcon = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>`;
             const delIcon = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`;
 
@@ -484,7 +426,6 @@
                     <td>${trade.setup}</td><td>${dirDisplay}</td><td>${qtyDisplay}</td>
                     <td>${isSetup ? '-' : formatPrice(trade.entry)}</td><td>${isSetup ? '-' : formatPrice(trade.exit)}</td><td>${pnlDisplay}</td>
                     <td class="action-btns">
-                        <button class="btn-icon-only btn-ai" onclick="analyzeRowData(${trade.id})" title="AI Analysis">${aiIcon}</button>
                         <button class="btn-icon-only btn-edit" onclick="editTrade(${trade.id})" title="Edit Log">${editIcon}</button>
                         <button class="btn-icon-only btn-danger" onclick="deleteTrade(${trade.id})" title="Delete Log">${delIcon}</button>
                     </td>
@@ -658,124 +599,6 @@
         document.getElementById('closeModalBtn').addEventListener('click', () => document.getElementById('modalOverlay').style.display='none');
         document.getElementById('openSettingsBtn').addEventListener('click', () => document.getElementById('settingsModalOverlay').style.display = 'flex');
         document.getElementById('closeSettingsBtn').addEventListener('click', () => document.getElementById('settingsModalOverlay').style.display = 'none');
-        document.getElementById('saveSettingsBtn').addEventListener('click', () => {
-            localStorage.setItem('pravinGeminiApiKey', document.getElementById('apiKeyInput').value.trim());
-            document.getElementById('settingsModalOverlay').style.display = 'none'; alert("API Key Saved.");
-        });
-
-        // --- FLOATING AI MENTOR CHAT INTEGRATION ---
-        
-        const chatWindow = document.getElementById('chatWindow');
-        const chatBody = document.getElementById('chatBody');
-        const chatInput = document.getElementById('chat-message-input'); 
-        const chatToggleBtn = document.getElementById('chatToggleBtn');
-        
-        // Toggle Chat Visibility
-        chatToggleBtn.addEventListener('click', () => {
-            chatWindow.classList.toggle('show');
-            if(chatWindow.classList.contains('show')) chatInput.focus();
-        });
-        document.getElementById('closeChatBtn').addEventListener('click', () => chatWindow.classList.remove('show'));
-
-        // Click Outside to Close Logic
-        document.addEventListener('click', (e) => {
-            if (chatWindow.classList.contains('show')) {
-                if (!chatWindow.contains(e.target) && !chatToggleBtn.contains(e.target)) {
-                    chatWindow.classList.remove('show');
-                }
-            }
-        });
-
-        // Append message UI
-        function appendMessage(text, isUser) {
-            const div = document.createElement('div');
-            div.className = `chat-msg ${isUser ? 'user-msg' : 'ai-msg'}`;
-            div.innerText = text;
-            chatBody.appendChild(div);
-            chatBody.scrollTop = chatBody.scrollHeight;
-        }
-
-        // Show/Hide typing pulse
-        function toggleTypingIndicator(show) {
-            if (show) {
-                const div = document.createElement('div');
-                div.className = 'chat-msg ai-msg loading-pulse'; div.id = 'aiTyping';
-                div.innerHTML = '<span></span><span></span><span></span>';
-                chatBody.appendChild(div); chatBody.scrollTop = chatBody.scrollHeight;
-            } else {
-                const el = document.getElementById('aiTyping');
-                if (el) el.remove();
-            }
-        }
-
-        // Send Message to Gemini
-        async function sendChatMessage(userText) {
-            if (!userText.trim()) return;
-            
-            const apiKey = localStorage.getItem('pravinGeminiApiKey');
-            if (!apiKey) {
-                alert("Please set your Gemini API Key in the Settings first.");
-                document.getElementById('settingsModalOverlay').style.display = 'flex';
-                return;
-            }
-
-            // Update UI & History
-            appendMessage(userText, true);
-            chatHistory.push({ role: "user", parts:[{ text: userText }] });
-            chatInput.value = '';
-            
-            toggleTypingIndicator(true);
-
-            // Dynamically inject latest LocalStorage trades with requested personality
-            const systemText = `You are Gemini, a supportive, conversational, and expert trading mentor for Pravin. Use his localStorage trade data to give friendly, specific advice. Avoid robotic phrases. Current trades: ${JSON.stringify(trades)}`;
-            
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
-            const payload = {
-                system_instruction: { parts: [{ text: systemText }] },
-                contents: chatHistory
-            };
-
-            try {
-                const response = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-                const data = await response.json();
-                
-                toggleTypingIndicator(false);
-                
-                if (!response.ok) throw new Error(data.error?.message || "Failed to reach AI.");
-                
-                const aiText = data.candidates[0].content.parts[0].text;
-                appendMessage(aiText, false);
-                chatHistory.push({ role: "model", parts:[{ text: aiText }] });
-                
-            } catch (error) {
-                toggleTypingIndicator(false);
-                appendMessage(`⚠️ Error: ${error.message}`, false);
-                chatHistory.pop(); // Remove failed prompt so it doesn't break history
-            }
-        }
-
-        // Chat Input Listeners
-        document.getElementById('sendChatBtn').addEventListener('click', () => sendChatMessage(chatInput.value));
-        
-        // Prevent default Enter behavior on textarea to send message instead of new line
-        chatInput.addEventListener('keydown', (e) => { 
-            if (e.key === 'Enter' && !e.shiftKey) { 
-                e.preventDefault(); 
-                sendChatMessage(chatInput.value); 
-            } 
-        });
-
-        // Pipe Row-Level "AI Analysis" into the continuous Chat UI
-        window.analyzeRowData = (id) => {
-            const trade = trades.find(t => t.id === id);
-            if (!trade) return;
-            
-            chatWindow.classList.add('show');
-            chatInput.focus();
-            
-            const prompt = `Please analyze this specific trade I took:\nAsset: ${trade.asset}, Pattern: ${trade.setup}, Direction: ${trade.direction || 'N/A'}, Qty: ${trade.qty || 'N/A'}, Entry: ${trade.entry || 'N/A'}, Exit: ${trade.exit || 'N/A'}, Net P&L: ₹${trade.pnl || 'N/A'}.`;
-            sendChatMessage(prompt);
-        };
 
         // Boot
         init();
