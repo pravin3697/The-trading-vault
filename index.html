@@ -4,23 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pravin's trading journal</title>
-    <!-- High-quality White Upward Arrow / Bull Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232962ff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='23 6 13.5 15.5 8.5 10.5 1 18'></polyline><polyline points='17 6 23 6 23 12'></polyline></svg>">
+    <!-- Professional Trading Chart Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23d1d4dc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='12' y1='20' x2='12' y2='10'></line><line x1='18' y1='20' x2='18' y2='4'></line><line x1='6' y1='20' x2='6' y2='16'></line><polyline points='4 14 10 8 15 13 21 5' stroke='%23089981' stroke-width='2.5'></polyline><polyline points='15 5 21 5 21 11' stroke='%23089981' stroke-width='2.5'></polyline></svg>">
     <style>
-        /* TradingView Inspired Dark Theme */
+        /* Blended Dark Stealth Theme */
         :root {
             --bg-color: #0b0e14;
             --panel-bg: #131722;
             --card-bg: #1e222d;
+            --hover-bg: #2a2e39;
+            --border-color: #2a2e39;
             --text-main: #d1d4dc;
             --text-muted: #787b86;
-            --border-color: #2a2e39;
-            --accent-blue: #2962ff;
-            --accent-blue-hover: #1e53e5;
             --profit-green: #089981;
             --loss-red: #f23645;
             --warning-yellow: #eeb422;
-            --hover-bg: #2a2e39;
             --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
@@ -34,7 +32,7 @@
             overflow-y: scroll; /* Lock scrollbar to prevent page shifting */
         }
 
-        /* 1. Master Sticky Navigation (Only Title & Top Actions) */
+        /* 1. Master Sticky Navigation */
         .sticky-nav {
             position: sticky; 
             top: 0; 
@@ -59,51 +57,29 @@
 
         .container { max-width: 1400px; margin: 0 auto; padding: 0 20px 40px 20px; }
 
+        /* Blended Buttons */
         .btn {
-            background-color: var(--accent-blue); color: white; border: none;
+            background-color: var(--card-bg); color: var(--text-main); 
+            border: 1px solid var(--border-color);
             padding: 8px 16px; border-radius: 4px; cursor: pointer;
             font-size: 14px; font-weight: 500; transition: all 0.2s;
             display: inline-flex; align-items: center; justify-content: center; gap: 6px;
         }
-        .btn:hover { background-color: var(--accent-blue-hover); }
-        
-        .btn-secondary { background-color: var(--panel-bg); border: 1px solid var(--border-color); color: var(--text-main); }
-        .btn-secondary:hover { background-color: var(--hover-bg); border-color: var(--text-muted); }
+        .btn:hover { background-color: var(--hover-bg); border-color: var(--text-muted); }
         
         .btn-danger-solid { background-color: var(--loss-red); color: white; border: none; }
         .btn-danger-solid:hover { background-color: #d92b3a; }
 
-        .icon-btn {
-            background: transparent; border: 1px solid var(--border-color); color: var(--text-muted);
-            padding: 8px; border-radius: 4px; cursor: pointer; transition: all 0.2s;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .icon-btn:hover { color: var(--text-main); border-color: var(--text-main); background: var(--hover-bg); }
-
-        /* Icon-Only Buttons for Table Rows (Blended into background initially) */
+        /* Icon-Only Action Buttons */
         .btn-icon-only {
             width: 32px; height: 32px; padding: 0; display: inline-flex; align-items: center; justify-content: center;
             border-radius: 4px; cursor: pointer; transition: all 0.3s ease;
-            background-color: var(--panel-bg); 
-            border: 1px solid transparent; /* Hidden border initially */
-            color: var(--text-muted); 
+            background-color: var(--panel-bg); border: 1px solid transparent; color: var(--text-muted); 
         }
 
-        /* Modern Glossy Hover states for Table Icons */
-        .btn-edit:hover { 
-            background-color: #2a2e39; 
-            border-color: #3b82f6; /* Soft blue neon */
-            color: #60a5fa; 
-            box-shadow: 0 0 10px rgba(59, 130, 246, 0.3); /* Soft blue glow */
-            transform: translateY(-1px);
-        }
-        .btn-danger:hover { 
-            background-color: #2a2e39; 
-            border-color: var(--loss-red); /* Soft red neon */
-            color: var(--loss-red); 
-            box-shadow: 0 0 10px rgba(242, 54, 69, 0.3); /* Soft red glow */
-            transform: translateY(-1px);
-        }
+        /* Modern Hover states for Table Icons */
+        .btn-edit:hover { background-color: var(--hover-bg); border-color: #3b82f6; color: #60a5fa; box-shadow: 0 0 10px rgba(59, 130, 246, 0.3); transform: translateY(-1px); }
+        .btn-danger:hover { background-color: var(--hover-bg); border-color: var(--loss-red); color: var(--loss-red); box-shadow: 0 0 10px rgba(242, 54, 69, 0.3); transform: translateY(-1px); }
 
         /* Stats Bar */
         .stats-bar {
@@ -114,36 +90,23 @@
         .stat-label { font-size: 12px; color: var(--text-muted); }
         .stat-value { font-size: 18px; font-weight: 600; }
 
-        /* Modern Segmented Control (Tabs) */
+        /* Segmented Control Tabs (Blended & Jump-Free) */
         .tabs { 
-            display: inline-flex; 
-            background-color: var(--bg-color); /* Dark container pill */
-            padding: 4px; 
-            border-radius: 8px; 
-            gap: 4px; 
-            margin-bottom: 24px; 
-            border: 1px solid var(--border-color);
+            display: inline-flex; background-color: var(--panel-bg); padding: 4px; 
+            border-radius: 8px; gap: 4px; margin-bottom: 24px; border: 1px solid var(--border-color);
         }
         .tab { 
-            padding: 8px 20px; 
-            cursor: pointer; 
-            border-radius: 6px; 
-            font-weight: 500; 
-            color: var(--text-muted); 
-            transition: all 0.3s ease;
-            display: flex; 
-            align-items: center; 
-            gap: 8px;
-            border: none;
+            padding: 8px 20px; cursor: pointer; border-radius: 6px; font-weight: 500; 
+            color: var(--text-muted); transition: all 0.3s ease; display: flex; align-items: center; gap: 8px; 
             background: transparent;
+            border: 1px solid transparent; /* Transparent border prevents layout jump */
+            box-sizing: border-box;
         }
         .tab:hover:not(.active) { color: #ffffff; }
         .tab.active { 
-            background-color: var(--accent-blue); 
-            color: #ffffff; 
-            box-shadow: 0 4px 12px rgba(41, 98, 255, 0.4); /* Subtle drop shadow */
-            /* Glossy top highlight */
-            background-image: linear-gradient(180deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0) 100%);
+            background-color: var(--card-bg); color: var(--text-main); 
+            border-color: var(--border-color); /* Visible border only alters color, not dimensions */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); 
         }
 
         .views-wrapper { display: grid; position: relative; }
@@ -154,27 +117,20 @@
         .sub-filters { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
         .filter-btn { background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-muted); padding: 6px 14px; border-radius: 20px; cursor: pointer; font-size: 13px; transition: all 0.2s; }
         .filter-btn:hover { border-color: var(--text-main); color: var(--text-main); }
-        .filter-btn.active { background: var(--accent-blue); border-color: var(--accent-blue); color: white; }
+        .filter-btn.active { background: var(--text-main); border-color: var(--text-main); color: var(--bg-color); }
 
         /* 2. Scrollable Table & Sticky Column Headers */
-        .table-wrapper { 
-            background-color: var(--panel-bg); 
-            border: 1px solid var(--border-color); 
-            border-radius: 6px; 
-        }
+        .table-wrapper { background-color: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 6px; }
         table { width: 100%; border-collapse: collapse; font-size: 14px; }
         
         th, td { 
             padding: 12px 16px; text-align: left; 
-            border-bottom: 1px solid var(--border-color); border-right: 1px solid var(--border-color); 
-            vertical-align: middle; 
+            border-bottom: 1px solid var(--border-color); border-right: 1px solid var(--border-color); vertical-align: middle; 
         }
         
         th { 
-            position: sticky; 
-            top: 72px; /* Locks EXACTLY beneath the main sticky header */
-            background-color: var(--card-bg); /* Solid background hides rows underneath */
-            z-index: 50; 
+            position: sticky; top: 72px; /* Docks right beneath main header */
+            background-color: var(--card-bg); z-index: 50; 
             color: var(--text-muted); font-weight: 600; white-space: nowrap; 
             border-bottom: none; border-right: none;
             box-shadow: inset 0 -1px 0 var(--border-color), inset -1px 0 0 var(--border-color);
@@ -194,7 +150,7 @@
 
         .thumb-link { display: block; width: 48px; height: 32px; cursor: pointer; }
         .thumb-img { width: 48px; height: 32px; object-fit: cover; border-radius: 4px; border: 1px solid var(--border-color); transition: all 0.2s; }
-        .thumb-img:hover { border-color: var(--accent-blue); transform: scale(1.1); }
+        .thumb-img:hover { border-color: var(--text-main); transform: scale(1.1); }
 
         /* Pattern Vault Cards */
         .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
@@ -218,9 +174,9 @@
         .form-row .form-group { flex: 1; }
         label { display: block; margin-bottom: 6px; font-size: 13px; color: var(--text-muted); }
         input, select, textarea { width: 100%; padding: 10px; background-color: var(--bg-color); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 4px; font-family: var(--font-family); }
-        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent-blue); }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--text-muted); }
         .checkbox-label { display: flex; align-items: center; gap: 8px; cursor: pointer; color: var(--text-main); font-size: 14px; user-select: none; padding: 8px; background: var(--hover-bg); border-radius: 4px; border: 1px solid var(--border-color); }
-        .checkbox-label input { width: 16px; height: 16px; accent-color: var(--accent-blue); cursor: pointer; }
+        .checkbox-label input { width: 16px; height: 16px; accent-color: var(--text-main); cursor: pointer; }
         .empty-state { text-align: center; padding: 40px; color: var(--text-muted); grid-column: 1 / -1; }
 
         .lightbox { display: none; position: fixed; z-index: 4000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(5px); align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s; }
@@ -237,26 +193,26 @@
         <div class="header-container">
             <!-- Clicking brand scrolls to top -->
             <div class="brand" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="Scroll to top">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--profit-green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
-                    <polyline points="17 6 23 6 23 12"></polyline>
+                <!-- Clean Professional Trading Chart SVG Logo -->
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--text-main)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="20" x2="12" y2="10"></line>
+                    <line x1="18" y1="20" x2="18" y2="4"></line>
+                    <line x1="6" y1="20" x2="6" y2="16"></line>
+                    <polyline points="4 14 10 8 15 13 21 5" stroke="var(--profit-green)" stroke-width="2.5"></polyline>
+                    <polyline points="15 5 21 5 21 11" stroke="var(--profit-green)" stroke-width="2.5"></polyline>
                 </svg>
-                <h1>Pravin's trading Vault</h1>
+                <h1>Pravin's trading journal</h1>
             </div>
             <div class="header-actions">
-                <button class="btn btn-secondary" id="exportBtn" title="Download backup file">Export</button>
-                <button class="btn btn-secondary" id="importBtn" title="Restore from backup file">Import</button>
+                <button class="btn" id="exportBtn" title="Download backup file">Export</button>
+                <button class="btn" id="importBtn" title="Restore from backup file">Import</button>
                 <input type="file" id="importFile" accept=".json" style="display: none;">
-                
-                <button class="icon-btn" id="openSettingsBtn" title="Settings & Data">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-                </button>
                 <button class="btn" id="openModalBtn">Log Trade / Setup</button>
             </div>
         </div>
     </header>
 
-    <!-- Main Content - STATS AND FILTERS SCROLL UP NATURALLY -->
+    <!-- Main Content -->
     <div class="container" style="margin-top: 24px;">
         <div class="stats-bar">
             <div class="stat-item"><span class="stat-label">Total Executed Trades</span><span class="stat-value" id="stat-total-trades">0</span></div>
@@ -264,9 +220,8 @@
             <div class="stat-item"><span class="stat-label">Win Rate (Executed)</span><span class="stat-value" id="stat-win-rate">0%</span></div>
         </div>
 
-        <!-- Segmented Control Tabs -->
+        <!-- Segmented Control Tabs (Jump-Free) -->
         <div class="tabs">
-            <!-- Glassy SVG Icons for Tabs -->
             <div class="tab active" data-target="tableView">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
                 Data Table
@@ -277,7 +232,7 @@
             </div>
         </div>
 
-        <!-- Views Wrapper maintains smooth transition without jump -->
+        <!-- Views Wrapper -->
         <div class="views-wrapper">
             <!-- Data Table View -->
             <div id="tableView" class="view-container active">
@@ -288,8 +243,7 @@
                 </div>
                 <div class="table-wrapper">
                     <table>
-                        <!-- Columns stick exactly under the main title header -->
-                        <thead><tr><th>Date</th><th>Asset</th><th>Chart</th><th>Setup</th><th>Direction</th><th>Qty</th><th>Entry</th><th>Exit</th><th>P&L</th><th>Actions</th></tr></thead>
+                        <thead><tr><th>Date</th><th>Asset</th><th>Chart</th><th>Setup</th><th>Direction</th><th>Qty</th><th>Entry</th><th>Stoploss</th><th>Exit</th><th>RRR</th><th>P&L</th><th>Actions</th></tr></thead>
                         <tbody id="tableBody"></tbody>
                     </table>
                 </div>
@@ -345,9 +299,10 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group"><label>Entry Price</label><input type="number" step="any" id="tradeEntry" placeholder="0.00"></div>
+                        <div class="form-group"><label>Stoploss</label><input type="number" step="any" id="tradeSl" placeholder="0.00"></div>
                         <div class="form-group"><label>Exit Price</label><input type="number" step="any" id="tradeExit" placeholder="0.00"></div>
                     </div>
-                    <p style="font-size: 12px; color: var(--text-muted); margin-top: -6px; margin-bottom: 12px;">P&L is automatically calculated.</p>
+                    <p style="font-size: 12px; color: var(--text-muted); margin-top: -6px; margin-bottom: 12px;">P&L and RRR are automatically calculated.</p>
                 </div>
 
                 <div class="form-group"><label>TradingView Image URL</label><input type="url" id="tradeImage" placeholder="https://..."></div>
@@ -357,27 +312,14 @@
         </div>
     </div>
 
-    <!-- Settings & Data Modal -->
-    <div class="modal-overlay" id="settingsModalOverlay">
-        <div class="modal">
-            <div class="modal-header"><h2>⚙️ Settings & Data</h2><button class="close-btn" id="closeSettingsBtn">&times;</button></div>
-            <div class="form-group">
-                <label>Danger Zone</label>
-                <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;">Clear all stored data to reset the journal completely.</p>
-                <button class="btn btn-danger-solid" id="clearDataBtn" style="width: 100%;">Clear All Data</button>
-            </div>
-        </div>
-    </div>
-
     <script>
-        // Data State with localized Indian Rupee (₹) automated calculations
+        // Data State with SL and RRR additions
         const dummyTrades =[
-            { id: 1, date: '2026-03-01', asset: 'NIFTY50', isSetupOnly: false, direction: 'Long', setup: 'Double Bottom', qty: 50, entry: 22500, exit: 22650, pnl: 7500.00, image: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&q=80&w=800', notes: 'Perfect double bottom off support.' },
-            { id: 2, date: '2026-03-02', asset: 'RELIANCE', isSetupOnly: false, direction: 'Short', setup: 'Double Top', qty: 100, entry: 2950.50, exit: 2910.20, pnl: 4030.00, image: 'https://images.unsplash.com/photo-1642790106117-e829e14a795f?auto=format&fit=crop&q=80&w=800', notes: 'Rejected at previous high.' },
+            { id: 1, date: '2026-03-01', asset: 'NIFTY50', isSetupOnly: false, direction: 'Long', setup: 'Double Bottom', qty: 50, entry: 22500, sl: 22400, exit: 22650, rrr: "1.50R", pnl: 7500.00, image: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&q=80&w=800', notes: 'Perfect double bottom off support.' },
+            { id: 2, date: '2026-03-02', asset: 'RELIANCE', isSetupOnly: false, direction: 'Short', setup: 'Double Top', qty: 100, entry: 2950.50, sl: 2970.00, exit: 2910.20, rrr: "2.07R", pnl: 4030.00, image: 'https://images.unsplash.com/photo-1642790106117-e829e14a795f?auto=format&fit=crop&q=80&w=800', notes: 'Rejected at previous high.' },
         ];
 
         let trades = JSON.parse(localStorage.getItem('pravinTradingJournal')) || dummyTrades;
-        
         let editingTradeId = null;
         let currentVaultFilter = 'All';
         let currentTableFilter = 'All'; 
@@ -390,7 +332,6 @@
 
         function renderUI() { renderTable(); renderGallery(); updateStats(); saveData(); }
 
-        // Localized format to Indian Rupee (₹)
         const formatMoney = (amount) => {
             if (amount === '' || amount == null || isNaN(amount)) return '';
             return (parseFloat(amount) >= 0 ? '+₹' : '-₹') + Math.abs(parseFloat(amount)).toFixed(2);
@@ -404,11 +345,11 @@
             if (currentTableFilter === 'Executed') filteredTrades = trades.filter(t => !t.isSetupOnly);
             else if (currentTableFilter === 'Setups') filteredTrades = trades.filter(t => t.isSetupOnly);
 
-            if (filteredTrades.length === 0) { tbody.innerHTML = `<tr><td colspan="10" class="empty-state">No logs found.</td></tr>`; return; }
+            if (filteredTrades.length === 0) { tbody.innerHTML = `<tr><td colspan="12" class="empty-state">No logs found.</td></tr>`; return; }
 
             const sortedTrades =[...filteredTrades].sort((a, b) => new Date(b.date) - new Date(a.date));
 
-            // Minimalist SVG Icons for Action Buttons (Edit and Delete Only)
+            // Minimalist SVG Icons
             const editIcon = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>`;
             const delIcon = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`;
 
@@ -418,13 +359,24 @@
                 const pnlDisplay = isSetup ? `<span class="tag neutral">Setup</span>` : `<span class="${trade.pnl >= 0 ? 'profit' : 'loss'}">${formatMoney(trade.pnl)}</span>`;
                 const dirDisplay = isSetup ? `<span class="tag neutral">-</span>` : `<span class="tag ${trade.direction?.toLowerCase() || ''}">${trade.direction}</span>`;
                 const qtyDisplay = isSetup ? '-' : (trade.qty || '-');
+                const slDisplay = isSetup ? '-' : formatPrice(trade.sl);
+                
+                // Color formatting for RRR
+                let rrrColor = 'var(--text-main)';
+                let rrrDisplay = isSetup ? '-' : (trade.rrr || '-');
+                if (!isSetup && trade.rrr && trade.rrr.includes('-')) rrrColor = 'var(--loss-red)';
+                else if (!isSetup && trade.rrr && parseFloat(trade.rrr) > 0) rrrColor = 'var(--profit-green)';
 
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
                     <td>${trade.date}</td><td style="font-weight: 600;">${trade.asset}</td>
                     <td><div class="thumb-link" onclick="openLightbox('${imgUrl}')"><img src="${imgUrl}" class="thumb-img" onerror="this.src='${placeholderImg}'"></div></td>
                     <td>${trade.setup}</td><td>${dirDisplay}</td><td>${qtyDisplay}</td>
-                    <td>${isSetup ? '-' : formatPrice(trade.entry)}</td><td>${isSetup ? '-' : formatPrice(trade.exit)}</td><td>${pnlDisplay}</td>
+                    <td>${isSetup ? '-' : formatPrice(trade.entry)}</td>
+                    <td>${slDisplay}</td>
+                    <td>${isSetup ? '-' : formatPrice(trade.exit)}</td>
+                    <td style="color: ${rrrColor}; font-weight: 600;">${rrrDisplay}</td>
+                    <td>${pnlDisplay}</td>
                     <td class="action-btns">
                         <button class="btn-icon-only btn-edit" onclick="editTrade(${trade.id})" title="Edit Log">${editIcon}</button>
                         <button class="btn-icon-only btn-danger" onclick="deleteTrade(${trade.id})" title="Delete Log">${delIcon}</button>
@@ -445,7 +397,9 @@
                 const isSetup = trade.isSetupOnly;
                 const imgUrl = trade.image || placeholderImg;
                 const pnlDisplay = isSetup ? `<span class="tag neutral">Setup Only</span>` : `<span class="${trade.pnl >= 0 ? 'profit' : 'loss'}">${formatMoney(trade.pnl)}</span>`;
-                const pricingDisplay = isSetup ? 'Observation only.' : `Entry: ${formatPrice(trade.entry)} | Exit: ${formatPrice(trade.exit)} | Qty: ${trade.qty || '-'}`;
+                
+                let pricingDisplay = isSetup ? 'Observation only.' : `Entry: ${formatPrice(trade.entry)} | SL: ${formatPrice(trade.sl)} | Exit: ${formatPrice(trade.exit)}`;
+                if(!isSetup && trade.rrr) pricingDisplay += `<br>RRR: <strong>${trade.rrr}</strong> | Qty: ${trade.qty || '-'}`;
 
                 const card = document.createElement('div');
                 card.className = 'card';
@@ -454,7 +408,7 @@
                     <div class="card-content">
                         <div class="card-header"><span class="card-title">${trade.asset}</span>${pnlDisplay}</div>
                         <div class="card-details"><strong>${trade.date}</strong> ${isSetup ? '' : `&bull; <span class="tag ${trade.direction.toLowerCase()}">${trade.direction}</span>`} &bull; <strong>${trade.setup}</strong></div>
-                        <div class="card-details">${pricingDisplay}</div>
+                        <div class="card-details" style="line-height: 1.8;">${pricingDisplay}</div>
                     </div>
                 `;
                 grid.appendChild(card);
@@ -476,27 +430,45 @@
         const tradeExecutionFields = document.getElementById('tradeExecutionFields');
 
         function toggleExecutionFields() {
-            tradeExecutionFields.style.display = isSetupOnlyCb.checked ? 'none' : 'block';['tradeDirection', 'tradeEntry', 'tradeExit', 'tradeQty'].forEach(id => document.getElementById(id).required = !isSetupOnlyCb.checked);
+            tradeExecutionFields.style.display = isSetupOnlyCb.checked ? 'none' : 'block';
+            ['tradeDirection', 'tradeEntry', 'tradeSl', 'tradeExit', 'tradeQty'].forEach(id => document.getElementById(id).required = !isSetupOnlyCb.checked);
         }
         isSetupOnlyCb.addEventListener('change', toggleExecutionFields);
 
-        // Auto P&L Math happening on form submit
+        // Auto Math happening on form submit
         document.getElementById('tradeForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const isSetup = isSetupOnlyCb.checked;
             
             let calcPnl = '';
+            let calcRRR = '';
             let rawQty = document.getElementById('tradeQty').value;
             let dir = document.getElementById('tradeDirection').value;
+            let rawEntry = document.getElementById('tradeEntry').value;
+            let rawSl = document.getElementById('tradeSl').value;
+            let rawExit = document.getElementById('tradeExit').value;
             
             if (!isSetup) {
-                let entry = parseFloat(document.getElementById('tradeEntry').value);
-                let exit = parseFloat(document.getElementById('tradeExit').value);
+                let entry = parseFloat(rawEntry);
+                let sl = parseFloat(rawSl);
+                let exit = parseFloat(rawExit);
                 let qty = parseFloat(rawQty);
-                if (dir === 'Long') {
-                    calcPnl = (exit - entry) * qty;
-                } else {
-                    calcPnl = (entry - exit) * qty;
+
+                // PNL Math
+                if (!isNaN(entry) && !isNaN(exit) && !isNaN(qty)) {
+                    calcPnl = dir === 'Long' ? (exit - entry) * qty : (entry - exit) * qty;
+                }
+
+                // Auto RRR Math
+                if (!isNaN(entry) && !isNaN(sl) && !isNaN(exit)) {
+                    let risk = dir === 'Long' ? (entry - sl) : (sl - entry);
+                    let reward = dir === 'Long' ? (exit - entry) : (entry - exit);
+                    
+                    if (risk > 0) {
+                        calcRRR = (reward / risk).toFixed(2) + 'R';
+                    } else {
+                        calcRRR = 'Invalid SL'; // To prevent divide by zero
+                    }
                 }
             }
 
@@ -507,8 +479,10 @@
                 isSetupOnly: isSetup,
                 direction: isSetup ? '' : dir, 
                 qty: isSetup ? '' : rawQty,
-                entry: isSetup ? '' : document.getElementById('tradeEntry').value,
-                exit: isSetup ? '' : document.getElementById('tradeExit').value, 
+                entry: isSetup ? '' : rawEntry,
+                sl: isSetup ? '' : rawSl,
+                exit: isSetup ? '' : rawExit, 
+                rrr: calcRRR,
                 pnl: calcPnl,
                 image: document.getElementById('tradeImage').value, 
                 notes: document.getElementById('tradeNotes').value
@@ -529,7 +503,9 @@
             document.getElementById('tradeDate').value = t.date; document.getElementById('tradeAsset').value = t.asset;
             document.getElementById('tradeSetup').value = t.setup; document.getElementById('isSetupOnly').checked = t.isSetupOnly || false;
             document.getElementById('tradeDirection').value = t.direction || 'Long'; document.getElementById('tradeQty').value = t.qty || '';
-            document.getElementById('tradeEntry').value = t.entry || ''; document.getElementById('tradeExit').value = t.exit || '';
+            document.getElementById('tradeEntry').value = t.entry || ''; 
+            document.getElementById('tradeSl').value = t.sl || ''; 
+            document.getElementById('tradeExit').value = t.exit || '';
             document.getElementById('tradeImage').value = t.image || ''; document.getElementById('tradeNotes').value = t.notes || '';
             toggleExecutionFields(); 
             document.getElementById('modalTitle').textContent = 'Edit Log'; document.getElementById('saveBtn').textContent = 'Update Journal';
@@ -539,13 +515,35 @@
         window.deleteTrade = (id) => { if(confirm("Permanently delete this log?")) { trades = trades.filter(t => t.id !== id); renderUI(); } };
         function saveData() { localStorage.setItem('pravinTradingJournal', JSON.stringify(trades)); }
 
-        // Settings, Export, Import, Data Clear, UI Routing
-        document.getElementById('exportBtn').addEventListener('click', () => {
+        // EXPORT LOGIC
+        document.getElementById('exportBtn').addEventListener('click', async () => {
             if(trades.length === 0) return alert("No data to export.");
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(new Blob([JSON.stringify(trades, null, 2)], { type: "application/json" }));
-            a.download = 'trading_backup.json'; a.click();
+            const dataStr = JSON.stringify(trades, null, 2);
+            
+            try {
+                // Try modern API for exact file overwriting (Requires HTTPS/Localhost)
+                if (window.showSaveFilePicker) {
+                    const handle = await window.showSaveFilePicker({
+                        suggestedName: 'trading_backup.json',
+                        types:[{ description: 'JSON Backup File', accept: {'application/json':['.json']} }]
+                    });
+                    const writable = await handle.createWritable();
+                    await writable.write(dataStr);
+                    await writable.close();
+                    alert("Backup successfully saved!");
+                } else {
+                    // Fallback for older browsers or local file:/// execution
+                    alert("Browser Notice:\nBecause you are running this file locally (file:///), your browser prevents automatic file overwriting for security.\n\nIt will download a new file. \n\nTip: To easily overwrite your old backup, enable 'Ask where to save each file before downloading' in your browser settings!");
+                    const a = document.createElement('a');
+                    a.href = URL.createObjectURL(new Blob([dataStr], { type: "application/json" }));
+                    a.download = 'trading_backup.json'; 
+                    a.click();
+                }
+            } catch (err) {
+                if (err.name !== 'AbortError') alert("Export failed: " + err.message);
+            }
         });
+
         document.getElementById('importBtn').addEventListener('click', () => document.getElementById('importFile').click());
         document.getElementById('importFile').addEventListener('change', (e) => {
             const file = e.target.files[0]; if (!file) return;
@@ -557,15 +555,6 @@
                 } catch (err) { alert('Invalid backup file.'); }
             };
             reader.readAsText(file); e.target.value = '';
-        });
-
-        // Clear All Data Logic
-        document.getElementById('clearDataBtn').addEventListener('click', () => {
-            if(confirm("Are you absolutely sure? This will delete all your logged trades and reset the journal. This cannot be undone unless you have a backup exported!")) {
-                trades =[]; saveData(); renderUI();
-                document.getElementById('settingsModalOverlay').style.display = 'none';
-                alert("All data cleared. Ready for a fresh start!");
-            }
         });
 
         document.querySelectorAll('.tab').forEach(tab => {
@@ -593,12 +582,10 @@
             document.getElementById('tradeForm').reset(); editingTradeId = null; toggleExecutionFields();
             document.getElementById('tradeDate').valueAsDate = new Date(); document.getElementById('modalTitle').textContent = 'Log Trade / Setup';
             document.getElementById('saveBtn').textContent = 'Save to Journal'; document.getElementById('modalOverlay').style.display = 'flex';
-        });['modalOverlay', 'settingsModalOverlay'].forEach(id => {
+        });['modalOverlay'].forEach(id => {
             document.getElementById(id).addEventListener('click', (e) => { if(e.target.id === id) e.target.style.display = 'none'; });
         });
         document.getElementById('closeModalBtn').addEventListener('click', () => document.getElementById('modalOverlay').style.display='none');
-        document.getElementById('openSettingsBtn').addEventListener('click', () => document.getElementById('settingsModalOverlay').style.display = 'flex');
-        document.getElementById('closeSettingsBtn').addEventListener('click', () => document.getElementById('settingsModalOverlay').style.display = 'none');
 
         // Boot
         init();
