@@ -535,10 +535,8 @@
                     const writable = await handle.createWritable();
                     await writable.write(dataStr);
                     await writable.close();
-                    alert("Backup successfully saved!");
                 } else {
-                    // Fallback for older browsers or local file:/// execution
-                    alert("Browser Notice:\nBecause you are running this file locally (file:///), your browser prevents automatic file overwriting for security.\n\nIt will download a new file. \n\nTip: To easily overwrite your old backup, enable 'Ask where to save each file before downloading' in your browser settings!");
+                    // Fallback for older browsers
                     const a = document.createElement('a');
                     a.href = URL.createObjectURL(new Blob([dataStr], { type: "application/json" }));
                     a.download = 'trading_backup.json'; 
