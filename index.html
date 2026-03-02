@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pravin's trading journal</title>
-    <!-- Professional Trading Chart Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23d1d4dc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='12' y1='20' x2='12' y2='10'></line><line x1='18' y1='20' x2='18' y2='4'></line><line x1='6' y1='20' x2='6' y2='16'></line><polyline points='4 14 10 8 15 13 21 5' stroke='%23089981' stroke-width='2.5'></polyline><polyline points='15 5 21 5 21 11' stroke='%23089981' stroke-width='2.5'></polyline></svg>">
+    <title>The Trading Vault</title>
+    <!-- Custom Candlestick Vault Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke-linecap='round' stroke-linejoin='round'><path d='M2 10L12 2l10 8Z' stroke='%2300e5ff' stroke-width='2' fill='rgba(0, 229, 255, 0.1)'/><path d='M2 22h20' stroke='%2300e5ff' stroke-width='2'/><line x1='7' y1='12' x2='7' y2='22' stroke='%23089981' stroke-width='2'/><rect x='5' y='14' width='4' height='5' fill='%23089981' stroke='none'/><line x1='12' y1='13' x2='12' y2='22' stroke='%23f23645' stroke-width='2'/><rect x='10' y='16' width='4' height='4' fill='%23f23645' stroke='none'/><line x1='17' y1='10' x2='17' y2='22' stroke='%23089981' stroke-width='2'/><rect x='15' y='12' width='4' height='7' fill='%23089981' stroke='none'/></svg>">
     
     <!-- Google Fonts: Roboto -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,6 +28,7 @@
             --profit-green: #089981;
             --loss-red: #f23645;
             --warning-yellow: #eeb422;
+            --accent-neon: #00e5ff; /* Premium Neon Cyan/Blue */
             --font-family: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
         }
 
@@ -40,7 +41,20 @@
         .header-container { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 1400px; margin: 0 auto; padding: 0 20px; }
         .brand { display: flex; align-items: center; gap: 12px; cursor: pointer; transition: opacity 0.2s; }
         .brand:hover { opacity: 0.8; }
-        h1 { font-size: 24px; font-weight: 600; letter-spacing: 0.5px; margin: 0; }
+        
+        /* Rebranded Typography & Layout */
+        h1 { 
+            font-size: 20px; 
+            font-weight: 700; 
+            letter-spacing: 1.5px; 
+            margin: 0; 
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .accent-text { color: var(--accent-neon); }
+        
         .header-actions { display: flex; gap: 10px; align-items: center; }
 
         .container { max-width: 1400px; margin: 0 auto; padding: 0 20px 40px 20px; }
@@ -186,12 +200,22 @@
     <header class="sticky-nav">
         <div class="header-container">
             <div class="brand" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--text-main)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line>
-                    <polyline points="4 14 10 8 15 13 21 5" stroke="var(--profit-green)" stroke-width="2.5"></polyline>
-                    <polyline points="15 5 21 5 21 11" stroke="var(--profit-green)" stroke-width="2.5"></polyline>
+                <!-- Custom Candlestick Bank Vault Logo -->
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <!-- Vault Roof & Base -->
+                    <path d="M2 10L12 2l10 8Z" stroke="var(--accent-neon)" stroke-width="2" fill="rgba(0, 229, 255, 0.1)"></path>
+                    <path d="M2 22h20" stroke="var(--accent-neon)" stroke-width="2"></path>
+                    <!-- Candlestick Pillars -->
+                    <line x1="7" y1="12" x2="7" y2="22" stroke="var(--profit-green)" stroke-width="2"></line>
+                    <rect x="5" y="14" width="4" height="5" fill="var(--profit-green)" stroke="none"></rect>
+                    
+                    <line x1="12" y1="13" x2="12" y2="22" stroke="var(--loss-red)" stroke-width="2"></line>
+                    <rect x="10" y="16" width="4" height="4" fill="var(--loss-red)" stroke="none"></rect>
+                    
+                    <line x1="17" y1="10" x2="17" y2="22" stroke="var(--profit-green)" stroke-width="2"></line>
+                    <rect x="15" y="12" width="4" height="7" fill="var(--profit-green)" stroke="none"></rect>
                 </svg>
-                <h1>Pravin's trading journal</h1>
+                <h1>The Trading <span class="accent-text">Vault</span></h1>
             </div>
             
             <!-- Clean Header Actions -->
@@ -231,9 +255,10 @@
             <!-- Data Table View -->
             <div id="tableView" class="view-container active">
                 <div class="sub-filters" id="tableFilters">
-                    <button class="filter-btn active" data-filter="All">All Logs</button>
-                    <button class="filter-btn" data-filter="Executed">Executed Trades</button>
+                    <!-- Reordered filters with Executed as Default -->
+                    <button class="filter-btn active" data-filter="Executed">Executed Trades</button>
                     <button class="filter-btn" data-filter="Setups">Tracked Setups</button>
+                    <button class="filter-btn" data-filter="All">All Logs</button>
                 </div>
                 <div class="table-wrapper">
                     <table>
@@ -396,7 +421,10 @@
         let feeSettings = JSON.parse(localStorage.getItem('pravinFeeSettings')) || defaultSettings;
 
         let editingTradeId = null;
-        let currentVaultFilter = 'All'; let currentTableFilter = 'All'; 
+        let currentVaultFilter = 'All'; 
+        
+        // Changed default load state to "Executed"
+        let currentTableFilter = 'Executed'; 
 
         function init() { renderUI(); toggleExecutionFields(); setupAutoFeeCalc(); setupPasteListeners(); }
         function renderUI() { renderTable(); renderGallery(); updateStats(); saveData(); }
@@ -424,7 +452,7 @@
             const sorted = [...executedTrades].sort((a, b) => String(a.date).localeCompare(String(b.date)) || (a.id || 0) - (b.id || 0));
             
             let runningPnl = 0;
-            const labels = ['Start'], dataPoints =[0];
+            const labels =['Start'], dataPoints =[0];
 
             sorted.forEach(t => {
                 runningPnl += parseFloat(t.pnl || 0);
@@ -462,6 +490,8 @@
             const tbody = document.getElementById('tableBody');
             tbody.innerHTML = '';
             let filteredTrades = trades;
+            
+            // Apply filtering logic based on active tab
             if (currentTableFilter === 'Executed') filteredTrades = trades.filter(t => !t.isSetupOnly);
             else if (currentTableFilter === 'Setups') filteredTrades = trades.filter(t => t.isSetupOnly);
 
@@ -557,9 +587,7 @@
             tradeExecutionFields.style.display = isSetupOnlyCb.checked ? 'none' : 'block';['tradeDirection', 'tradeEntry', 'tradeExit', 'tradeQty'].forEach(id => {
                 const el = document.getElementById(id);
                 if(el) el.required = !isSetupOnlyCb.checked;
-            });
-            
-            ['tradeSl', 'tradeFees'].forEach(id => {
+            });['tradeSl', 'tradeFees'].forEach(id => {
                 const el = document.getElementById(id);
                 if(el) el.required = false; 
             });
