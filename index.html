@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Trading Vault</title>
-    <!-- Custom Candlestick Vault Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke-linecap='round' stroke-linejoin='round'><path d='M2 10L12 2l10 8Z' stroke='%2300e5ff' stroke-width='2' fill='rgba(0, 229, 255, 0.1)'/><path d='M2 22h20' stroke='%2300e5ff' stroke-width='2'/><line x1='7' y1='12' x2='7' y2='22' stroke='%23089981' stroke-width='2'/><rect x='5' y='14' width='4' height='5' fill='%23089981' stroke='none'/><line x1='12' y1='13' x2='12' y2='22' stroke='%23f23645' stroke-width='2'/><rect x='10' y='16' width='4' height='4' fill='%23f23645' stroke='none'/><line x1='17' y1='10' x2='17' y2='22' stroke='%23089981' stroke-width='2'/><rect x='15' y='12' width='4' height='7' fill='%23089981' stroke='none'/></svg>">
+    
+    <!-- Custom Hexagon Vault Favicon matching the new logo -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M50 5 L88.97 27.5 L88.97 72.5 L50 95 L11.03 72.5 L11.03 27.5 Z' fill='none' stroke='%2300e5ff' stroke-width='6' stroke-linejoin='round'/><circle cx='50' cy='50' r='26' fill='none' stroke='%2300e5ff' stroke-width='2' stroke-dasharray='4 4' opacity='0.6'/><circle cx='50' cy='50' r='18' fill='none' stroke='%2300e5ff' stroke-width='2' opacity='0.8'/><path d='M32 62 L45 50 L52 56 L66 40' fill='none' stroke='%23ffffff' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/><path d='M56 40 L66 40 L66 50' fill='none' stroke='%23ffffff' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/></svg>">
     
     <!-- Google Fonts: Roboto -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -42,6 +43,46 @@
         .brand { display: flex; align-items: center; gap: 12px; cursor: pointer; transition: opacity 0.2s; }
         .brand:hover { opacity: 0.8; }
         
+        /* --- Custom Vault Logo CSS --- */
+        .vault-logo {
+          width: 36px;  /* Adjusted slightly to match typography size */
+          height: 36px;
+          display: inline-block;
+          vertical-align: middle;
+          /* Adds a subtle cyan glow */
+          filter: drop-shadow(0px 0px 4px rgba(0, 229, 255, 0.4));
+          transition: transform 0.3s ease;
+        }
+        .vault-logo:hover {
+          transform: scale(1.05);
+        }
+        .vault-hexagon {
+          fill: none;
+          stroke: #00e5ff;
+          stroke-width: 6;
+          stroke-linejoin: round;
+        }
+        .vault-ring-dashed {
+          fill: none;
+          stroke: #00e5ff;
+          stroke-width: 2;
+          stroke-dasharray: 4 4;
+          opacity: 0.6;
+        }
+        .vault-ring-solid {
+          fill: none;
+          stroke: #00e5ff;
+          stroke-width: 2;
+          opacity: 0.8;
+        }
+        .trading-trend {
+          fill: none;
+          stroke: #ffffff;
+          stroke-width: 4;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+        }
+
         /* Rebranded Typography & Layout */
         h1 { 
             font-size: 20px; 
@@ -200,20 +241,13 @@
     <header class="sticky-nav">
         <div class="header-container">
             <div class="brand" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-                <!-- Custom Candlestick Bank Vault Logo -->
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <!-- Vault Roof & Base -->
-                    <path d="M2 10L12 2l10 8Z" stroke="var(--accent-neon)" stroke-width="2" fill="rgba(0, 229, 255, 0.1)"></path>
-                    <path d="M2 22h20" stroke="var(--accent-neon)" stroke-width="2"></path>
-                    <!-- Candlestick Pillars -->
-                    <line x1="7" y1="12" x2="7" y2="22" stroke="var(--profit-green)" stroke-width="2"></line>
-                    <rect x="5" y="14" width="4" height="5" fill="var(--profit-green)" stroke="none"></rect>
-                    
-                    <line x1="12" y1="13" x2="12" y2="22" stroke="var(--loss-red)" stroke-width="2"></line>
-                    <rect x="10" y="16" width="4" height="4" fill="var(--loss-red)" stroke="none"></rect>
-                    
-                    <line x1="17" y1="10" x2="17" y2="22" stroke="var(--profit-green)" stroke-width="2"></line>
-                    <rect x="15" y="12" width="4" height="7" fill="var(--profit-green)" stroke="none"></rect>
+                <!-- User's Custom Vault Logo -->
+                <svg viewBox="0 0 100 100" class="vault-logo" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M50 5 L88.97 27.5 L88.97 72.5 L50 95 L11.03 72.5 L11.03 27.5 Z" class="vault-hexagon" />
+                  <circle cx="50" cy="50" r="26" class="vault-ring-dashed" />
+                  <circle cx="50" cy="50" r="18" class="vault-ring-solid" />
+                  <path d="M32 62 L45 50 L52 56 L66 40" class="trading-trend" />
+                  <path d="M56 40 L66 40 L66 50" class="trading-trend" />
                 </svg>
                 <h1>The Trading <span class="accent-text">Vault</span></h1>
             </div>
