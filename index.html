@@ -39,16 +39,15 @@
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
-        /* Added overflow-y: scroll permanently to prevent horizontal jumping */
         body { background-color: var(--bg-color); color: var(--text-main); font-family: var(--font-family); line-height: 1.6; overflow-y: scroll; }
 
-        /* Polish 4: Beautiful, visible Dark Neon Scrollbar */
+        /* Beautiful, visible Dark Neon Scrollbar */
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: var(--bg-color); }
         ::-webkit-scrollbar-thumb { background: rgba(0, 229, 255, 0.25); border-radius: 8px; }
         ::-webkit-scrollbar-thumb:hover { background: rgba(0, 229, 255, 0.45); }
 
-        /* Polish 5: Fix White Autofill Bug */
+        /* Fix White Autofill Bug */
         input:-webkit-autofill,
         input:-webkit-autofill:focus {
             -webkit-box-shadow: 0 0 0 30px var(--bg-color) inset !important;
@@ -84,7 +83,6 @@
         }
         .btn:hover { background-color: rgba(0, 229, 255, 0.03); border-color: rgba(0, 229, 255, 0.3); color: var(--accent-neon); }
 
-        /* The Main Primary Button */
         .btn-primary { background-color: rgba(0, 229, 255, 0.02); border: 1px solid rgba(0, 229, 255, 0.3); color: var(--accent-neon); }
         .btn-primary:hover { background-color: rgba(0, 229, 255, 0.05); border-color: var(--accent-neon); box-shadow: 0 0 12px rgba(0, 229, 255, 0.15); }
         
@@ -106,38 +104,66 @@
         .chart-header { font-size: 13px; font-weight: 500; color: var(--text-muted); margin-bottom: 12px; }
         .chart-container { position: relative; flex: 1; width: 100%; min-height: 180px; }
 
-        /* Reverted: Left-aligned Tabs & Filters layout */
+        /* Main Tabs Layout */
         .tabs { display: flex; gap: 12px; margin-bottom: 24px; }
         .tab { padding: 10px 20px; cursor: pointer; border-radius: 6px; font-weight: 500; color: var(--text-muted); transition: all 0.3s ease; display: flex; align-items: center; gap: 8px; background: rgba(19, 23, 34, 0.6); border: 1px solid var(--border-color); }
         
-        .sub-filters { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
-        .filter-btn { background: transparent; border: 1px solid var(--border-color); color: var(--text-muted); padding: 6px 16px; border-radius: 20px; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.3s ease; }
+        .tab:hover:not(.active) { 
+            background-color: rgba(0, 229, 255, 0.02); border-color: rgba(0, 229, 255, 0.2); 
+            color: var(--text-main); box-shadow: 0 0 8px rgba(0, 229, 255, 0.05); 
+        }
+
+        .tab.active { 
+            background-color: rgba(0, 229, 255, 0.08) !important; border: 1px solid rgba(0, 229, 255, 0.5) !important; 
+            box-shadow: 0 4px 12px rgba(0, 229, 255, 0.15) !important; color: #ffffff !important; font-weight: 500 !important; 
+        }
+
+        /* UNIFIED SEARCH & FILTER BAR */
+        .search-filter-group {
+            display: flex; align-items: center; background-color: var(--bg-color);
+            border: 1px solid var(--border-color); border-radius: 6px;
+            margin-left: auto; height: 42px; transition: all 0.3s ease;
+        }
+        .search-filter-group:hover, .search-filter-group:focus-within {
+            border-color: rgba(0, 229, 255, 0.4); box-shadow: 0 0 12px rgba(0, 229, 255, 0.08);
+        }
+        .search-filter-group .search-icon { margin-left: 14px; color: var(--text-muted); width: 15px; height: 15px; }
+        .search-filter-group input {
+            border: none; background: transparent; height: 100%; width: 180px;
+            padding: 0 12px; color: var(--text-main); font-family: var(--font-family);
+            font-size: 13.5px; outline: none; box-shadow: none !important;
+        }
+        .search-filter-group input::placeholder { color: var(--text-muted); }
+        .search-filter-group .divider { width: 1px; height: 22px; background-color: var(--border-color); }
         
-        /* Restored: Subtle Neon Hover state for tabs/filters */
-        .tab:hover:not(.active), .filter-btn:hover:not(.active) { 
-            background-color: rgba(0, 229, 255, 0.02); 
-            border-color: rgba(0, 229, 255, 0.2); 
-            color: var(--text-main); 
-            box-shadow: 0 0 8px rgba(0, 229, 255, 0.05); 
+        .custom-filter-dropdown { position: relative; height: 100%; display: flex; }
+        .custom-filter-dropdown .dropdown-trigger {
+            display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 16px; height: 100%;
+            cursor: pointer; color: var(--text-muted); font-size: 13.5px; font-weight: 500; transition: all 0.2s ease;
+            min-width: 155px; /* Prevents jumping when text changes */
         }
-
-        /* Restored: Premium "Alive" Active Tabs (Clean 1px border, white text, zero font-shift) */
-        .tab.active, .filter-btn.active { 
-            background-color: rgba(0, 229, 255, 0.08) !important; 
-            border: 1px solid rgba(0, 229, 255, 0.5) !important; 
-            box-shadow: 0 4px 12px rgba(0, 229, 255, 0.15) !important; 
-            color: #ffffff !important; 
-            font-weight: 500 !important; /* Locks width so table columns don't shift when clicked */
+        .custom-filter-dropdown .dropdown-trigger:hover, .custom-filter-dropdown.open .dropdown-trigger { color: var(--accent-neon); }
+        .custom-filter-dropdown .dropdown-menu {
+            position: absolute; top: calc(100% + 6px); right: 0; background-color: var(--panel-bg);
+            border: 1px solid var(--border-color); border-radius: 6px; box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            opacity: 0; visibility: hidden; transform: translateY(-4px); transition: all 0.2s ease;
+            z-index: 4000; min-width: 180px; padding: 6px; backdrop-filter: blur(10px);
         }
+        .custom-filter-dropdown.open .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .custom-filter-dropdown .dropdown-item {
+            padding: 8px 12px; cursor: pointer; border-radius: 4px; transition: all 0.15s ease;
+            color: var(--text-main); font-size: 13px; margin-bottom: 2px;
+        }
+        .custom-filter-dropdown .dropdown-item:last-child { margin-bottom: 0; }
+        .custom-filter-dropdown .dropdown-item:hover { background-color: rgba(0, 229, 255, 0.03); color: var(--accent-neon); }
+        .custom-filter-dropdown .dropdown-item.active { background-color: rgba(0, 229, 255, 0.08); color: var(--accent-neon); font-weight: 500; }
 
-        /* Stops the page from jumping when changing tabs to an empty view */
         .views-wrapper { display: grid; position: relative; min-height: 50vh; }
         .view-container { grid-area: 1 / 1; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.3s ease, visibility 0.3s ease; }
         .view-container.active { opacity: 1; visibility: visible; pointer-events: auto; z-index: 1; }
 
         .table-wrapper { background-color: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 6px; }
         
-        /* Fixed table layout to guarantee zero horizontal shifting when filtering */
         table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 1050px; table-layout: fixed; }
         th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border-color); border-right: 1px solid var(--border-color); vertical-align: middle; transition: border-color 0.2s ease, color 0.2s ease; overflow: hidden; text-overflow: ellipsis; }
         th { position: sticky; top: 72px; background-color: var(--card-bg); z-index: 50; color: var(--text-muted); font-weight: 600; white-space: nowrap; border-bottom: none; border-right: none; box-shadow: inset 0 -1px 0 var(--border-color), inset -1px 0 0 var(--border-color); }
@@ -161,7 +187,6 @@
         .tag.short { color: var(--loss-red); background-color: rgba(242, 54, 69, 0.15); border: 1px solid rgba(242, 54, 69, 0.2); }
         .tag.neutral { color: var(--text-muted); background-color: rgba(120, 123, 134, 0.15); border: 1px solid rgba(120, 123, 134, 0.2); }
         
-        /* Flex centers for table content perfectly balanced */
         .action-btns { display: flex; gap: 6px; flex-wrap: nowrap; justify-content: center; }
         .thumb-row { display: flex; gap: 6px; align-items: center; justify-content: center; }
         
@@ -210,33 +235,17 @@
         input:hover, textarea:hover { border-color: rgba(0, 229, 255, 0.4); box-shadow: 0 4px 12px rgba(0, 229, 255, 0.05); }
         input:focus, textarea:focus { outline: none; border-color: var(--accent-neon); box-shadow: 0 0 0 2px rgba(0, 229, 255, 0.1); }
 
-        /* Subtle URL Input Tick Mark */
         .input-icon-wrapper { position: relative; display: block; }
         .success-tick {
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 16px;
-            height: 16px;
-            color: var(--profit-green);
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            pointer-events: none;
+            position: absolute; right: 12px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px;
+            color: var(--profit-green); opacity: 0; visibility: hidden; transition: all 0.3s ease; pointer-events: none;
         }
-        .success-tick.show {
-            opacity: 0.6; 
-            visibility: visible;
-        }
+        .success-tick.show { opacity: 0.6; visibility: visible; }
 
-        /* --- BUTTERY SMOOTH CUSTOM DROPDOWNS --- */
         .custom-select-wrapper { position: relative; width: 100%; user-select: none; }
         .custom-select-trigger {
-            width: 100%; padding: 10px; background-color: var(--bg-color);
-            border: 1px solid var(--border-color); color: var(--text-main);
-            border-radius: 4px; cursor: pointer; font-family: var(--font-family);
-            transition: all 0.3s ease; display: flex; justify-content: space-between; align-items: center;
+            width: 100%; padding: 10px; background-color: var(--bg-color); border: 1px solid var(--border-color); color: var(--text-main);
+            border-radius: 4px; cursor: pointer; font-family: var(--font-family); transition: all 0.3s ease; display: flex; justify-content: space-between; align-items: center;
         }
         .custom-select-trigger:hover { border-color: rgba(0, 229, 255, 0.4); box-shadow: 0 4px 12px rgba(0, 229, 255, 0.05); }
         .custom-select-wrapper.open .custom-select-trigger { border-color: var(--accent-neon); box-shadow: 0 0 0 2px rgba(0, 229, 255, 0.1); }
@@ -245,63 +254,30 @@
         .custom-select-wrapper.open .chevron { transform: rotate(180deg); color: var(--accent-neon); }
         
         .custom-select-options {
-            position: absolute; top: calc(100% + 4px); left: 0; right: 0;
-            background-color: var(--panel-bg); border: 1px solid var(--border-color);
-            border-radius: 6px; box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-            opacity: 0; visibility: hidden; pointer-events: none;
-            transition: opacity 0.15s ease, transform 0.15s ease; z-index: 4000;
-            max-height: 220px; overflow-y: auto; padding: 6px;
-            transform: translateY(-4px); backdrop-filter: blur(10px);
+            position: absolute; top: calc(100% + 4px); left: 0; right: 0; background-color: var(--panel-bg);
+            border: 1px solid var(--border-color); border-radius: 6px; box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.15s ease, transform 0.15s ease;
+            z-index: 4000; max-height: 220px; overflow-y: auto; padding: 6px; transform: translateY(-4px); backdrop-filter: blur(10px);
         }
-        .custom-select-wrapper.open .custom-select-options {
-            opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0);
-        }
-        
-        .custom-option {
-            padding: 10px 12px; cursor: pointer; border-radius: 4px;
-            transition: background-color 0.15s ease, color 0.15s ease; 
-            color: var(--text-main); font-size: 14px; margin-bottom: 2px;
-        }
+        .custom-select-wrapper.open .custom-select-options { opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0); }
+        .custom-option { padding: 10px 12px; cursor: pointer; border-radius: 4px; transition: background-color 0.15s ease, color 0.15s ease; color: var(--text-main); font-size: 14px; margin-bottom: 2px; }
         .custom-option:last-child { margin-bottom: 0; }
         .custom-option:hover { background-color: rgba(0, 229, 255, 0.03); color: var(--accent-neon); }
-        
-        /* Removed bold font-weight from selected option */
         .custom-option.selected { background-color: rgba(0, 229, 255, 0.08); color: var(--accent-neon); font-weight: 400; } 
 
-        /* --- FLAT PICKR DARK NEON OVERRIDES --- */
         .flatpickr-calendar { background: var(--panel-bg) !important; border: 1px solid var(--border-color) !important; box-shadow: 0 10px 30px rgba(0,0,0,0.8) !important; font-family: var(--font-family) !important; padding-bottom: 4px; }
         .flatpickr-day { color: var(--text-main) !important; transition: all 0.2s ease; border-radius: 4px !important; }
         .flatpickr-day:hover, .flatpickr-day:focus { background: rgba(0, 229, 255, 0.1) !important; border-color: rgba(0, 229, 255, 0.3) !important; color: var(--accent-neon) !important; }
-        
-        /* Transparent Neon Selected State */
-        .flatpickr-day.selected { 
-            background: rgba(0, 229, 255, 0.15) !important; 
-            color: var(--accent-neon) !important; 
-            border: 1px solid var(--accent-neon) !important; 
-            font-weight: bold; 
-        }
+        .flatpickr-day.selected { background: rgba(0, 229, 255, 0.15) !important; color: var(--accent-neon) !important; border: 1px solid var(--accent-neon) !important; font-weight: bold; }
         .flatpickr-day.flatpickr-disabled { color: rgba(255,255,255,0.15) !important; }
         .flatpickr-months .flatpickr-month { color: var(--text-main) !important; fill: var(--text-main) !important; }
-        
-        /* Brightly visible white calendar arrows */
-        .flatpickr-months .flatpickr-prev-month svg, 
-        .flatpickr-months .flatpickr-next-month svg {
-            fill: #ffffff !important; 
-            transition: fill 0.2s ease;
-        }
-        .flatpickr-months .flatpickr-prev-month:hover svg, 
-        .flatpickr-months .flatpickr-next-month:hover svg {
-            fill: var(--accent-neon) !important;
-        }
-        
-        /* Perfectly Aligned Static Calendar Header */
+        .flatpickr-months .flatpickr-prev-month svg, .flatpickr-months .flatpickr-next-month svg { fill: #ffffff !important; transition: fill 0.2s ease; }
+        .flatpickr-months .flatpickr-prev-month:hover svg, .flatpickr-months .flatpickr-next-month:hover svg { fill: var(--accent-neon) !important; }
         .flatpickr-current-month { display: flex !important; align-items: center !important; justify-content: center !important; padding: 0 !important; }
         .flatpickr-current-month .cur-month { min-width: 90px; display: inline-block !important; text-align: right !important; color: var(--text-main) !important; font-weight: 600 !important; margin-right: 8px !important; }
         .flatpickr-current-month .numInputWrapper { width: 55px !important; }
         .flatpickr-current-month input.cur-year { color: var(--text-main) !important; font-weight: 600 !important; padding: 0 !important; }
         .flatpickr-weekday { color: var(--text-muted) !important; font-weight: 600 !important;}
-        
-        /* Subtle Holiday Line */
         .flatpickr-day.holiday-date { border-bottom: 2px solid rgba(242, 54, 69, 0.4) !important; font-weight: 500 !important; }
 
         .checkbox-label { display: flex; align-items: center; gap: 8px; cursor: pointer; color: var(--text-main); font-size: 14px; user-select: none; padding: 8px; background: var(--hover-bg); border-radius: 4px; border: 1px solid var(--border-color); }
@@ -314,53 +290,19 @@
         .section-title { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 12px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
         .paste-hint { font-size: 11px; font-weight: 400; color: var(--text-muted); margin-left: 4px; }
 
-        /* Redesigned High-Speed Lightbox with Dark Professional Controls */
-        .lightbox { 
-            visibility: hidden; position: fixed; z-index: 4000; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(11, 14, 20, 0.92); backdrop-filter: blur(8px); align-items: center; justify-content: center; 
-            opacity: 0; transition: opacity 0.2s ease, visibility 0.2s ease; display: flex; 
-        }
+        .lightbox { visibility: hidden; position: fixed; z-index: 4000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(11, 14, 20, 0.92); backdrop-filter: blur(8px); align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s ease, visibility 0.2s ease; display: flex; }
         .lightbox.show { visibility: visible; opacity: 1; }
-        
-        .lightbox-img { 
-            max-width: 95vw; max-height: 95vh; border-radius: 8px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); 
-            object-fit: contain; transform: scale(0.95); opacity: 0; 
-            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s ease; 
-        }
+        .lightbox-img { max-width: 95vw; max-height: 95vh; border-radius: 8px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); object-fit: contain; transform: scale(0.95); opacity: 0; transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s ease; }
         .lightbox.show .lightbox-img { transform: scale(1); opacity: 1; }
-        
-        /* Dark Professional SVG Buttons */
-        .lightbox-close, .lightbox-nav {
-            position: absolute; display: flex; align-items: center; justify-content: center;
-            width: 44px; height: 44px; background: rgba(11, 14, 20, 0.85); border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 50%; cursor: pointer; z-index: 4001; 
-            transition: all 0.2s ease; backdrop-filter: blur(4px);
-        }
-        
-        /* Sleek Red Close Button */
+        .lightbox-close, .lightbox-nav { position: absolute; display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; background: rgba(11, 14, 20, 0.85); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 50%; cursor: pointer; z-index: 4001; transition: all 0.2s ease; backdrop-filter: blur(4px); }
         .lightbox-close { top: 24px; right: 24px; color: var(--text-muted); }
-        .lightbox-close:hover {
-            background: rgba(11, 14, 20, 0.95); border-color: rgba(242, 54, 69, 0.4); color: rgba(242, 54, 69, 0.9);
-            transform: scale(1.05); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-        }
-
-        /* Dark Nav Buttons */
+        .lightbox-close:hover { background: rgba(11, 14, 20, 0.95); border-color: rgba(242, 54, 69, 0.4); color: rgba(242, 54, 69, 0.9); transform: scale(1.05); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); }
         .lightbox-nav { top: 50%; transform: translateY(-50%); opacity: 0; visibility: hidden; color: var(--text-muted); }
         .lightbox.show .lightbox-nav.visible { opacity: 1; visibility: visible; }
         .lightbox-prev { left: 24px; }
         .lightbox-next { right: 24px; }
-        
-        .lightbox-nav:hover { 
-            background: rgba(11, 14, 20, 0.95); border-color: rgba(0, 229, 255, 0.3); color: var(--accent-neon); 
-            transform: translateY(-50%) scale(1.05); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-        }
-        
-        .lightbox-indicator { 
-            position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); 
-            color: var(--text-main); background: rgba(11, 14, 20, 0.85); padding: 6px 16px; 
-            border-radius: 20px; font-size: 13px; font-weight: 500; border: 1px solid rgba(255,255,255,0.08); 
-            z-index: 4001; display: none; backdrop-filter: blur(4px); 
-        }
+        .lightbox-nav:hover { background: rgba(11, 14, 20, 0.95); border-color: rgba(0, 229, 255, 0.3); color: var(--accent-neon); transform: translateY(-50%) scale(1.05); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); }
+        .lightbox-indicator { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); color: var(--text-main); background: rgba(11, 14, 20, 0.85); padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 500; border: 1px solid rgba(255,255,255,0.08); z-index: 4001; display: none; backdrop-filter: blur(4px); }
     </style>
 </head>
 <body>
@@ -418,20 +360,34 @@
                     <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
                 </svg> Pattern Vault
             </div>
+            
+            <!-- NEW: Unified Search & Filter Bar -->
+            <div class="search-filter-group" id="mainSearchFilter">
+                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text" id="searchInput" placeholder="Search Ticker or Pattern...">
+                
+                <div class="divider" id="searchFilterDivider"></div>
+                
+                <div class="custom-filter-dropdown" id="tableFilterDropdown">
+                    <div class="dropdown-trigger">
+                        <span id="activeFilterText">Executed Trades</span>
+                        <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+                    <div class="dropdown-menu" id="dynamicDropdownMenu">
+                        <!-- Populated by JS based on Active Tab -->
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="views-wrapper">
             <div id="tableView" class="view-container active">
-                <div class="sub-filters" id="tableFilters">
-                    <button class="filter-btn active" data-filter="Executed">Executed Trades</button>
-                    <button class="filter-btn" data-filter="Setups">Tracked Setups</button>
-                    <button class="filter-btn" data-filter="All">All Logs</button>
-                </div>
                 <div class="table-wrapper">
                     <table>
                         <thead>
                             <tr>
-                                <!-- Perfectly distributed percentages -->
                                 <th style="width: 8%;">Date</th>
                                 <th style="width: 9%;">Asset</th>
                                 <th style="width: 9%; text-align: center;">Charts</th>
@@ -453,14 +409,6 @@
             </div>
 
             <div id="galleryView" class="view-container">
-                <div class="sub-filters" id="vaultFilters">
-                    <button class="filter-btn active" data-filter="All">All Patterns</button>
-                    <button class="filter-btn" data-filter="Head and Shoulders">Head and Shoulders</button>
-                    <button class="filter-btn" data-filter="Double Top">Double Top</button>
-                    <button class="filter-btn" data-filter="Double Bottom">Double Bottom</button>
-                    <button class="filter-btn" data-filter="Breakout & Retest">Breakout & Retest</button>
-                    <button class="filter-btn" data-filter="Other">Other</button>
-                </div>
                 <div class="gallery-grid" id="galleryGrid"></div>
             </div>
         </div>
@@ -526,7 +474,6 @@
             <div class="modal-header"><h2 id="modalTitle">Log a Trade</h2><button class="close-btn" id="closeModalBtn">&times;</button></div>
             <form id="tradeForm">
                 <div class="form-row">
-                    <!-- Professional Flatpickr Date Input -->
                     <div class="form-group" style="position: relative;">
                         <label>Date</label>
                         <svg style="position: absolute; left: 10px; top: 34px; color: var(--text-muted); z-index: 10;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
@@ -535,7 +482,6 @@
                     <div class="form-group"><label>Asset / Pair</label><input type="text" id="tradeAsset" placeholder="e.g. BTC/INR or RELIANCE" required></div>
                 </div>
                 
-                <!-- CUSTOM DROPDOWN: Setup / Pattern -->
                 <div class="form-group">
                     <label>Setup / Pattern</label>
                     <div class="custom-select-wrapper" id="setupDropdownWrapper">
@@ -558,7 +504,6 @@
                 
                 <div id="tradeExecutionFields">
                     <div class="form-row">
-                        <!-- CUSTOM DROPDOWN: Direction -->
                         <div class="form-group">
                             <label>Direction</label>
                             <div class="custom-select-wrapper" id="dirDropdownWrapper">
@@ -632,10 +577,30 @@
         let feeSettings = JSON.parse(localStorage.getItem('pravinFeeSettings')) || defaultSettings;
 
         let editingTradeId = null;
+        
+        // Active states for the unified dropdown mapping
+        let activeView = 'tableView'; // Tracks active tab
         let currentVaultFilter = 'All'; 
         let currentTableFilter = 'Executed'; 
+        let currentSearchQuery = '';
 
-        // List of official 2026 Indian Stock Market Holidays
+        // Dropdown configuration data mapped to views
+        const filterOptions = {
+            tableView:[
+                { label: 'Executed Trades', value: 'Executed' },
+                { label: 'Tracked Setups', value: 'Setups' },
+                { label: 'All Logs', value: 'All' }
+            ],
+            galleryView:[
+                { label: 'All Patterns', value: 'All' },
+                { label: 'Head and Shoulders', value: 'Head and Shoulders' },
+                { label: 'Double Top', value: 'Double Top' },
+                { label: 'Double Bottom', value: 'Double Bottom' },
+                { label: 'Breakout & Retest', value: 'Breakout & Retest' },
+                { label: 'Other', value: 'Other' }
+            ]
+        };
+
         const holidays2026 = {
             "2026-01-26": "Republic Day",
             "2026-03-03": "Holi",
@@ -663,23 +628,92 @@
             setupPasteListeners(); 
             setupCustomDropdowns(); 
             setupDatePicker();
+            setupFilterBar();
         }
         function renderUI() { renderTable(); renderGallery(); updateStats(); saveData(); }
 
-        // Helper function for URL tick mark visibility
+        // --- UNIFIED SEARCH & FILTER LOGIC ---
+        function setupFilterBar() {
+            const filterDropdown = document.getElementById('tableFilterDropdown');
+            if(!filterDropdown) return;
+            
+            const trigger = filterDropdown.querySelector('.dropdown-trigger');
+            const activeText = document.getElementById('activeFilterText');
+            const searchInput = document.getElementById('searchInput');
+            const dropdownMenu = document.getElementById('dynamicDropdownMenu');
+
+            trigger.addEventListener('click', (e) => {
+                e.stopPropagation();
+                filterDropdown.classList.toggle('open');
+            });
+
+            window.renderDropdown = () => {
+                const options = filterOptions[activeView];
+                dropdownMenu.innerHTML = '';
+                
+                let activeVal = activeView === 'tableView' ? currentTableFilter : currentVaultFilter;
+                let activeLabel = options.find(o => o.value === activeVal)?.label || options[0].label;
+                activeText.textContent = activeLabel;
+
+                options.forEach(opt => {
+                    const item = document.createElement('div');
+                    item.className = `dropdown-item ${opt.value === activeVal ? 'active' : ''}`;
+                    item.textContent = opt.label;
+                    item.dataset.filter = opt.value;
+                    
+                    item.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        if (activeView === 'tableView') {
+                            currentTableFilter = opt.value;
+                            renderTable();
+                        } else {
+                            currentVaultFilter = opt.value;
+                            renderGallery();
+                        }
+                        renderDropdown(); // Update UI to show selected state
+                        filterDropdown.classList.remove('open');
+                    });
+                    
+                    dropdownMenu.appendChild(item);
+                });
+            };
+
+            searchInput.addEventListener('input', (e) => {
+                currentSearchQuery = e.target.value.toLowerCase();
+                renderTable();
+                renderGallery(); // Search filters both views concurrently!
+            });
+
+            document.addEventListener('click', () => {
+                filterDropdown.classList.remove('open');
+            });
+
+            renderDropdown();
+        }
+
+        // TABS - Also triggers dropdown rendering based on active view
+        document.querySelectorAll('.tab').forEach(tab => { 
+            tab.addEventListener('click', () => { 
+                document.querySelectorAll('.tab, .view-container').forEach(el => el.classList.remove('active')); 
+                tab.classList.add('active'); 
+                
+                activeView = tab.dataset.target;
+                document.getElementById(activeView).classList.add('active'); 
+                
+                // Redraw the global dropdown to match the view we just clicked
+                if(window.renderDropdown) window.renderDropdown();
+            }); 
+        });
+
         function checkUrlTick(inputId) {
             const input = document.getElementById(inputId);
             const tick = document.getElementById(`tick-${inputId}`);
             if (input && tick) {
-                if (input.value.trim() !== '') {
-                    tick.classList.add('show');
-                } else {
-                    tick.classList.remove('show');
-                }
+                if (input.value.trim() !== '') tick.classList.add('show');
+                else tick.classList.remove('show');
             }
         }
 
-        // --- Flatpickr Premium Date Input ---
         function setupDatePicker() {
             flatpickr("#tradeDate", {
                 dateFormat: "Y-m-d",
@@ -692,13 +726,7 @@
                     const day = String(dateObj.getDate()).padStart(2, '0');
                     const formattedDate = `${year}-${month}-${day}`;
 
-                    // Gray out Weekends
-                    const dayOfWeek = dateObj.getDay();
-                    if (dayOfWeek === 0 || dayOfWeek === 6) {
-                        dayElem.classList.add('flatpickr-disabled');
-                    }
-
-                    // Highlight Holidays
+                    if (dayOfWeek === 0 || dayOfWeek === 6) dayElem.classList.add('flatpickr-disabled');
                     if (holidays2026[formattedDate]) {
                         dayElem.classList.add('holiday-date');
                         dayElem.title = `${holidays2026[formattedDate]} (Market Closed)`;
@@ -707,7 +735,6 @@
             });
         }
 
-        // --- Custom Dropdown UI Logic ---
         function setupCustomDropdowns() {
             document.querySelectorAll('.custom-select-wrapper').forEach(wrapper => {
                 const trigger = wrapper.querySelector('.custom-select-trigger');
@@ -748,11 +775,9 @@
             const hiddenInput = document.getElementById(inputId);
             if(!hiddenInput) return;
             hiddenInput.value = value;
-            
             const wrapper = hiddenInput.closest('.custom-select-wrapper');
             const triggerText = wrapper.querySelector('.trigger-text');
             triggerText.textContent = value;
-            
             wrapper.querySelectorAll('.custom-option').forEach(opt => {
                 if(opt.dataset.value === value) opt.classList.add('selected');
                 else opt.classList.remove('selected');
@@ -761,8 +786,6 @@
 
         const formatMoney = (amount) => (amount === '' || amount == null || isNaN(amount)) ? '' : (parseFloat(amount) >= 0 ? '+₹' : '-₹') + Math.abs(parseFloat(amount)).toFixed(2);
         const formatPrice = (price) => (price === '' || price == null || isNaN(price)) ? '-' : parseFloat(price).toString();
-        
-        // Date Formatter: "02 Mar 26" format
         const formatDate = (dStr) => {
             if (!dStr) return '-';
             const str = String(dStr);
@@ -822,8 +845,14 @@
             tbody.innerHTML = '';
             let filteredTrades = trades;
             
+            // Apply Dropdown Filter
             if (currentTableFilter === 'Executed') filteredTrades = trades.filter(t => !t.isSetupOnly);
             else if (currentTableFilter === 'Setups') filteredTrades = trades.filter(t => t.isSetupOnly);
+
+            // Apply Search Query
+            if (currentSearchQuery) {
+                filteredTrades = filteredTrades.filter(t => (t.asset || '').toLowerCase().includes(currentSearchQuery) || (t.setup || '').toLowerCase().includes(currentSearchQuery));
+            }
 
             if (filteredTrades.length === 0) { 
                 tbody.innerHTML = `<tr><td colspan="13" class="empty-state"><div>${emptyVaultSvg}<div>No logs found for this filter.</div></div></td></tr>`; 
@@ -878,7 +907,15 @@
 
         function renderGallery() {
             const grid = document.getElementById('galleryGrid'); grid.innerHTML = '';
-            const filteredTrades = currentVaultFilter === 'All' ? trades : trades.filter(t => t.setup === currentVaultFilter);
+            
+            // Apply Dropdown Filter
+            let filteredTrades = currentVaultFilter === 'All' ? trades : trades.filter(t => t.setup === currentVaultFilter);
+            
+            // Apply Search Query
+            if (currentSearchQuery) {
+                filteredTrades = filteredTrades.filter(t => (t.asset || '').toLowerCase().includes(currentSearchQuery) || (t.setup || '').toLowerCase().includes(currentSearchQuery));
+            }
+
             if (filteredTrades.length === 0) { 
                 grid.innerHTML = `<div class="empty-state" style="grid-column: 1/-1;"><div>${emptyVaultSvg}<div>No patterns found for this filter.</div></div></div>`; 
                 return; 
@@ -1210,32 +1247,6 @@
             }; 
             reader.readAsText(file); 
             e.target.value = ''; 
-        });
-
-        document.querySelectorAll('.tab').forEach(tab => { 
-            tab.addEventListener('click', () => { 
-                document.querySelectorAll('.tab, .view-container').forEach(el => el.classList.remove('active')); 
-                tab.classList.add('active'); 
-                document.getElementById(tab.dataset.target).classList.add('active'); 
-            }); 
-        });
-        
-        document.querySelectorAll('#tableFilters .filter-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => { 
-                document.querySelectorAll('#tableFilters .filter-btn').forEach(b => b.classList.remove('active')); 
-                e.target.classList.add('active'); 
-                currentTableFilter = e.target.dataset.filter; 
-                renderTable(); 
-            })
-        });
-
-        document.querySelectorAll('#vaultFilters .filter-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => { 
-                document.querySelectorAll('#vaultFilters .filter-btn').forEach(b => b.classList.remove('active')); 
-                e.target.classList.add('active'); 
-                currentVaultFilter = e.target.dataset.filter; 
-                renderGallery(); 
-            })
         });
 
         const lightbox = document.getElementById('lightbox'), lightboxImg = document.getElementById('lightboxImg');
