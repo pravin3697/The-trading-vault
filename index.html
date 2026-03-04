@@ -66,8 +66,19 @@
 
         .btn { background-color: var(--card-bg); color: var(--text-main); border: 1px solid var(--border-color); height: 36px; padding: 0 16px; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s ease; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
         .btn:hover { background-color: rgba(0, 229, 255, 0.03); border-color: rgba(0, 229, 255, 0.3); color: var(--accent-neon); }
+        
         .btn-primary { background-color: rgba(0, 229, 255, 0.02); border: 1px solid rgba(0, 229, 255, 0.3); color: var(--accent-neon); }
         .btn-primary:hover { background-color: rgba(0, 229, 255, 0.05); border-color: var(--accent-neon); box-shadow: 0 0 12px rgba(0, 229, 255, 0.15); }
+        
+        .btn-text { display: inline-flex; align-items: center; gap: 6px; background: transparent; border: none; color: var(--text-muted); font-size: 13px; font-weight: 500; cursor: pointer; transition: color 0.2s ease, transform 0.1s ease; font-family: var(--font-family); padding: 4px 0; margin: 0; }
+        .btn-text:hover { color: var(--accent-neon); }
+        .btn-text:active { transform: scale(0.96); }
+
+        /* Sleek Icon Buttons next to URL input */
+        .btn-icon-action { width: 40px; background-color: var(--bg-color); border: 1px solid var(--border-color); border-radius: 4px; cursor: pointer; color: var(--text-muted); display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; flex-shrink: 0; }
+        .btn-icon-action:hover { border-color: rgba(0, 229, 255, 0.4); color: var(--accent-neon); box-shadow: 0 4px 12px rgba(0, 229, 255, 0.05); }
+        .btn-icon-action:active { transform: scale(0.95); }
+
         .btn-icon-only { width: 32px; height: 32px; padding: 0; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; cursor: pointer; transition: all 0.2s ease; background-color: transparent; border: 1px solid transparent; color: var(--text-muted); }
         .btn-edit:hover { background-color: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.3); color: #60a5fa; transform: translateY(-1px); }
         .btn-danger:hover { background-color: rgba(242, 54, 69, 0.1); border-color: rgba(242, 54, 69, 0.3); color: var(--loss-red); transform: translateY(-1px); }
@@ -191,10 +202,7 @@
         .flatpickr-calendar { background: var(--panel-bg) !important; border: 1px solid var(--border-color) !important; box-shadow: 0 10px 30px rgba(0,0,0,0.8) !important; font-family: var(--font-family) !important; padding-bottom: 4px; }
         .flatpickr-day { color: var(--text-main) !important; transition: all 0.2s ease; border-radius: 4px !important; }
         .flatpickr-day:hover, .flatpickr-day:focus { background: rgba(0, 229, 255, 0.1) !important; border-color: rgba(0, 229, 255, 0.3) !important; color: var(--accent-neon) !important; }
-        
-        /* Dimmed the selected date text to white instead of bright neon */
         .flatpickr-day.selected { background: rgba(0, 229, 255, 0.15) !important; color: #ffffff !important; border: 1px solid var(--accent-neon) !important; font-weight: 500 !important; }
-        
         .flatpickr-day.flatpickr-disabled { color: rgba(255,255,255,0.15) !important; }
         .flatpickr-months .flatpickr-month { color: var(--text-main) !important; fill: var(--text-main) !important; }
         .flatpickr-months .flatpickr-prev-month svg, .flatpickr-months .flatpickr-next-month svg { fill: #ffffff !important; transition: fill 0.2s ease; }
@@ -216,28 +224,32 @@
         .section-title { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 12px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
         .paste-hint { font-size: 11px; font-weight: 400; color: var(--text-muted); margin-left: 4px; }
 
-        /* Windows Photos Style Lightbox Overlay & Controls (Undoing the rectangles) */
+        /* Windows Photos Style Lightbox Overlay & Controls */
         .lightbox { visibility: hidden; position: fixed; z-index: 4000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s ease, visibility 0.2s ease; display: flex; }
         .lightbox.show { visibility: visible; opacity: 1; }
         .lightbox-img { max-width: 95vw; max-height: 95vh; object-fit: contain; transform: scale(0.98); opacity: 0; transition: transform 0.2s ease, opacity 0.2s ease; }
         .lightbox.show .lightbox-img { transform: scale(1); opacity: 1; }
         
-        /* Reverted buttons back to PERFECT CIRCLES, kept Windows Photos clean hover styling */
-        .lightbox-close, .lightbox-nav { 
+        .lightbox-close { 
             position: absolute; display: flex; align-items: center; justify-content: center; 
             width: 48px; height: 48px; background: transparent; border: none; border-radius: 50%;
-            cursor: pointer; z-index: 4001; transition: all 0.15s ease; color: #ffffff; 
+            cursor: pointer; z-index: 4001; transition: color 0.15s ease; color: #ffffff; 
+            top: 16px; right: 16px;
         }
+        .lightbox-close:hover { color: #f23645; }
         
-        .lightbox-close { top: 16px; right: 16px; }
-        .lightbox-close:hover { color: #f23645; } /* Only the X icon turns red */
-        
-        .lightbox-nav { top: 50%; transform: translateY(-50%); opacity: 0; visibility: hidden; }
+        /* Rectangular Windows Photos Arrows */
+        .lightbox-nav { 
+            position: absolute; display: flex; align-items: center; justify-content: center; 
+            width: 40px; height: 72px; background: rgba(20, 20, 20, 0.5); border: none; border-radius: 6px;
+            cursor: pointer; z-index: 4001; transition: background 0.15s ease; color: #ffffff; 
+            top: 50%; transform: translateY(-50%); opacity: 0; visibility: hidden; 
+        }
         .lightbox.show .lightbox-nav.visible { opacity: 1; visibility: visible; }
         .lightbox-prev { left: 16px; }
         .lightbox-next { right: 16px; }
         .lightbox-nav:hover { background: rgba(255, 255, 255, 0.15); } 
-        .lightbox-nav:active { background: rgba(255, 255, 255, 0.1); transform: translateY(-50%) scale(0.96); }
+        .lightbox-nav:active { background: rgba(255, 255, 255, 0.1); transform: translateY(-50%) scale(0.98); }
         
         .lightbox-indicator { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); color: var(--text-main); background: transparent; padding: 6px 16px; font-size: 13px; font-weight: 500; z-index: 4001; display: none; text-shadow: 0 1px 4px rgba(0,0,0,0.8); }
     </style>
@@ -359,24 +371,25 @@
             </svg>
         </button>
         <button class="lightbox-nav lightbox-prev" id="lightboxPrev">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M15 18l-6-6 6-6"></path>
             </svg>
         </button>
         <img src="" alt="Chart" class="lightbox-img" id="lightboxImg">
         <button class="lightbox-nav lightbox-next" id="lightboxNext">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M9 18l6-6-6-6"></path>
             </svg>
         </button>
         <div class="lightbox-indicator" id="lightboxIndicator">1 / 2</div>
     </div>
 
-    <!-- Settings Modal -->
+    <!-- Settings Modal (Clean & Minimal) -->
     <div class="modal-overlay" id="settingsModalOverlay">
-        <div class="modal" style="max-width: 450px;">
-            <div class="modal-header"><h2 id="settingsTitle">Settings</h2><button class="close-btn" id="closeSettingsBtn">&times;</button></div>
+        <div class="modal" style="max-width: 420px; padding: 28px;">
+            <div class="modal-header" style="margin-bottom: 24px;"><h2 id="settingsTitle">Settings</h2><button class="close-btn" id="closeSettingsBtn">&times;</button></div>
             <form id="settingsForm">
+                
                 <div style="margin-bottom: 24px;">
                     <h3 class="section-title">Fee Defaults</h3>
                     <div class="form-row">
@@ -394,24 +407,35 @@
                         <h3 class="section-title" style="margin: 0; border: none; padding: 0;">Cloud Sync</h3>
                         <span id="syncStatus" style="font-size: 12px; font-weight: 500; display: flex; align-items: center; gap: 6px;"></span>
                     </div>
-                    <div class="form-group">
-                        <label>Google Web App URL (API Key)</label>
-                        <input type="password" id="setSheetUrl" placeholder="https://script.google.com/macros/s/.../exec">
-                    </div>
-                    <div class="form-row" style="margin-top: 10px;">
-                        <button type="button" class="btn" id="pushCloudBtn" style="flex: 1;" title="Upload your local data to cloud">Push to Cloud</button>
-                        <button type="button" class="btn btn-primary" id="pullCloudBtn" style="flex: 1;" title="Download data from cloud">Pull from Cloud</button>
+                    
+                    <label style="margin-bottom: 6px; font-size: 13px; color: var(--text-muted); display: block;">Google Web App URL (API Key)</label>
+                    <div style="display: flex; gap: 8px; align-items: stretch;">
+                        <input type="password" id="setSheetUrl" placeholder="https://script.google.com/macros/s/..." style="flex: 1; margin: 0;">
+                        
+                        <!-- Clean UI: Sync actions are now elegant icon buttons next to the URL input -->
+                        <button type="button" class="btn-icon-action" id="pushCloudBtn" title="Force Push to Cloud">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                        </button>
+                        <button type="button" class="btn-icon-action" id="pullCloudBtn" title="Force Pull from Cloud">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        </button>
                     </div>
                 </div>
                 
-                <div style="margin-bottom: 24px;">
-                    <h3 class="section-title">Data Management</h3>
-                    <div class="form-row">
-                        <button type="button" class="btn" id="exportBtnModal" style="flex: 1;">Export JSON</button>
-                        <button type="button" class="btn" id="importBtnModal" style="flex: 1;">Import JSON</button>
+                <div style="margin-bottom: 32px;">
+                    <h3 class="section-title">Local Backup</h3>
+                    <!-- Minimal Text-Link Actions for Export/Import -->
+                    <div style="display: flex; gap: 16px;">
+                        <button type="button" class="btn-text" id="exportBtnModal">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg> Export JSON
+                        </button>
+                        <button type="button" class="btn-text" id="importBtnModal">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="12" x2="12" y2="18"></line><polyline points="9 15 12 12 15 15"></polyline></svg> Import JSON
+                        </button>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; height: 44px; font-size: 16px;">Save Settings</button>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; height: 44px; font-size: 14px; font-weight: 600; letter-spacing: 0.5px;">Save Settings</button>
             </form>
         </div>
     </div>
@@ -421,8 +445,6 @@
         <div class="modal">
             <div class="modal-header"><h2 id="modalTitle">Log a Trade</h2><button class="close-btn" id="closeModalBtn">&times;</button></div>
             <form id="tradeForm">
-                
-                <!-- Fixed Calendar Icon Alignment Here -->
                 <div class="form-row">
                     <div class="form-group">
                         <label>Date</label>
@@ -570,8 +592,11 @@
             setupDatePicker();
             setupFilterBar();
             
+            // Auto fetch from cloud silently when page loads
             if (feeSettings.sheetUrl && feeSettings.sheetUrl.trim() !== '') {
                 pullFromGoogleSheetsSilent();
+            } else {
+                updateSyncStatusUI('unsynced');
             }
         }
         
@@ -977,21 +1002,32 @@
             checkUrlTick(`tradeImage${index}Url`); 
         };
 
-        function updateSyncStatusUI(isSynced = true) {
+        function updateSyncStatusUI(status) { // 'synced', 'syncing', 'unsynced', 'error'
             const statusEl = document.getElementById('syncStatus');
-            if (feeSettings.sheetUrl && feeSettings.sheetUrl.trim() !== '' && isSynced) {
+            if (!feeSettings.sheetUrl || feeSettings.sheetUrl.trim() === '') {
+                statusEl.innerHTML = `<div style="width:8px;height:8px;border-radius:50%;background:#f23645;box-shadow:0 0 6px #f23645;"></div> Unsynced`;
+                statusEl.style.color = "#f23645";
+                return;
+            }
+            
+            if (status === 'syncing') {
+                statusEl.innerHTML = `<div style="width:8px;height:8px;border-radius:50%;background:#eeb422;box-shadow:0 0 6px #eeb422;"></div> Syncing...`;
+                statusEl.style.color = "#eeb422";
+            } else if (status === 'synced') {
                 statusEl.innerHTML = `<div style="width:8px;height:8px;border-radius:50%;background:#089981;box-shadow:0 0 6px #089981;"></div> Synced`;
                 statusEl.style.color = "#089981";
             } else {
-                statusEl.innerHTML = `<div style="width:8px;height:8px;border-radius:50%;background:#f23645;box-shadow:0 0 6px #f23645;"></div> Unsynced`;
+                statusEl.innerHTML = `<div style="width:8px;height:8px;border-radius:50%;background:#f23645;box-shadow:0 0 6px #f23645;"></div> Sync Error`;
                 statusEl.style.color = "#f23645";
             }
         }
 
         // ====== CLOUD SYNC FUNCTIONS ====== //
         
-        function syncToGoogleSheets(dataObj, action) {
+        async function syncToGoogleSheets(dataObj, action) {
             if (!feeSettings.sheetUrl) return; 
+            updateSyncStatusUI('syncing'); 
+            
             try {
                 let payload;
                 if (action === 'delete') {
@@ -1003,52 +1039,72 @@
                     payload = { action: 'save', data: safeData };
                 }
                 
-                fetch(feeSettings.sheetUrl, {
+                let res = await fetch(feeSettings.sheetUrl, {
                     method: 'POST',
                     body: JSON.stringify(payload),
                     redirect: 'follow'
-                }).catch(err => console.log("Cloud sync delayed/failed:", err));
+                });
+                
+                if (res.ok) updateSyncStatusUI('synced');
+                else updateSyncStatusUI('error');
             } catch(e) {
-                console.error("Failed to prepare cloud sync payload", e);
+                console.error("Cloud sync failed", e);
+                updateSyncStatusUI('error');
             }
         }
 
+        function mergeCloudDataWithLocal(cloudData, localData) {
+            return cloudData.map(cTrade => {
+                let lTrade = localData.find(t => t.id === cTrade.id);
+                if (lTrade) {
+                    if (!cTrade.image1 && lTrade.image1 && lTrade.image1.startsWith('data:image')) cTrade.image1 = lTrade.image1;
+                    if (!cTrade.image2 && lTrade.image2 && lTrade.image2.startsWith('data:image')) cTrade.image2 = lTrade.image2;
+                }
+                return cTrade;
+            });
+        }
+
         async function pullFromGoogleSheetsSilent() {
+            updateSyncStatusUI('syncing');
             try {
                 let res = await fetch(feeSettings.sheetUrl + "?action=get", { redirect: 'follow' });
                 if (!res.ok) throw new Error("GET failed");
                 let data = await res.json();
                 if (Array.isArray(data)) {
-                    trades = data; saveData(); renderUI(); updateSyncStatusUI(true);
+                    trades = mergeCloudDataWithLocal(data, trades);
+                    saveData(); renderUI(); updateSyncStatusUI('synced');
+                } else {
+                    updateSyncStatusUI('error');
                 }
             } catch (err) {
                 console.log("Silent cloud fetch failed.");
-                updateSyncStatusUI(false);
+                updateSyncStatusUI('error');
             }
         }
 
         document.getElementById('pullCloudBtn').addEventListener('click', async () => {
             if (!feeSettings.sheetUrl) return alert("Please set your Google Web App URL first.");
-            document.getElementById('pullCloudBtn').textContent = "Pulling...";
+            updateSyncStatusUI('syncing');
             try {
                 let res = await fetch(feeSettings.sheetUrl + "?action=get", { redirect: 'follow' });
                 if (!res.ok) throw new Error("HTTP " + res.status);
                 let data = await res.json();
                 if (Array.isArray(data)) {
-                    trades = data; saveData(); renderUI(); updateSyncStatusUI(true);
+                    trades = mergeCloudDataWithLocal(data, trades);
+                    saveData(); renderUI(); updateSyncStatusUI('synced');
                     alert("Data fully synchronized from Cloud!");
                 } else {
                     throw new Error("Invalid data format received.");
                 }
             } catch (err) {
-                alert(`Sync Failed: ${err.message}\n\nTroubleshooting:\n1. Open Google Script Editor.\n2. Click 'Deploy' -> 'New Deployment'.\n3. Set 'Execute as' to 'Me'.\n4. Set 'Who has access' to 'Anyone' (Very Important).\n5. Copy the new Web App URL and update it here.`);
+                updateSyncStatusUI('error');
+                alert(`Sync Failed: ${err.message}\n\nMake sure your Google Script was updated to the new code and deployed as 'Anyone'.`);
             }
-            document.getElementById('pullCloudBtn').textContent = "Pull from Cloud";
         });
 
         document.getElementById('pushCloudBtn').addEventListener('click', async () => {
             if (!feeSettings.sheetUrl) return alert("Please set your Google Web App URL first.");
-            document.getElementById('pushCloudBtn').textContent = "Pushing...";
+            updateSyncStatusUI('syncing');
             try {
                 const cleanTrades = trades.map(t => {
                     let safe = { ...t };
@@ -1057,17 +1113,20 @@
                     return safe;
                 });
                 
-                await fetch(feeSettings.sheetUrl, {
+                let res = await fetch(feeSettings.sheetUrl, {
                     method: 'POST',
                     body: JSON.stringify({ action: 'saveAll', data: cleanTrades }),
                     redirect: 'follow'
                 });
-                alert("All local data successfully pushed to Cloud!");
-                updateSyncStatusUI(true);
+                
+                if (res.ok) {
+                    alert("All local data successfully pushed to Cloud!");
+                    updateSyncStatusUI('synced');
+                } else throw new Error("Failed to push.");
             } catch (err) {
-                alert(`Push Failed: ${err.message}\n\nTroubleshooting:\n1. Open Google Script Editor.\n2. Click 'Deploy' -> 'New Deployment'.\n3. Set 'Execute as' to 'Me'.\n4. Set 'Who has access' to 'Anyone' (Very Important).`);
+                updateSyncStatusUI('error');
+                alert(`Push Failed: ${err.message}`);
             }
-            document.getElementById('pushCloudBtn').textContent = "Push to Cloud";
         });
 
         document.getElementById('settingsBtn').addEventListener('click', () => {
@@ -1076,7 +1135,6 @@
             document.getElementById('setExch').value = feeSettings.exch;
             document.getElementById('setGST').value = feeSettings.gst;
             document.getElementById('setSheetUrl').value = feeSettings.sheetUrl || '';
-            updateSyncStatusUI(true);
             document.getElementById('settingsModalOverlay').style.display = 'flex';
         });
 
@@ -1091,6 +1149,7 @@
             };
             localStorage.setItem('pravinFeeSettings', JSON.stringify(feeSettings));
             document.getElementById('settingsModalOverlay').style.display = 'none';
+            if (feeSettings.sheetUrl) pullFromGoogleSheetsSilent();
         });
 
         document.getElementById('tradeForm').addEventListener('submit', (e) => {
