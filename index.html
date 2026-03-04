@@ -9,7 +9,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -66,7 +66,6 @@
 
         .btn { background-color: var(--card-bg); color: var(--text-main); border: 1px solid var(--border-color); height: 36px; padding: 0 16px; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s ease; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
         .btn:hover { background-color: rgba(0, 229, 255, 0.03); border-color: rgba(0, 229, 255, 0.3); color: var(--accent-neon); }
-        
         .btn-primary { background-color: rgba(0, 229, 255, 0.02); border: 1px solid rgba(0, 229, 255, 0.3); color: var(--accent-neon); }
         .btn-primary:hover { background-color: rgba(0, 229, 255, 0.05); border-color: var(--accent-neon); box-shadow: 0 0 12px rgba(0, 229, 255, 0.15); }
         
@@ -82,19 +81,52 @@
         .btn-edit:hover { background-color: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.3); color: #60a5fa; transform: translateY(-1px); }
         .btn-danger:hover { background-color: rgba(242, 54, 69, 0.1); border-color: rgba(242, 54, 69, 0.3); color: var(--loss-red); transform: translateY(-1px); }
 
-        .dashboard-top { display: grid; grid-template-columns: 260px 1fr; gap: 20px; margin-bottom: 24px; }
-        @media (max-width: 768px) { .dashboard-top { grid-template-columns: 1fr; } }
+        /* Premium Dashboard Layout - Perfectly Aligned Grid */
+        .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 16px; }
         
-        .stats-grid { display: grid; grid-template-rows: repeat(3, 1fr); gap: 12px; }
-        .stat-card { background-color: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 16px 20px; display: flex; flex-direction: column; justify-content: center; transition: all 0.3s ease; }
+        .dashboard-main { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+        
+        @media (max-width: 1024px) { 
+            .stats-row { grid-template-columns: repeat(2, 1fr); } 
+            .dashboard-main { grid-template-columns: repeat(2, 1fr); }
+            .chart-card, .edge-panel { grid-column: span 2 !important; }
+        }
+        @media (max-width: 600px) { 
+            .stats-row { grid-template-columns: 1fr; } 
+            .dashboard-main { grid-template-columns: 1fr; }
+            .chart-card, .edge-panel { grid-column: span 1 !important; }
+        }
+        
+        .stat-card { background-color: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 16px 20px; display: flex; flex-direction: column; justify-content: center; transition: all 0.3s ease; position: relative; }
         .stat-card:hover { border-color: rgba(0, 229, 255, 0.4); transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0, 229, 255, 0.08); }
-        .stat-label { font-size: 13px; color: var(--text-muted); margin-bottom: 4px; }
-        .stat-value { font-size: 24px; font-weight: 600; }
+        .stat-label { font-size: 13px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500; }
+        .stat-value { font-size: 26px; font-weight: 700; display: flex; align-items: baseline; gap: 8px; }
         
-        .chart-card { background-color: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 16px; display: flex; flex-direction: column; min-height: 240px; transition: all 0.3s ease; }
-        .chart-card:hover { border-color: rgba(0, 229, 255, 0.4); transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0, 229, 255, 0.08); }
-        .chart-header { font-size: 13px; font-weight: 500; color: var(--text-muted); margin-bottom: 12px; }
-        .chart-container { position: relative; flex: 1; width: 100%; min-height: 180px; }
+        .stat-footer { display: flex; justify-content: space-between; margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--border-color); font-size: 11.5px; color: var(--text-muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+        .stat-footer span strong { color: var(--text-main); }
+
+        .chart-card { grid-column: span 3; background-color: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 16px; display: flex; flex-direction: column; transition: all 0.3s ease; }
+        .chart-card:hover { border-color: rgba(0, 229, 255, 0.4); box-shadow: 0 6px 16px rgba(0, 229, 255, 0.08); }
+        .chart-header { font-size: 14px; font-weight: 600; color: var(--text-main); margin-bottom: 12px; }
+        .chart-container { position: relative; flex: 1; width: 100%; min-height: 240px; } 
+
+        .edge-panel { grid-column: span 1; background-color: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 16px; display: flex; flex-direction: column; transition: all 0.3s ease; }
+        .edge-panel:hover { border-color: rgba(0, 229, 255, 0.4); transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0, 229, 255, 0.08); }
+        .edge-panel-title { font-size: 14px; font-weight: 600; color: var(--text-main); margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; }
+        
+        .edge-section { margin-bottom: 20px; }
+        .edge-section:last-child { margin-bottom: 0; }
+        .edge-title-sm { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 10px; font-weight: 600; }
+        
+        .bar-row { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px; font-weight: 500; }
+        .bar-bg { width: 100%; height: 6px; background-color: var(--bg-color); border-radius: 3px; overflow: hidden; display: flex; margin-bottom: 12px; border: 1px solid var(--border-color); }
+        .bar-fill-long { height: 100%; background-color: var(--profit-green); transition: width 0.5s ease; }
+        .bar-fill-short { height: 100%; background-color: var(--loss-red); transition: width 0.5s ease; }
+
+        .edge-item { background: var(--bg-color); border: 1px solid var(--border-color); border-radius: 6px; padding: 10px; margin-bottom: 8px; }
+        .edge-item:last-child { margin-bottom: 0; }
+        .edge-item-header { display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+        .edge-item-stats { display: flex; justify-content: space-between; font-size: 11.5px; color: var(--text-muted); }
 
         .tabs { display: flex; gap: 12px; margin-bottom: 24px; }
         .tab { padding: 10px 20px; cursor: pointer; border-radius: 6px; font-weight: 400; color: var(--text-muted); transition: all 0.3s ease; display: flex; align-items: center; gap: 8px; background: rgba(19, 23, 34, 0.6); border: 1px solid var(--border-color); }
@@ -104,32 +136,55 @@
         .search-filter-group { display: flex; align-items: center; background-color: var(--bg-color); border: 1px solid var(--border-color); border-radius: 6px; margin-left: auto; height: 42px; transition: all 0.3s ease; }
         .search-filter-group:hover, .search-filter-group:focus-within { border-color: rgba(0, 229, 255, 0.4); box-shadow: 0 0 12px rgba(0, 229, 255, 0.08); }
         .search-filter-group .search-icon { margin-left: 14px; color: var(--text-muted); width: 15px; height: 15px; }
-        .search-filter-group input { border: none; background: transparent; height: 100%; width: 180px; padding: 0 12px; color: var(--text-main); font-family: var(--font-family); font-size: 13.5px; outline: none; box-shadow: none !important; }
+        
+        .search-filter-group input { border: none; background: transparent; height: 100%; width: 260px; padding: 0 12px; color: var(--text-main); font-family: var(--font-family); font-size: 13.5px; outline: none; box-shadow: none !important; }
         .search-filter-group input::placeholder { color: var(--text-muted); }
         .search-filter-group .divider { width: 1px; height: 22px; background-color: var(--border-color); }
         
         .custom-filter-dropdown { position: relative; height: 100%; display: flex; }
-        .custom-filter-dropdown .dropdown-trigger { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 16px; height: 100%; cursor: pointer; color: var(--text-muted); font-size: 13.5px; font-weight: 500; transition: all 0.2s ease; min-width: 155px; }
+        .custom-filter-dropdown .dropdown-trigger { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 16px; height: 100%; cursor: pointer; color: var(--text-muted); font-size: 13.5px; font-weight: 500; transition: all 0.2s ease; width: 200px; flex-shrink: 0; box-sizing: border-box; }
+        .custom-filter-dropdown .dropdown-trigger * { pointer-events: none; }
+        .custom-filter-dropdown .trigger-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        
         .custom-filter-dropdown .dropdown-trigger:hover, .custom-filter-dropdown.open .dropdown-trigger { color: var(--accent-neon); }
-        .custom-filter-dropdown .dropdown-menu { position: absolute; top: calc(100% + 6px); right: 0; background-color: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 6px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); opacity: 0; visibility: hidden; transform: translateY(-4px); transition: all 0.2s ease; z-index: 4000; min-width: 180px; padding: 6px; backdrop-filter: blur(10px); }
+        .custom-filter-dropdown .dropdown-menu { position: absolute; top: calc(100% + 6px); right: 0; background-color: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 6px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); opacity: 0; visibility: hidden; transform: translateY(-4px); transition: all 0.2s ease; z-index: 4000; min-width: 100%; padding: 6px; backdrop-filter: blur(10px); }
         .custom-filter-dropdown.open .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
         .custom-filter-dropdown .dropdown-item { padding: 8px 12px; cursor: pointer; border-radius: 4px; transition: all 0.15s ease; color: var(--text-main); font-size: 13px; margin-bottom: 2px; }
         .custom-filter-dropdown .dropdown-item:last-child { margin-bottom: 0; }
         .custom-filter-dropdown .dropdown-item:hover { background-color: rgba(0, 229, 255, 0.03); color: var(--accent-neon); }
         .custom-filter-dropdown .dropdown-item.active { background-color: rgba(0, 229, 255, 0.08); color: var(--accent-neon); font-weight: 500; }
 
-        .views-wrapper { display: grid; position: relative; min-height: 50vh; }
+        .views-wrapper { display: grid; position: relative; min-height: 60vh; }
         .view-container { grid-area: 1 / 1; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.3s ease, visibility 0.3s ease; }
         .view-container.active { opacity: 1; visibility: visible; pointer-events: auto; z-index: 1; }
 
-        .table-wrapper { background-color: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 6px; }
-        table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 1050px; table-layout: fixed; }
-        th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border-color); border-right: 1px solid var(--border-color); vertical-align: middle; transition: border-color 0.2s ease, color 0.2s ease; overflow: hidden; text-overflow: ellipsis; }
-        th { position: sticky; top: 72px; background-color: var(--card-bg); z-index: 50; color: var(--text-muted); font-weight: 600; white-space: nowrap; border-bottom: none; border-right: none; box-shadow: inset 0 -1px 0 var(--border-color), inset -1px 0 0 var(--border-color); }
-        th:last-child { box-shadow: inset 0 -1px 0 var(--border-color); }
+        .table-wrapper { background-color: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 20px; }
+        
+        /* SLEEK PREMIUM TABLE DESIGN */
+        table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 14px; min-width: 1050px; table-layout: fixed; }
+        
+        th { 
+            position: sticky; top: 72px; 
+            background-color: var(--card-bg); /* Distinct dark slate blue */
+            z-index: 50; 
+            color: var(--text-main); 
+            font-weight: 600; 
+            font-size: 13px; 
+            white-space: nowrap; 
+            border-bottom: 2px solid var(--accent-neon); /* Perfect unbroken neon underline */
+            border-right: 1px solid var(--border-color); 
+            padding: 14px 10px; 
+            text-align: center; 
+            vertical-align: middle; 
+        }
+        th:first-child { border-top-left-radius: 6px; }
+        th:last-child { border-right: none; border-top-right-radius: 6px; }
+        
+        td { padding: 12px 10px; text-align: center; border-bottom: 1px solid var(--border-color); border-right: 1px solid var(--border-color); vertical-align: middle; transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease; overflow: hidden; text-overflow: ellipsis; }
+        td:last-child { border-right: none; }
+        
         tbody tr { transition: background-color 0.2s ease; }
         tr:last-child td { border-bottom: none; }
-        td:last-child { border-right: none; }
         tbody tr:hover { background-color: rgba(0, 229, 255, 0.03); }
         tbody tr:hover td { border-bottom-color: rgba(0, 229, 255, 0.15); border-right-color: rgba(0, 229, 255, 0.05); color: #ffffff; }
         tbody tr:hover td:first-child { position: relative; }
@@ -138,18 +193,24 @@
         .date-col { white-space: nowrap; font-weight: 500; }
         .profit { color: var(--profit-green); font-weight: 600; }
         .loss { color: var(--loss-red); font-weight: 600; }
-        .tag { padding: 4px 10px; border-radius: 4px; font-size: 11.5px; font-weight: 600; letter-spacing: 0.3px; white-space: nowrap; display: inline-block; text-transform: capitalize; }
+        .tag { padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; letter-spacing: 0.3px; white-space: nowrap; display: inline-block; text-transform: capitalize; }
         .tag.long { color: var(--profit-green); background-color: rgba(8, 153, 129, 0.15); border: 1px solid rgba(8, 153, 129, 0.2); }
         .tag.short { color: var(--loss-red); background-color: rgba(242, 54, 69, 0.15); border: 1px solid rgba(242, 54, 69, 0.2); }
         .tag.neutral { color: var(--text-muted); background-color: rgba(120, 123, 134, 0.15); border: 1px solid rgba(120, 123, 134, 0.2); }
+        .tag.missed { color: var(--warning-yellow); background-color: rgba(238, 180, 34, 0.15); border: 1px solid rgba(238, 180, 34, 0.2); }
         
+        .behavior-pills { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; justify-content: center; }
+        .bpill { font-size: 10px; padding: 2px 6px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; color: var(--text-muted); white-space: nowrap; }
+        .bpill.positive { color: var(--profit-green); border-color: rgba(8, 153, 129, 0.3); background: rgba(8, 153, 129, 0.05); }
+        .bpill.negative { color: var(--loss-red); border-color: rgba(242, 54, 69, 0.3); background: rgba(242, 54, 69, 0.05); }
+
         .action-btns { display: flex; gap: 6px; flex-wrap: nowrap; justify-content: center; }
         .thumb-row { display: flex; gap: 6px; align-items: center; justify-content: center; }
         .thumb-link { display: block; width: 42px; height: 28px; cursor: pointer; }
         .thumb-img { width: 42px; height: 28px; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.3s ease; }
         .thumb-img:hover { border-color: rgba(0, 229, 255, 0.4); box-shadow: 0 4px 10px rgba(0, 229, 255, 0.15); transform: scale(1.15); z-index: 10; position: relative; }
 
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; align-items: stretch; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; align-items: stretch; align-content: start; }
         .card { background-color: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; transition: all 0.3s ease; position: relative; height: 100%; display: flex; flex-direction: column; }
         .card:hover { transform: translateY(-5px); border-color: rgba(0, 229, 255, 0.5); box-shadow: 0 8px 24px rgba(0, 229, 255, 0.15); }
         .card-img-link { display: block; width: 100%; height: 200px; cursor: zoom-in; position: relative; overflow: hidden; flex-shrink: 0; }
@@ -165,10 +226,11 @@
         .pill.long-pill { background-color: rgba(8, 153, 129, 0.15); color: var(--profit-green); border: 1px solid rgba(8, 153, 129, 0.2); }
         .pill.short-pill { background-color: rgba(242, 54, 69, 0.15); color: var(--loss-red); border: 1px solid rgba(242, 54, 69, 0.2); }
         .pill.setup-pill { background-color: var(--hover-bg); color: #ffffff; border: 1px solid var(--border-color); }
+        .pill.missed-pill { background-color: rgba(238, 180, 34, 0.15); color: var(--warning-yellow); border: 1px solid rgba(238, 180, 34, 0.2); }
         .card-details { font-size: 13px; color: var(--text-muted); }
 
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(4px); z-index: 3000; justify-content: center; align-items: center; }
-        .modal { background-color: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 8px; width: 100%; max-width: 550px; padding: 24px; max-height: 90vh; overflow-y: auto; }
+        .modal { background-color: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 8px; width: 100%; max-width: 600px; padding: 24px; max-height: 90vh; overflow-y: auto; }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .close-btn { background: none; border: none; color: var(--text-muted); font-size: 24px; cursor: pointer; transition: color 0.15s ease; }
         .close-btn:hover { color: var(--text-main); }
@@ -185,10 +247,23 @@
         .success-tick { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; color: var(--profit-green); opacity: 0; visibility: hidden; transition: all 0.3s ease; pointer-events: none; }
         .success-tick.show { opacity: 0.6; visibility: visible; }
 
+        .tag-selector { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+        .tag-toggle { background: var(--bg-color); border: 1px solid var(--border-color); color: var(--text-muted); padding: 6px 12px; border-radius: 20px; font-size: 12px; cursor: pointer; transition: all 0.2s ease; user-select: none; display: inline-flex; align-items: center; justify-content: center; }
+        .tag-toggle:hover { border-color: rgba(0, 229, 255, 0.4); color: var(--text-main); }
+        .tag-toggle.active { background: rgba(0, 229, 255, 0.1); border-color: var(--accent-neon); color: var(--accent-neon); }
+        .tag-toggle.active-neg { background: rgba(242, 54, 69, 0.1); border-color: var(--loss-red); color: var(--loss-red); }
+        .tag-toggle.active-pos { background: rgba(8, 153, 129, 0.1); border-color: var(--profit-green); color: var(--profit-green); }
+        
+        .tag-add-btn { border: 1.5px dashed var(--text-muted); color: var(--text-muted); display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; width: 28px; height: 28px; cursor: pointer; transition: all 0.2s ease; background: transparent; }
+        .tag-add-btn:hover { background-color: rgba(0, 229, 255, 0.1); border-color: var(--accent-neon); color: var(--accent-neon); }
+
         .custom-select-wrapper { position: relative; width: 100%; user-select: none; }
         .custom-select-trigger { width: 100%; padding: 10px; background-color: var(--bg-color); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 4px; cursor: pointer; font-family: var(--font-family); transition: all 0.3s ease; display: flex; justify-content: space-between; align-items: center; }
         .custom-select-trigger:hover { border-color: rgba(0, 229, 255, 0.4); box-shadow: 0 4px 12px rgba(0, 229, 255, 0.05); }
         .custom-select-wrapper.open .custom-select-trigger { border-color: var(--accent-neon); box-shadow: 0 0 0 2px rgba(0, 229, 255, 0.1); }
+        
+        .custom-select-trigger * { pointer-events: none; }
+        
         .chevron { transition: transform 0.3s ease; color: var(--text-muted); display: flex; align-items: center; }
         .custom-select-wrapper.open .chevron { transform: rotate(180deg); color: var(--accent-neon); }
         .custom-select-options { position: absolute; top: calc(100% + 4px); left: 0; right: 0; background-color: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 6px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.15s ease, transform 0.15s ease; z-index: 4000; max-height: 220px; overflow-y: auto; padding: 6px; transform: translateY(-4px); backdrop-filter: blur(10px); }
@@ -213,43 +288,26 @@
         .flatpickr-weekday { color: var(--text-muted) !important; font-weight: 600 !important;}
         .flatpickr-day.holiday-date { border-bottom: 2px solid rgba(242, 54, 69, 0.4) !important; font-weight: 500 !important; }
 
-        .checkbox-label { display: flex; align-items: center; gap: 8px; cursor: pointer; color: var(--text-main); font-size: 14px; user-select: none; padding: 8px; background: var(--hover-bg); border-radius: 4px; border: 1px solid var(--border-color); }
-        .checkbox-label input[type="checkbox"] { appearance: none; -webkit-appearance: none; width: 18px; height: 18px; padding: 0; background-color: var(--bg-color); border: 1px solid var(--border-color); border-radius: 4px; cursor: pointer; position: relative; display: inline-block; transition: all 0.2s ease;}
-        .checkbox-label input[type="checkbox"]:hover { border-color: rgba(0, 229, 255, 0.4); }
-        .checkbox-label input[type="checkbox"]:checked { background-color: rgba(0, 229, 255, 0.15); border-color: var(--accent-neon); }
-        .checkbox-label input[type="checkbox"]:checked::after { content: ''; position: absolute; left: 5px; top: 1px; width: 4px; height: 9px; border: solid var(--accent-neon); border-width: 0 2px 2px 0; transform: rotate(45deg); }
-
+        /* Empty States */
         .empty-state { text-align: center; padding: 80px 20px; color: var(--text-muted); display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; gap: 16px; }
-        .section-title { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 12px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
+        .section-title { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 12px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; font-weight: 600; }
         .paste-hint { font-size: 11px; font-weight: 400; color: var(--text-muted); margin-left: 4px; }
 
-        /* Windows Photos Style Lightbox Overlay & Controls */
+        /* Windows Photos Style Lightbox */
         .lightbox { visibility: hidden; position: fixed; z-index: 4000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s ease, visibility 0.2s ease; display: flex; }
         .lightbox.show { visibility: visible; opacity: 1; }
         .lightbox-img { max-width: 95vw; max-height: 95vh; object-fit: contain; transform: scale(0.98); opacity: 0; transition: transform 0.2s ease, opacity 0.2s ease; }
         .lightbox.show .lightbox-img { transform: scale(1); opacity: 1; }
         
-        .lightbox-close { 
-            position: absolute; display: flex; align-items: center; justify-content: center; 
-            width: 48px; height: 48px; background: transparent; border: none; border-radius: 50%;
-            cursor: pointer; z-index: 4001; transition: color 0.15s ease; color: #ffffff; 
-            top: 16px; right: 16px;
-        }
+        .lightbox-close { position: absolute; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; background: transparent; border: none; border-radius: 50%; cursor: pointer; z-index: 4001; transition: color 0.15s ease; color: #ffffff; top: 16px; right: 16px; }
         .lightbox-close:hover { color: #f23645; }
         
-        /* Rectangular Windows Photos Arrows */
-        .lightbox-nav { 
-            position: absolute; display: flex; align-items: center; justify-content: center; 
-            width: 40px; height: 72px; background: rgba(20, 20, 20, 0.5); border: none; border-radius: 6px;
-            cursor: pointer; z-index: 4001; transition: background 0.15s ease; color: #ffffff; 
-            top: 50%; transform: translateY(-50%); opacity: 0; visibility: hidden; 
-        }
+        .lightbox-nav { position: absolute; display: flex; align-items: center; justify-content: center; width: 40px; height: 72px; background: rgba(20, 20, 20, 0.5); border: none; border-radius: 6px; cursor: pointer; z-index: 4001; transition: background 0.15s ease; color: #ffffff; top: 50%; transform: translateY(-50%); opacity: 0; visibility: hidden; }
         .lightbox.show .lightbox-nav.visible { opacity: 1; visibility: visible; }
         .lightbox-prev { left: 16px; }
         .lightbox-next { right: 16px; }
         .lightbox-nav:hover { background: rgba(255, 255, 255, 0.15); } 
         .lightbox-nav:active { background: rgba(255, 255, 255, 0.1); transform: translateY(-50%) scale(0.98); }
-        
         .lightbox-indicator { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); color: var(--text-main); background: transparent; padding: 6px 16px; font-size: 13px; font-weight: 500; z-index: 4001; display: none; text-shadow: 0 1px 4px rgba(0,0,0,0.8); }
     </style>
 </head>
@@ -271,59 +329,88 @@
             <div class="header-actions">
                 <button class="btn btn-primary" id="openModalBtn">Log Trade / Setup</button>
                 <button class="btn" id="settingsBtn" title="Settings" style="padding: 0 10px;">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="3"></circle>
-                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-                    </svg>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
                 </button>
             </div>
         </div>
     </header>
 
     <div class="container" style="margin-top: 24px;">
-        <div class="dashboard-top">
-            <div class="stats-grid">
-                <div class="stat-card"><span class="stat-label">Total Executed Trades</span><span class="stat-value" id="stat-total-trades">0</span></div>
-                <div class="stat-card"><span class="stat-label">Net P&L (Executed)</span><span class="stat-value" id="stat-net-pnl">₹0.00</span></div>
-                <div class="stat-card"><span class="stat-label">Win Rate (Executed)</span><span class="stat-value" id="stat-win-rate">0%</span></div>
+        
+        <div class="stats-row">
+            <div class="stat-card">
+                <span class="stat-label">Total Executed</span>
+                <span class="stat-value" id="stat-total-trades">0</span>
+                <div class="stat-footer">
+                    <span>L: <strong id="stat-longs" style="color: var(--profit-green);">0</strong></span>
+                    <span>S: <strong id="stat-shorts" style="color: var(--loss-red);">0</strong></span>
+                </div>
             </div>
+            <div class="stat-card">
+                <span class="stat-label">Net P&L</span>
+                <span class="stat-value" id="stat-net-pnl">₹0.00</span>
+                <div class="stat-footer"><span>Profit Factor <strong id="stat-pf" style="color: #ffffff;">0.00</strong></span></div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Win Rate</span>
+                <span class="stat-value" id="stat-win-rate">0%</span>
+                <div class="stat-footer">
+                    <span>W: <strong id="stat-avg-win" style="color: var(--profit-green);">0</strong></span>
+                    <span>L: <strong id="stat-avg-loss" style="color: var(--loss-red);">0</strong></span>
+                </div>
+            </div>
+            <div class="stat-card" style="border-style: dashed;">
+                <span class="stat-label">Missed P&L (FOMO)</span>
+                <span class="stat-value" id="stat-missed-pnl" style="color: var(--warning-yellow);">₹0.00</span>
+                <div class="stat-footer"><span>Theoretical Paper Trades</span></div>
+            </div>
+        </div>
+
+        <div class="dashboard-main">
             <div class="chart-card">
                 <div class="chart-header">Cumulative Equity Curve</div>
                 <div class="chart-container"><canvas id="pnlChart"></canvas></div>
+            </div>
+            
+            <div class="edge-panel">
+                <div class="edge-panel-title">Edge Analytics</div>
+                
+                <div class="edge-section">
+                    <div class="edge-title-sm">Direction Edge</div>
+                    <div class="bar-row"><span style="color: var(--profit-green);">Longs</span> <span id="edge-long-pnl">₹0.00</span></div>
+                    <div class="bar-bg"><div class="bar-fill-long" id="edge-long-bar" style="width: 50%;"></div></div>
+                    
+                    <div class="bar-row"><span style="color: var(--loss-red);">Shorts</span> <span id="edge-short-pnl">₹0.00</span></div>
+                    <div class="bar-bg"><div class="bar-fill-short" id="edge-short-bar" style="width: 50%;"></div></div>
+                </div>
+
+                <div class="edge-section" style="flex: 1; display: flex; flex-direction: column;">
+                    <div class="edge-title-sm" style="margin-bottom: 12px;">Top Setups</div>
+                    <div id="setupEdgeList" style="display: flex; flex-direction: column; gap: 8px;">
+                        <!-- Generated via JS -->
+                    </div>
+                </div>
             </div>
         </div>
 
         <div class="tabs">
             <div class="tab active" data-target="tableView">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                    <line x1="3" y1="9" x2="21" y2="9"></line><line x1="3" y1="15" x2="21" y2="15"></line><line x1="9" y1="9" x2="9" y2="21"></line>
-                </svg> Data Table
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="3" y1="15" x2="21" y2="15"></line><line x1="9" y1="9" x2="9" y2="21"></line></svg> Data Table
             </div>
             <div class="tab" data-target="galleryView">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
-                    <rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
-                    <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
-                    <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
-                </svg> Pattern Vault
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="14" width="7" height="7" rx="1.5"></rect><rect x="3" y="14" width="7" height="7" rx="1.5"></rect></svg> Pattern Vault
             </div>
             
             <div class="search-filter-group" id="mainSearchFilter">
-                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                </svg>
+                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                 <input type="text" id="searchInput" placeholder="Search Ticker or Pattern...">
-                
                 <div class="divider" id="searchFilterDivider"></div>
-                
                 <div class="custom-filter-dropdown" id="tableFilterDropdown">
                     <div class="dropdown-trigger">
-                        <span id="activeFilterText">Executed Trades</span>
+                        <span class="trigger-text" id="activeFilterText">Executed Trades</span>
                         <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                     </div>
-                    <div class="dropdown-menu" id="dynamicDropdownMenu">
-                    </div>
+                    <div class="dropdown-menu" id="dynamicDropdownMenu"></div>
                 </div>
             </div>
         </div>
@@ -336,17 +423,17 @@
                             <tr>
                                 <th style="width: 8%;">Date</th>
                                 <th style="width: 9%;">Asset</th>
-                                <th style="width: 9%; text-align: center;">Charts</th>
-                                <th style="width: 13%;">Setup</th>
+                                <th style="width: 10%;">Charts</th>
+                                <th style="width: 14%;">Setup / Tags</th>
                                 <th style="width: 6%;">Direction</th>
                                 <th style="width: 5%;">Qty</th>
                                 <th style="width: 7%;">Entry</th>
                                 <th style="width: 7%;">Stoploss</th>
                                 <th style="width: 7%;">Exit</th>
                                 <th style="width: 6%;">RRR</th>
-                                <th style="width: 7%;">Fees</th>
-                                <th style="width: 8%;">P&L</th>
-                                <th style="width: 8%; text-align: center;">Actions</th>
+                                <th style="width: 6%;">Fees</th>
+                                <th style="width: 7%;">P&L</th>
+                                <th style="width: 8%;">Actions</th>
                             </tr>
                         </thead>
                         <tbody id="tableBody"></tbody>
@@ -364,33 +451,26 @@
 
     <div class="lightbox" id="lightbox">
         <button class="lightbox-close" id="lightboxClose">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         </button>
         <button class="lightbox-nav lightbox-prev" id="lightboxPrev">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M15 18l-6-6 6-6"></path>
-            </svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
         </button>
         <img src="" alt="Chart" class="lightbox-img" id="lightboxImg">
         <button class="lightbox-nav lightbox-next" id="lightboxNext">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M9 18l6-6-6-6"></path>
-            </svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
         </button>
         <div class="lightbox-indicator" id="lightboxIndicator">1 / 2</div>
     </div>
 
-    <!-- Settings Modal (Clean & Minimal) -->
+    <!-- Settings Modal -->
     <div class="modal-overlay" id="settingsModalOverlay">
         <div class="modal" style="max-width: 420px; padding: 28px;">
-            <div class="modal-header" style="margin-bottom: 24px;"><h2 id="settingsTitle">Settings</h2><button class="close-btn" id="closeSettingsBtn">&times;</button></div>
+            <div class="modal-header" style="margin-bottom: 24px;"><h2 id="settingsTitle" style="margin: 0;">Settings</h2><button class="close-btn" id="closeSettingsBtn">&times;</button></div>
             <form id="settingsForm">
                 
                 <div style="margin-bottom: 24px;">
-                    <h3 class="section-title">Fee Defaults</h3>
+                    <div class="section-title">FEE DEFAULTS</div>
                     <div class="form-row">
                         <div class="form-group"><label>Flat Brokerage (₹)</label><input type="number" step="any" id="setBrokerage" required></div>
                         <div class="form-group"><label>STT (%)</label><input type="number" step="any" id="setSTT" required></div>
@@ -403,37 +483,25 @@
                 
                 <div style="margin-bottom: 24px;">
                     <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; margin-bottom: 12px;">
-                        <h3 class="section-title" style="margin: 0; border: none; padding: 0;">Cloud Sync</h3>
+                        <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 600;">CLOUD SYNC</div>
                         <span id="syncStatus" style="font-size: 12px; font-weight: 500; display: flex; align-items: center; gap: 6px;"></span>
                     </div>
                     
                     <label style="margin-bottom: 6px; font-size: 13px; color: var(--text-muted); display: block;">Google Web App URL (API Key)</label>
                     <div style="display: flex; gap: 8px; align-items: stretch;">
                         <input type="password" id="setSheetUrl" placeholder="https://script.google.com/macros/s/..." style="flex: 1; margin: 0;">
-                        
-                        <!-- Clean UI: Sync actions are now elegant icon buttons next to the URL input -->
-                        <button type="button" class="btn-icon-action" id="pushCloudBtn" title="Force Push to Cloud">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-                        </button>
-                        <button type="button" class="btn-icon-action" id="pullCloudBtn" title="Force Pull from Cloud">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                        </button>
+                        <button type="button" class="btn-icon-action" id="pushCloudBtn" title="Force Push to Cloud"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg></button>
+                        <button type="button" class="btn-icon-action" id="pullCloudBtn" title="Force Pull from Cloud"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg></button>
                     </div>
                 </div>
                 
                 <div style="margin-bottom: 32px;">
-                    <h3 class="section-title">DATA MANAGEMENT</h3>
-                    <!-- Minimal Text-Link Actions for Export/Import -->
+                    <div class="section-title">DATA MANAGEMENT</div>
                     <div style="display: flex; gap: 16px;">
-                        <button type="button" class="btn-text" id="exportBtnModal">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg> Export JSON
-                        </button>
-                        <button type="button" class="btn-text" id="importBtnModal">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="12" x2="12" y2="18"></line><polyline points="9 15 12 12 15 15"></polyline></svg> Import JSON
-                        </button>
+                        <button type="button" class="btn-text" id="exportBtnModal"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg> Export JSON</button>
+                        <button type="button" class="btn-text" id="importBtnModal"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="12" x2="12" y2="18"></line><polyline points="9 15 12 12 15 15"></polyline></svg> Import JSON</button>
                     </div>
                 </div>
-                
                 <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; height: 44px; font-size: 14px; font-weight: 600; letter-spacing: 0.5px;">Save Settings</button>
             </form>
         </div>
@@ -441,9 +509,25 @@
 
     <!-- Log Trade Form Modal -->
     <div class="modal-overlay" id="modalOverlay">
-        <div class="modal">
+        <div class="modal" style="max-width: 600px;">
             <div class="modal-header"><h2 id="modalTitle">Log a Trade</h2><button class="close-btn" id="closeModalBtn">&times;</button></div>
             <form id="tradeForm">
+                
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <div class="custom-select-wrapper" id="logTypeDropdownWrapper" style="border: 1px solid var(--accent-neon); border-radius: 4px;">
+                        <div class="custom-select-trigger" style="background: rgba(0, 229, 255, 0.05);">
+                            <span class="trigger-text" style="font-weight: 600; color: var(--accent-neon);">Executed Trade</span>
+                            <span class="chevron"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+                        </div>
+                        <div class="custom-select-options">
+                            <div class="custom-option selected" data-value="Executed">Executed Trade</div>
+                            <div class="custom-option" data-value="Missed">Missed / Paper Trade</div>
+                            <div class="custom-option" data-value="Setup">Setup Observation Only</div>
+                        </div>
+                        <input type="hidden" id="tradeLogType" value="Executed">
+                    </div>
+                </div>
+
                 <div class="form-row">
                     <div class="form-group">
                         <label>Date</label>
@@ -472,8 +556,6 @@
                         <input type="hidden" id="tradeSetup" value="Head and Shoulders">
                     </div>
                 </div>
-
-                <div class="form-group"><label class="checkbox-label"><input type="checkbox" id="isSetupOnly"> Log as "Setup Only" (No execution)</label></div>
                 
                 <div id="tradeExecutionFields">
                     <div class="form-row">
@@ -504,22 +586,32 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Image 1 (Entry / HTF) <span class="paste-hint">(URL or press Ctrl+V to paste)</span></label>
+                    <label>Image 1 (Entry / HTF)</label>
                     <div class="input-icon-wrapper">
-                        <input type="text" id="tradeImage1Url" placeholder="Enter image URL or paste image here..." style="padding-right: 36px;">
+                        <input type="text" id="tradeImage1Url" placeholder="URL or press Ctrl+V to paste image" style="padding-right: 36px;">
                         <svg class="success-tick" id="tick-tradeImage1Url" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label>Image 2 (Exit / LTF) <span class="paste-hint">(URL or press Ctrl+V to paste)</span></label>
+                    <label>Image 2 (Exit / LTF)</label>
                     <div class="input-icon-wrapper">
-                        <input type="text" id="tradeImage2Url" placeholder="Enter image URL or paste image here..." style="padding-right: 36px;">
+                        <input type="text" id="tradeImage2Url" placeholder="URL or press Ctrl+V to paste image" style="padding-right: 36px;">
                         <svg class="success-tick" id="tick-tradeImage2Url" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                     </div>
                 </div>
 
-                <div class="form-group"><label>Notes / Lessons</label><textarea id="tradeNotes" rows="2"></textarea></div>
+                <div class="form-group">
+                    <label style="display: flex; align-items: center; justify-content: space-between;">
+                        <span>Behavior / Execution Tags</span>
+                        <span style="font-size: 10.5px; color: var(--text-muted); font-weight: 400;">Double-click a custom tag to delete it</span>
+                    </label>
+                    <div class="tag-selector" id="tradeTags">
+                        <!-- Rendered by JS -->
+                    </div>
+                </div>
+
+                <div class="form-group"><label>Notes / Lessons</label><textarea id="tradeNotes" rows="2" placeholder="Journal your thoughts..."></textarea></div>
                 <button type="submit" class="btn btn-primary" id="saveBtn" style="width: 100%; padding: 12px; height: 44px; font-size: 16px;">Save to Journal</button>
             </form>
         </div>
@@ -528,29 +620,32 @@
     <script>
         const placeholderImg = 'https://via.placeholder.com/800x400/131722/787b86?text=No+Chart+Provided';
 
-        const dummyTrades =[
-            { id: 1, date: '2026-03-01', asset: 'NIFTY50', isSetupOnly: false, direction: 'Long', setup: 'Double Bottom', qty: 50, entry: 22500, sl: 22400, exit: 22650, fees: 50.00, rrr: "1.50R", pnl: 7450.00, image1: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&q=80&w=800', image2: '', notes: 'Perfect double bottom.' }
-        ];
-
         let trades =[];
         try {
             const raw = localStorage.getItem('pravinTradingJournal');
-            trades = raw ? JSON.parse(raw) : dummyTrades;
-            if (!Array.isArray(trades)) trades = dummyTrades;
-        } catch (e) { trades = dummyTrades; }
+            trades = raw ? JSON.parse(raw) : [];
+            if (!Array.isArray(trades)) trades =[];
+        } catch (e) { trades =[]; }
 
         trades = trades.map(t => {
             if(t.image !== undefined) { t.image1 = t.image; delete t.image; }
             if(t.image2 === undefined) t.image2 = '';
             if(t.fees === undefined) t.fees = 0;
+            if(t.isMissed === undefined) t.isMissed = false;
+            if(t.tags === undefined) t.tags =[];
             return t;
         });
 
-        const defaultSettings = { brokerage: 20, stt: 0.025, exch: 0.00297, gst: 18, sheetUrl: '' };
+        const defaultSettings = { 
+            brokerage: 20, 
+            stt: 0.025, 
+            exch: 0.00297, 
+            gst: 18, 
+            sheetUrl: 'https://script.google.com/macros/s/AKfycbzj87ghBNRm6Lw48s56VODph8n9D0XJ6UOxOe6I_KeLsEZlZ84S1MxXHccI9culiWw/exec' 
+        };
         let feeSettings = JSON.parse(localStorage.getItem('pravinFeeSettings')) || defaultSettings;
 
         let editingTradeId = null;
-        
         let activeView = 'tableView'; 
         let currentVaultFilter = 'All'; 
         let currentTableFilter = 'Executed'; 
@@ -559,6 +654,7 @@
         const filterOptions = {
             tableView:[
                 { label: 'Executed Trades', value: 'Executed' },
+                { label: 'Missed / Paper Trades', value: 'Missed' },
                 { label: 'Tracked Setups', value: 'Setups' },
                 { label: 'All Logs', value: 'All' }
             ],
@@ -582,21 +678,96 @@
 
         const emptyVaultSvg = `<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-muted); opacity: 0.4; margin-bottom: 12px;"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path><line x1="9" y1="14" x2="15" y2="14"></line></svg>`;
 
+        const defaultTags =['A+ Setup', 'Perfect Execution', 'FOMO', 'Revenge Trade', 'Chased Price', 'Early Exit', 'Hesitated', 'Picked Other', 'Missed Entry'];
+        let customTags = JSON.parse(localStorage.getItem('pravinCustomTags')) ||[];
+        let allTags =[...new Set([...defaultTags, ...customTags])];
+        let activeTags =[];
+
+        function renderTagSelector() {
+            const container = document.getElementById('tradeTags');
+            if(!container) return;
+            container.innerHTML = '';
+            
+            allTags.forEach(t => {
+                const div = document.createElement('div');
+                div.className = 'tag-toggle';
+                div.dataset.tag = t;
+                div.textContent = t;
+                div.title = customTags.includes(t) ? "Double-click to delete this custom tag" : "";
+                
+                const isPos = t === 'A+ Setup' || t === 'Perfect Execution';
+                if (activeTags.includes(t)) {
+                    div.classList.add('active', isPos ? 'active-pos' : 'active-neg');
+                }
+
+                div.addEventListener('click', () => {
+                    if (activeTags.includes(t)) {
+                        activeTags = activeTags.filter(tag => tag !== t);
+                        div.classList.remove('active', 'active-pos', 'active-neg');
+                    } else {
+                        activeTags.push(t);
+                        div.classList.add('active', isPos ? 'active-pos' : 'active-neg');
+                    }
+                });
+
+                if (customTags.includes(t)) {
+                    div.addEventListener('dblclick', () => {
+                        if (confirm(`Delete custom tag "${t}"?`)) {
+                            customTags = customTags.filter(ct => ct !== t);
+                            activeTags = activeTags.filter(at => at !== t);
+                            localStorage.setItem('pravinCustomTags', JSON.stringify(customTags));
+                            allTags =[...new Set([...defaultTags, ...customTags])];
+                            renderTagSelector();
+                        }
+                    });
+                }
+                container.appendChild(div);
+            });
+
+            const addBtn = document.createElement('div');
+            addBtn.className = 'tag-add-btn';
+            addBtn.title = "Add custom tag";
+            addBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>';
+            addBtn.onclick = () => {
+                const newTag = prompt("Enter new behavior tag (e.g. Over-leveraged):");
+                if (newTag && newTag.trim() && !allTags.includes(newTag.trim())) {
+                    customTags.push(newTag.trim());
+                    localStorage.setItem('pravinCustomTags', JSON.stringify(customTags));
+                    allTags = [...new Set([...defaultTags, ...customTags])];
+                    renderTagSelector();
+                }
+            };
+            container.appendChild(addBtn);
+        }
+
+        function resetTags() {
+            activeTags =[];
+            renderTagSelector();
+        }
+
+        function loadTags(tagsArray) {
+            activeTags = Array.isArray(tagsArray) ?[...tagsArray] :[];
+            renderTagSelector();
+        }
+
         function init() { 
             renderUI(); 
-            toggleExecutionFields(); 
             setupAutoFeeCalc(); 
             setupPasteListeners(); 
             setupCustomDropdowns(); 
             setupDatePicker();
             setupFilterBar();
+            renderTagSelector();
             
-            // Auto fetch from cloud silently when page loads
             if (feeSettings.sheetUrl && feeSettings.sheetUrl.trim() !== '') {
                 pullFromGoogleSheetsSilent();
             } else {
                 updateSyncStatusUI('unsynced');
             }
+            
+            const logTypeInput = document.getElementById('tradeLogType');
+            if (logTypeInput) logTypeInput.addEventListener('change', toggleExecutionFields);
+            toggleExecutionFields();
         }
         
         function renderUI() { renderTable(); renderGallery(); updateStats(); saveData(); }
@@ -693,6 +864,23 @@
             });
         }
 
+        function toggleExecutionFields() { 
+            const logTypeEl = document.getElementById('tradeLogType');
+            if(!logTypeEl) return;
+            
+            const logType = logTypeEl.value;
+            const execFields = document.getElementById('tradeExecutionFields');
+            const isSetup = (logType === 'Setup');
+            
+            execFields.style.display = isSetup ? 'none' : 'block';['tradeEntry', 'tradeExit', 'tradeQty'].forEach(id => {
+                const el = document.getElementById(id);
+                if(el) el.required = !isSetup;
+            });['tradeSl', 'tradeFees'].forEach(id => {
+                const el = document.getElementById(id);
+                if(el) el.required = false; 
+            });
+        }
+
         function setupCustomDropdowns() {
             document.querySelectorAll('.custom-select-wrapper').forEach(wrapper => {
                 const trigger = wrapper.querySelector('.custom-select-trigger');
@@ -715,8 +903,11 @@
                         this.classList.add('selected');
                         
                         const val = this.dataset.value;
-                        hiddenInput.value = val;
-                        triggerText.textContent = val;
+                        if (hiddenInput) {
+                            hiddenInput.value = val;
+                            hiddenInput.dispatchEvent(new Event('change'));
+                        }
+                        if (triggerText) triggerText.textContent = this.textContent;
                         wrapper.classList.remove('open');
                     });
                 });
@@ -733,10 +924,14 @@
             hiddenInput.value = value;
             const wrapper = hiddenInput.closest('.custom-select-wrapper');
             const triggerText = wrapper.querySelector('.trigger-text');
-            triggerText.textContent = value;
+            
             wrapper.querySelectorAll('.custom-option').forEach(opt => {
-                if(opt.dataset.value === value) opt.classList.add('selected');
-                else opt.classList.remove('selected');
+                if(opt.dataset.value === value) {
+                    opt.classList.add('selected');
+                    if(triggerText) triggerText.textContent = opt.textContent;
+                } else {
+                    opt.classList.remove('selected');
+                }
             });
         }
 
@@ -787,13 +982,84 @@
         }
 
         function updateStats() {
-            const executedTrades = trades.filter(t => !t.isSetupOnly);
+            const executedTrades = trades.filter(t => !t.isSetupOnly && !t.isMissed);
+            const missedTrades = trades.filter(t => t.isMissed);
+            
             document.getElementById('stat-total-trades').textContent = executedTrades.length; 
-            const netPnl = executedTrades.reduce((sum, trade) => sum + parseFloat(trade.pnl || 0), 0);
+            const netPnl = executedTrades.reduce((sum, t) => sum + parseFloat(t.pnl || 0), 0);
             const pnlEl = document.getElementById('stat-net-pnl');
-            pnlEl.textContent = formatMoney(netPnl); pnlEl.className = 'stat-value ' + (netPnl >= 0 ? 'profit' : 'loss');
-            const wins = executedTrades.filter(t => parseFloat(t.pnl) > 0).length;
-            document.getElementById('stat-win-rate').textContent = executedTrades.length > 0 ? ((wins / executedTrades.length) * 100).toFixed(1) + '%' : '0%';
+            pnlEl.textContent = formatMoney(netPnl); 
+            pnlEl.style.color = netPnl >= 0 ? "var(--profit-green)" : "var(--loss-red)";
+
+            const missedPnl = missedTrades.reduce((sum, t) => sum + parseFloat(t.pnl || 0), 0);
+            const mPnlEl = document.getElementById('stat-missed-pnl');
+            mPnlEl.textContent = formatMoney(missedPnl);
+            mPnlEl.style.color = missedPnl >= 0 ? "var(--warning-yellow)" : "var(--loss-red)";
+
+            let grossWins = 0, grossLosses = 0;
+            let winCount = 0, lossCount = 0;
+            let longs = 0, shorts = 0;
+            let longPnl = 0, shortPnl = 0;
+            let setupStats = {};
+
+            executedTrades.forEach(t => {
+                const p = parseFloat(t.pnl || 0);
+                if (p > 0) { grossWins += p; winCount++; }
+                else if (p < 0) { grossLosses += Math.abs(p); lossCount++; }
+                
+                if (t.direction === 'Long') { longs++; longPnl += p; }
+                else if (t.direction === 'Short') { shorts++; shortPnl += p; }
+                
+                if (t.setup) {
+                    if(!setupStats[t.setup]) setupStats[t.setup] = { pnl: 0, wins: 0, count: 0 };
+                    setupStats[t.setup].count++;
+                    setupStats[t.setup].pnl += p;
+                    if(p > 0) setupStats[t.setup].wins++;
+                }
+            });
+
+            document.getElementById('stat-longs').textContent = longs;
+            document.getElementById('stat-shorts').textContent = shorts;
+            
+            const pf = grossLosses === 0 ? (grossWins > 0 ? grossWins : 0) : (grossWins / grossLosses);
+            document.getElementById('stat-pf').textContent = pf.toFixed(2);
+
+            document.getElementById('stat-avg-win').textContent = formatMoney(winCount > 0 ? grossWins / winCount : 0).replace('+','');
+            document.getElementById('stat-avg-loss').textContent = formatMoney(lossCount > 0 ? -(grossLosses / lossCount) : 0).replace('-','');
+
+            document.getElementById('stat-win-rate').textContent = executedTrades.length > 0 ? ((winCount / executedTrades.length) * 100).toFixed(1) + '%' : '0%';
+
+            const maxLSEdge = Math.max(Math.abs(longPnl), Math.abs(shortPnl), 1);
+            document.getElementById('edge-long-pnl').textContent = formatMoney(longPnl);
+            document.getElementById('edge-long-pnl').style.color = longPnl >= 0 ? "var(--profit-green)" : "var(--loss-red)";
+            document.getElementById('edge-long-bar').style.width = `${(Math.abs(longPnl) / maxLSEdge) * 100}%`;
+            document.getElementById('edge-long-bar').style.backgroundColor = longPnl >= 0 ? "var(--profit-green)" : "var(--loss-red)";
+
+            document.getElementById('edge-short-pnl').textContent = formatMoney(shortPnl);
+            document.getElementById('edge-short-pnl').style.color = shortPnl >= 0 ? "var(--profit-green)" : "var(--loss-red)";
+            document.getElementById('edge-short-bar').style.width = `${(Math.abs(shortPnl) / maxLSEdge) * 100}%`;
+            document.getElementById('edge-short-bar').style.backgroundColor = shortPnl >= 0 ? "var(--profit-green)" : "var(--loss-red)";
+
+            const setupArr = Object.keys(setupStats).map(k => ({ name: k, ...setupStats[k] }));
+            setupArr.sort((a, b) => b.pnl - a.pnl);
+            
+            const setupListEl = document.getElementById('setupEdgeList');
+            setupListEl.innerHTML = '';
+            if (setupArr.length === 0) {
+                setupListEl.innerHTML = `<div style="font-size: 12px; color: var(--text-muted); text-align: center; padding: 20px 0;">No executed data</div>`;
+            } else {
+                setupArr.slice(0, 3).forEach(s => {
+                    const wr = s.count > 0 ? Math.round((s.wins / s.count) * 100) : 0;
+                    const color = s.pnl >= 0 ? "var(--profit-green)" : "var(--loss-red)";
+                    setupListEl.innerHTML += `
+                        <div class="edge-item">
+                            <div class="edge-item-header"><span>${s.name}</span> <span style="color: ${color};">${formatMoney(s.pnl)}</span></div>
+                            <div class="edge-item-stats"><span>${wr}% Win Rate</span> <span>${s.count} Trades</span></div>
+                        </div>
+                    `;
+                });
+            }
+
             updateChart(executedTrades);
         }
 
@@ -802,15 +1068,17 @@
             tbody.innerHTML = '';
             let filteredTrades = trades;
             
-            if (currentTableFilter === 'Executed') filteredTrades = trades.filter(t => !t.isSetupOnly);
+            if (currentTableFilter === 'Executed') filteredTrades = trades.filter(t => !t.isSetupOnly && !t.isMissed);
+            else if (currentTableFilter === 'Missed') filteredTrades = trades.filter(t => t.isMissed);
             else if (currentTableFilter === 'Setups') filteredTrades = trades.filter(t => t.isSetupOnly);
 
             if (currentSearchQuery) {
-                filteredTrades = filteredTrades.filter(t => (t.asset || '').toLowerCase().includes(currentSearchQuery) || (t.setup || '').toLowerCase().includes(currentSearchQuery));
+                filteredTrades = filteredTrades.filter(t => (t.asset || '').toLowerCase().includes(currentSearchQuery) || (t.setup || '').toLowerCase().includes(currentSearchQuery) || (t.tags && t.tags.join(' ').toLowerCase().includes(currentSearchQuery)));
             }
 
             if (filteredTrades.length === 0) { 
-                tbody.innerHTML = `<tr><td colspan="13" class="empty-state"><div>${emptyVaultSvg}<div>No logs found for this filter.</div></div></td></tr>`; 
+                // Render empty state inside TR properly to not break the grid
+                tbody.innerHTML = `<tr><td colspan="13" style="padding: 60px 20px; border: none; text-align: center;"><div style="opacity: 0.5; margin-bottom: 12px;">${emptyVaultSvg}</div><div style="color: var(--text-muted); font-size: 14px;">No logs found for this filter.</div></td></tr>`; 
                 return; 
             }
 
@@ -820,8 +1088,13 @@
 
             sortedTrades.forEach(trade => {
                 const isSetup = trade.isSetupOnly;
+                const isMissed = trade.isMissed;
                 const safePnl = parseFloat(trade.pnl) || 0;
-                const pnlDisplay = isSetup ? `<span class="tag neutral">Setup</span>` : `<span class="${safePnl >= 0 ? 'profit' : 'loss'}">${formatMoney(safePnl)}</span>`;
+                
+                let pnlDisplay = `<span class="${safePnl >= 0 ? 'profit' : 'loss'}">${formatMoney(safePnl)}</span>`;
+                if (isSetup) pnlDisplay = `<span class="tag neutral">Setup</span>`;
+                else if (isMissed) pnlDisplay = `<span style="color: var(--warning-yellow); font-weight: 600;">${formatMoney(safePnl)}</span>`;
+
                 const safeDir = trade.direction || '-';
                 const dirDisplay = isSetup ? `<span class="tag neutral">-</span>` : `<span class="tag ${safeDir.toLowerCase()}">${safeDir}</span>`;
                 const feesDisplay = isSetup ? '-' : '₹' + parseFloat(trade.fees || 0).toFixed(2);
@@ -836,13 +1109,27 @@
                 if(trade.image2) thumbHtml += `<div class="thumb-link" onclick="openLightbox('${trade.image1}', '${trade.image2}', 1)"><img src="${trade.image2}" class="thumb-img" onerror="this.src='${placeholderImg}'"></div>`;
                 if(!trade.image1 && !trade.image2) thumbHtml += `<img src="${placeholderImg}" class="thumb-img">`;
                 thumbHtml += `</div>`;
+                
+                let tagsHtml = '';
+                if (trade.tags && trade.tags.length > 0) {
+                    tagsHtml = `<div class="behavior-pills">` + trade.tags.map(t => {
+                        const isPos = t === 'A+ Setup' || t === 'Perfect Execution';
+                        return `<span class="bpill ${isPos ? 'positive' : 'negative'}">${t}</span>`;
+                    }).join('') + `</div>`;
+                }
 
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
                     <td class="date-col">${formatDate(trade.date)}</td>
-                    <td style="font-weight: 600;">${trade.asset || 'Unknown'}</td>
-                    <td style="text-align: center;">${thumbHtml}</td>
-                    <td>${trade.setup || '-'}</td>
+                    <td style="font-weight: 600;">
+                        ${trade.asset || 'Unknown'}
+                        ${isMissed ? '<br><span style="font-size: 10px; color: var(--warning-yellow);">(Missed)</span>' : ''}
+                    </td>
+                    <td>${thumbHtml}</td>
+                    <td>
+                        <div style="font-weight: 500;">${trade.setup || '-'}</div>
+                        ${tagsHtml}
+                    </td>
                     <td>${dirDisplay}</td>
                     <td>${isSetup ? '-' : (trade.qty || '-')}</td>
                     <td>${isSetup ? '-' : formatPrice(trade.entry)}</td>
@@ -851,9 +1138,11 @@
                     <td style="color: ${rrrColor}; font-weight: 600;">${isSetup ? '-' : (rrrStr || '-')}</td>
                     <td style="color: var(--text-muted);">${feesDisplay}</td>
                     <td>${pnlDisplay}</td>
-                    <td class="action-btns">
-                        <button class="btn-icon-only btn-edit" onclick="editTrade(${trade.id})" title="Edit">${editIcon}</button>
-                        <button class="btn-icon-only btn-danger" onclick="deleteTrade(${trade.id})" title="Delete">${delIcon}</button>
+                    <td>
+                        <div class="action-btns">
+                            <button class="btn-icon-only btn-edit" onclick="editTrade(${trade.id})" title="Edit">${editIcon}</button>
+                            <button class="btn-icon-only btn-danger" onclick="deleteTrade(${trade.id})" title="Delete">${delIcon}</button>
+                        </div>
                     </td>
                 `;
                 tbody.appendChild(tr);
@@ -866,7 +1155,7 @@
             let filteredTrades = currentVaultFilter === 'All' ? trades : trades.filter(t => t.setup === currentVaultFilter);
             
             if (currentSearchQuery) {
-                filteredTrades = filteredTrades.filter(t => (t.asset || '').toLowerCase().includes(currentSearchQuery) || (t.setup || '').toLowerCase().includes(currentSearchQuery));
+                filteredTrades = filteredTrades.filter(t => (t.asset || '').toLowerCase().includes(currentSearchQuery) || (t.setup || '').toLowerCase().includes(currentSearchQuery) || (t.tags && t.tags.join(' ').toLowerCase().includes(currentSearchQuery)));
             }
 
             if (filteredTrades.length === 0) { 
@@ -879,17 +1168,15 @@
 
             sortedTrades.forEach(trade => {
                 const isSetup = trade.isSetupOnly;
+                const isMissed = trade.isMissed;
                 const safeDir = trade.direction || '-';
                 const safePnl = parseFloat(trade.pnl) || 0;
                 
-                const pnlDisplay = isSetup 
-                    ? `<span class="pill setup-pill">Setup Only</span>` 
-                    : `<span class="pill ${safePnl >= 0 ? 'long-pill' : 'short-pill'}">${formatMoney(safePnl)}</span>`;
+                let pnlDisplay = `<span class="pill ${safePnl >= 0 ? 'long-pill' : 'short-pill'}">${formatMoney(safePnl)}</span>`;
+                if (isSetup) pnlDisplay = `<span class="pill setup-pill">Setup Only</span>`;
+                else if (isMissed) pnlDisplay = `<span class="pill missed-pill">Missed: ${formatMoney(safePnl)}</span>`;
                 
-                const dirPill = isSetup 
-                    ? '' 
-                    : `<span class="pill ${safeDir.toLowerCase() === 'long' ? 'long-pill' : 'short-pill'}">${safeDir}</span>`;
-                
+                const dirPill = isSetup ? '' : `<span class="pill ${safeDir.toLowerCase() === 'long' ? 'long-pill' : 'short-pill'}">${safeDir}</span>`;
                 const setupPill = `<span class="pill setup-pill">${trade.setup || '-'}</span>`;
 
                 let pricingDisplay = isSetup ? 'Observation only.' : `Entry: ${formatPrice(trade.entry)} | SL: ${formatPrice(trade.sl)} | Exit: ${formatPrice(trade.exit)}`;
@@ -923,26 +1210,12 @@
             });
         }
 
-        const isSetupOnlyCb = document.getElementById('isSetupOnly');
-        const tradeExecutionFields = document.getElementById('tradeExecutionFields');
-        
-        function toggleExecutionFields() { 
-            tradeExecutionFields.style.display = isSetupOnlyCb.checked ? 'none' : 'block';['tradeEntry', 'tradeExit', 'tradeQty'].forEach(id => {
-                const el = document.getElementById(id);
-                if(el) el.required = !isSetupOnlyCb.checked;
-            });['tradeSl', 'tradeFees'].forEach(id => {
-                const el = document.getElementById(id);
-                if(el) el.required = false; 
-            });
-        }
-        
-        isSetupOnlyCb.addEventListener('change', toggleExecutionFields);
-
         function setupAutoFeeCalc() {
             const inputs =['tradeEntry', 'tradeExit', 'tradeQty'];
             inputs.forEach(id => {
                 document.getElementById(id).addEventListener('input', () => {
-                    if (isSetupOnlyCb.checked) return;
+                    const logTypeEl = document.getElementById('tradeLogType');
+                    if(logTypeEl && logTypeEl.value === 'Setup') return;
                     
                     const entry = parseFloat(document.getElementById('tradeEntry').value);
                     const exit = parseFloat(document.getElementById('tradeExit').value);
@@ -1002,14 +1275,13 @@
             checkUrlTick(`tradeImage${index}Url`); 
         };
 
-        function updateSyncStatusUI(status) { // 'synced', 'syncing', 'unsynced', 'error'
+        function updateSyncStatusUI(status) {
             const statusEl = document.getElementById('syncStatus');
             if (!feeSettings.sheetUrl || feeSettings.sheetUrl.trim() === '') {
                 statusEl.innerHTML = `<div style="width:8px;height:8px;border-radius:50%;background:#f23645;box-shadow:0 0 6px #f23645;"></div> Unsynced`;
                 statusEl.style.color = "#f23645";
                 return;
             }
-            
             if (status === 'syncing') {
                 statusEl.innerHTML = `<div style="width:8px;height:8px;border-radius:50%;background:#eeb422;box-shadow:0 0 6px #eeb422;"></div> Syncing...`;
                 statusEl.style.color = "#eeb422";
@@ -1022,12 +1294,9 @@
             }
         }
 
-        // ====== CLOUD SYNC FUNCTIONS ====== //
-        
         async function syncToGoogleSheets(dataObj, action) {
             if (!feeSettings.sheetUrl) return; 
             updateSyncStatusUI('syncing'); 
-            
             try {
                 let payload;
                 if (action === 'delete') {
@@ -1038,13 +1307,7 @@
                     if (safeData.image2 && safeData.image2.startsWith('data:image')) delete safeData.image2;
                     payload = { action: 'save', data: safeData };
                 }
-                
-                let res = await fetch(feeSettings.sheetUrl, {
-                    method: 'POST',
-                    body: JSON.stringify(payload),
-                    redirect: 'follow'
-                });
-                
+                let res = await fetch(feeSettings.sheetUrl, { method: 'POST', body: JSON.stringify(payload), redirect: 'follow' });
                 if (res.ok) updateSyncStatusUI('synced');
                 else updateSyncStatusUI('error');
             } catch(e) {
@@ -1055,15 +1318,10 @@
 
         function mergeCloudDataWithLocal(cloudData, localData) {
             return cloudData.map(cTrade => {
-                // FIXED DATE LOGIC: Reconstruct date cleanly to avoid timezone shifting
                 if (cTrade.date && String(cTrade.date).includes('T')) {
                     let d = new Date(cTrade.date);
-                    let yyyy = d.getFullYear();
-                    let mm = String(d.getMonth() + 1).padStart(2, '0');
-                    let dd = String(d.getDate()).padStart(2, '0');
-                    cTrade.date = `${yyyy}-${mm}-${dd}`;
+                    cTrade.date = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
                 }
-                
                 let lTrade = localData.find(t => t.id === cTrade.id);
                 if (lTrade) {
                     if (!cTrade.image1 && lTrade.image1 && lTrade.image1.startsWith('data:image')) cTrade.image1 = lTrade.image1;
@@ -1082,11 +1340,8 @@
                 if (Array.isArray(data)) {
                     trades = mergeCloudDataWithLocal(data, trades);
                     saveData(); renderUI(); updateSyncStatusUI('synced');
-                } else {
-                    updateSyncStatusUI('error');
-                }
+                } else updateSyncStatusUI('error');
             } catch (err) {
-                console.log("Silent cloud fetch failed.");
                 updateSyncStatusUI('error');
             }
         }
@@ -1102,12 +1357,10 @@
                     trades = mergeCloudDataWithLocal(data, trades);
                     saveData(); renderUI(); updateSyncStatusUI('synced');
                     alert("Data fully synchronized from Cloud!");
-                } else {
-                    throw new Error("Invalid data format received.");
-                }
+                } else throw new Error("Invalid data format received.");
             } catch (err) {
                 updateSyncStatusUI('error');
-                alert(`Sync Failed: ${err.message}\n\nMake sure your Google Script was updated to the new code and deployed as 'Anyone'.`);
+                alert(`Sync Failed: ${err.message}\nMake sure your Google Script was updated.`);
             }
         });
 
@@ -1121,13 +1374,7 @@
                     if (safe.image2 && safe.image2.startsWith('data:image')) safe.image2 = "";
                     return safe;
                 });
-                
-                let res = await fetch(feeSettings.sheetUrl, {
-                    method: 'POST',
-                    body: JSON.stringify({ action: 'saveAll', data: cleanTrades }),
-                    redirect: 'follow'
-                });
-                
+                let res = await fetch(feeSettings.sheetUrl, { method: 'POST', body: JSON.stringify({ action: 'saveAll', data: cleanTrades }), redirect: 'follow' });
                 if (res.ok) {
                     alert("All local data successfully pushed to Cloud!");
                     updateSyncStatusUI('synced');
@@ -1163,7 +1410,11 @@
 
         document.getElementById('tradeForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            const isSetup = isSetupOnlyCb.checked;
+            
+            const logType = document.getElementById('tradeLogType').value;
+            const isSetup = logType === 'Setup';
+            const isMissed = logType === 'Missed';
+            
             let calcPnl = '', calcRRR = '';
             
             let dir = document.getElementById('tradeDirection').value;
@@ -1194,9 +1445,10 @@
             const tradeData = {
                 id: editingTradeId || Date.now(),
                 date: document.getElementById('tradeDate').value, asset: document.getElementById('tradeAsset').value.toUpperCase(),
-                setup: setup, isSetupOnly: isSetup,
+                setup: setup, isSetupOnly: isSetup, isMissed: isMissed,
                 direction: isSetup ? '' : dir, qty: isSetup ? '' : rawQty, entry: isSetup ? '' : rawEntry, sl: isSetup ? '' : rawSl, exit: isSetup ? '' : rawExit, 
-                fees: isSetup ? '' : (parseFloat(rawFees) || 0), rrr: calcRRR, pnl: calcPnl, image1: finalImg1, image2: finalImg2, notes: document.getElementById('tradeNotes').value
+                fees: isSetup ? '' : (parseFloat(rawFees) || 0), rrr: calcRRR, pnl: calcPnl, image1: finalImg1, image2: finalImg2, notes: document.getElementById('tradeNotes').value,
+                tags: [...activeTags]
             };
 
             if (editingTradeId) { 
@@ -1209,7 +1461,9 @@
             syncToGoogleSheets(tradeData, 'save');
             document.getElementById('modalOverlay').style.display = 'none'; 
             document.getElementById('tradeForm').reset();
+            resetTags();
             editingTradeId = null; 
+            setCustomDropdownValue('tradeLogType', 'Executed');
             toggleExecutionFields(); 
             renderUI();
         });
@@ -1219,17 +1473,18 @@
             editingTradeId = id;
             
             const dateInput = document.getElementById('tradeDate');
-            if (dateInput._flatpickr) {
-                dateInput._flatpickr.setDate(t.date);
-            } else {
-                dateInput.value = t.date; 
-            }
+            if (dateInput._flatpickr) dateInput._flatpickr.setDate(t.date);
+            else dateInput.value = t.date; 
             
             document.getElementById('tradeAsset').value = t.asset;
             setCustomDropdownValue('tradeSetup', t.setup);
             setCustomDropdownValue('tradeDirection', t.direction || 'Long');
             
-            document.getElementById('isSetupOnly').checked = t.isSetupOnly || false;
+            let logTypeVal = 'Executed';
+            if (t.isSetupOnly) logTypeVal = 'Setup';
+            else if (t.isMissed) logTypeVal = 'Missed';
+            setCustomDropdownValue('tradeLogType', logTypeVal);
+            
             document.getElementById('tradeQty').value = t.qty || '';
             document.getElementById('tradeEntry').value = t.entry || ''; 
             document.getElementById('tradeSl').value = t.sl || ''; 
@@ -1247,7 +1502,9 @@
                 checkUrlTick(`tradeImage${index}Url`);
             });
             
+            loadTags(t.tags ||[]);
             document.getElementById('tradeNotes').value = t.notes || '';
+            
             toggleExecutionFields(); 
             document.getElementById('modalTitle').textContent = 'Edit Log'; 
             document.getElementById('saveBtn').textContent = 'Update Journal'; 
@@ -1346,9 +1603,11 @@
         document.getElementById('openModalBtn').addEventListener('click', () => { 
             document.getElementById('tradeForm').reset(); 
             clearImage(1); clearImage(2); 
+            resetTags();
             
             setCustomDropdownValue('tradeSetup', 'Head and Shoulders');
             setCustomDropdownValue('tradeDirection', 'Long');
+            setCustomDropdownValue('tradeLogType', 'Executed');
 
             editingTradeId = null; 
             toggleExecutionFields(); 
