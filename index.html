@@ -370,14 +370,14 @@
             </svg>
         </button>
         <button class="lightbox-nav lightbox-prev" id="lightboxPrev">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="15 18 9 12 15 6"></polyline>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15 18l-6-6 6-6"></path>
             </svg>
         </button>
         <img src="" alt="Chart" class="lightbox-img" id="lightboxImg">
         <button class="lightbox-nav lightbox-next" id="lightboxNext">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="9 18 15 12 9 6"></polyline>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 18l6-6-6-6"></path>
             </svg>
         </button>
         <div class="lightbox-indicator" id="lightboxIndicator">1 / 2</div>
@@ -745,7 +745,7 @@
         const formatDate = (dStr) => {
             if (!dStr) return '-';
             let str = String(dStr);
-            if (str.includes('T')) str = str.split('T')[0]; // Clean Google Sheets ISO Format
+            if (str.includes('T')) str = str.split('T')[0];
             if (str.includes('undefined')) return str.replace(/undefined/g, '-');
             const parts = str.split('-');
             if (parts.length === 3) {
@@ -1055,9 +1055,13 @@
 
         function mergeCloudDataWithLocal(cloudData, localData) {
             return cloudData.map(cTrade => {
-                // Sanitize Google Sheets ISO dates
+                // FIXED DATE LOGIC: Reconstruct date cleanly to avoid timezone shifting
                 if (cTrade.date && String(cTrade.date).includes('T')) {
-                    cTrade.date = String(cTrade.date).split('T')[0];
+                    let d = new Date(cTrade.date);
+                    let yyyy = d.getFullYear();
+                    let mm = String(d.getMonth() + 1).padStart(2, '0');
+                    let dd = String(d.getDate()).padStart(2, '0');
+                    cTrade.date = `${yyyy}-${mm}-${dd}`;
                 }
                 
                 let lTrade = localData.find(t => t.id === cTrade.id);
@@ -1097,12 +1101,13 @@
                 if (Array.isArray(data)) {
                     trades = mergeCloudDataWithLocal(data, trades);
                     saveData(); renderUI(); updateSyncStatusUI('synced');
+                    alert("Data fully synchronized from Cloud!");
                 } else {
                     throw new Error("Invalid data format received.");
                 }
             } catch (err) {
                 updateSyncStatusUI('error');
-                alert(`Pull Failed: ${err.message}\nMake sure your Google Script was updated to the new code and deployed as 'Anyone'.`);
+                alert(`Sync Failed: ${err.message}\n\nMake sure your Google Script was updated to the new code and deployed as 'Anyone'.`);
             }
         });
 
@@ -1124,6 +1129,7 @@
                 });
                 
                 if (res.ok) {
+                    alert("All local data successfully pushed to Cloud!");
                     updateSyncStatusUI('synced');
                 } else throw new Error("Failed to push.");
             } catch (err) {
