@@ -290,19 +290,35 @@
         .section-title { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 12px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
         .paste-hint { font-size: 11px; font-weight: 400; color: var(--text-muted); margin-left: 4px; }
 
+        /* Premium Lightbox Overlay & Images */
         .lightbox { visibility: hidden; position: fixed; z-index: 4000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(11, 14, 20, 0.92); backdrop-filter: blur(8px); align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s ease, visibility 0.2s ease; display: flex; }
         .lightbox.show { visibility: visible; opacity: 1; }
         .lightbox-img { max-width: 95vw; max-height: 95vh; border-radius: 8px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); object-fit: contain; transform: scale(0.95); opacity: 0; transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s ease; }
         .lightbox.show .lightbox-img { transform: scale(1); opacity: 1; }
-        .lightbox-close, .lightbox-nav { position: absolute; display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; background: rgba(11, 14, 20, 0.85); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 50%; cursor: pointer; z-index: 4001; transition: all 0.2s ease; backdrop-filter: blur(4px); }
-        .lightbox-close { top: 24px; right: 24px; color: var(--text-muted); }
-        .lightbox-close:hover { background: rgba(11, 14, 20, 0.95); border-color: rgba(242, 54, 69, 0.4); color: rgba(242, 54, 69, 0.9); transform: scale(1.05); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); }
-        .lightbox-nav { top: 50%; transform: translateY(-50%); opacity: 0; visibility: hidden; color: var(--text-muted); }
+        
+        /* Glassmorphism Professional Lightbox Controls */
+        .lightbox-close, .lightbox-nav { 
+            position: absolute; display: flex; align-items: center; justify-content: center; 
+            width: 52px; height: 52px; background: rgba(19, 23, 34, 0.5); 
+            border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 50%; 
+            cursor: pointer; z-index: 4001; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); 
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); color: var(--text-main); 
+        }
+        .lightbox-close { top: 24px; right: 24px; }
+        .lightbox-close:hover { 
+            background: rgba(242, 54, 69, 0.15); border-color: rgba(242, 54, 69, 0.3); 
+            color: var(--loss-red); transform: rotate(90deg) scale(1.05); box-shadow: 0 0 20px rgba(242, 54, 69, 0.2); 
+        }
+        .lightbox-nav { top: 50%; transform: translateY(-50%); opacity: 0; visibility: hidden; }
         .lightbox.show .lightbox-nav.visible { opacity: 1; visibility: visible; }
-        .lightbox-prev { left: 24px; }
-        .lightbox-next { right: 24px; }
-        .lightbox-nav:hover { background: rgba(11, 14, 20, 0.95); border-color: rgba(0, 229, 255, 0.3); color: var(--accent-neon); transform: translateY(-50%) scale(1.05); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); }
-        .lightbox-indicator { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); color: var(--text-main); background: rgba(11, 14, 20, 0.85); padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 500; border: 1px solid rgba(255,255,255,0.08); z-index: 4001; display: none; backdrop-filter: blur(4px); }
+        .lightbox-prev { left: 32px; }
+        .lightbox-next { right: 32px; }
+        .lightbox-nav:hover { 
+            background: rgba(0, 229, 255, 0.15); border-color: rgba(0, 229, 255, 0.3); 
+            color: var(--accent-neon); transform: translateY(-50%) scale(1.08); box-shadow: 0 0 20px rgba(0, 229, 255, 0.2); 
+        }
+        
+        .lightbox-indicator { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); color: var(--text-main); background: rgba(19, 23, 34, 0.6); padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 500; border: 1px solid rgba(255,255,255,0.08); z-index: 4001; display: none; backdrop-filter: blur(8px); }
     </style>
 </head>
 <body>
@@ -418,20 +434,20 @@
 
     <div class="lightbox" id="lightbox">
         <div class="lightbox-close" id="lightboxClose">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
             </svg>
         </div>
         <div class="lightbox-nav lightbox-prev" id="lightboxPrev">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="15 18 9 12 15 6"></polyline>
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15 18l-6-6 6-6"></path>
             </svg>
         </div>
         <img src="" alt="Chart" class="lightbox-img" id="lightboxImg">
         <div class="lightbox-nav lightbox-next" id="lightboxNext">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="9 18 15 12 9 6"></polyline>
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 18l6-6-6-6"></path>
             </svg>
         </div>
         <div class="lightbox-indicator" id="lightboxIndicator">1 / 2</div>
@@ -732,6 +748,7 @@
                     const month = String(dateObj.getMonth() + 1).padStart(2, '0');
                     const day = String(dateObj.getDate()).padStart(2, '0');
                     const formattedDate = `${year}-${month}-${day}`;
+                    const dayOfWeek = dateObj.getDay();
 
                     if (dayOfWeek === 0 || dayOfWeek === 6) dayElem.classList.add('flatpickr-disabled');
                     if (holidays2026[formattedDate]) {
