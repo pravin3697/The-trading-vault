@@ -74,7 +74,6 @@
         .btn-text:hover { color: var(--accent-neon); }
         .btn-text:active { transform: scale(0.96); }
 
-        /* Sleek Icon Buttons next to URL input */
         .btn-icon-action { width: 40px; background-color: var(--bg-color); border: 1px solid var(--border-color); border-radius: 4px; cursor: pointer; color: var(--text-muted); display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; flex-shrink: 0; }
         .btn-icon-action:hover { border-color: rgba(0, 229, 255, 0.4); color: var(--accent-neon); box-shadow: 0 4px 12px rgba(0, 229, 255, 0.05); }
         .btn-icon-action:active { transform: scale(0.95); }
@@ -371,14 +370,14 @@
             </svg>
         </button>
         <button class="lightbox-nav lightbox-prev" id="lightboxPrev">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M15 18l-6-6 6-6"></path>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
             </svg>
         </button>
         <img src="" alt="Chart" class="lightbox-img" id="lightboxImg">
         <button class="lightbox-nav lightbox-next" id="lightboxNext">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M9 18l6-6-6-6"></path>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
             </svg>
         </button>
         <div class="lightbox-indicator" id="lightboxIndicator">1 / 2</div>
@@ -745,14 +744,15 @@
         const formatPrice = (price) => (price === '' || price == null || isNaN(price)) ? '-' : parseFloat(price).toString();
         const formatDate = (dStr) => {
             if (!dStr) return '-';
-            const str = String(dStr);
+            let str = String(dStr);
+            if (str.includes('T')) str = str.split('T')[0]; // Clean Google Sheets ISO Format
             if (str.includes('undefined')) return str.replace(/undefined/g, '-');
             const parts = str.split('-');
             if (parts.length === 3) {
                 const m = parseInt(parts[1], 10);
                 if (!isNaN(m) && m >= 1 && m <= 12) {
                     const months =['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-                    return `${parts[2]} ${months[m - 1]} ${parts[0].slice(-2)}`;
+                    return `${parts[2].substring(0, 2)} ${months[m - 1]} ${parts[0].slice(-2)}`;
                 }
             }
             return str;
@@ -1055,6 +1055,11 @@
 
         function mergeCloudDataWithLocal(cloudData, localData) {
             return cloudData.map(cTrade => {
+                // Sanitize Google Sheets ISO dates
+                if (cTrade.date && String(cTrade.date).includes('T')) {
+                    cTrade.date = String(cTrade.date).split('T')[0];
+                }
+                
                 let lTrade = localData.find(t => t.id === cTrade.id);
                 if (lTrade) {
                     if (!cTrade.image1 && lTrade.image1 && lTrade.image1.startsWith('data:image')) cTrade.image1 = lTrade.image1;
@@ -1092,13 +1097,12 @@
                 if (Array.isArray(data)) {
                     trades = mergeCloudDataWithLocal(data, trades);
                     saveData(); renderUI(); updateSyncStatusUI('synced');
-                    alert("Data fully synchronized from Cloud!");
                 } else {
                     throw new Error("Invalid data format received.");
                 }
             } catch (err) {
                 updateSyncStatusUI('error');
-                alert(`Sync Failed: ${err.message}\n\nMake sure your Google Script was updated to the new code and deployed as 'Anyone'.`);
+                alert(`Pull Failed: ${err.message}\nMake sure your Google Script was updated to the new code and deployed as 'Anyone'.`);
             }
         });
 
@@ -1120,7 +1124,6 @@
                 });
                 
                 if (res.ok) {
-                    alert("All local data successfully pushed to Cloud!");
                     updateSyncStatusUI('synced');
                 } else throw new Error("Failed to push.");
             } catch (err) {
