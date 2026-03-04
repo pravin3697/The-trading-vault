@@ -140,7 +140,7 @@
         .custom-filter-dropdown .dropdown-trigger {
             display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 16px; height: 100%;
             cursor: pointer; color: var(--text-muted); font-size: 13.5px; font-weight: 500; transition: all 0.2s ease;
-            min-width: 155px; /* Prevents jumping when text changes */
+            min-width: 155px;
         }
         .custom-filter-dropdown .dropdown-trigger:hover, .custom-filter-dropdown.open .dropdown-trigger { color: var(--accent-neon); }
         .custom-filter-dropdown .dropdown-menu {
@@ -217,7 +217,7 @@
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(4px); z-index: 3000; justify-content: center; align-items: center; }
         .modal { background-color: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 8px; width: 100%; max-width: 550px; padding: 24px; max-height: 90vh; overflow-y: auto; }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .close-btn { background: none; border: none; color: var(--text-muted); font-size: 24px; cursor: pointer; }
+        .close-btn { background: none; border: none; color: var(--text-muted); font-size: 24px; cursor: pointer; transition: color 0.15s ease; }
         .close-btn:hover { color: var(--text-main); }
         .form-group { margin-bottom: 16px; }
         .form-row { display: flex; gap: 16px; }
@@ -290,35 +290,33 @@
         .section-title { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 12px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
         .paste-hint { font-size: 11px; font-weight: 400; color: var(--text-muted); margin-left: 4px; }
 
-        /* Premium Lightbox Overlay & Images */
-        .lightbox { visibility: hidden; position: fixed; z-index: 4000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(11, 14, 20, 0.92); backdrop-filter: blur(8px); align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s ease, visibility 0.2s ease; display: flex; }
+        /* Windows Photos Style Lightbox Overlay & Controls */
+        .lightbox { visibility: hidden; position: fixed; z-index: 4000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s ease, visibility 0.2s ease; display: flex; }
         .lightbox.show { visibility: visible; opacity: 1; }
-        .lightbox-img { max-width: 95vw; max-height: 95vh; border-radius: 8px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); object-fit: contain; transform: scale(0.95); opacity: 0; transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s ease; }
+        .lightbox-img { max-width: 95vw; max-height: 95vh; object-fit: contain; transform: scale(0.98); opacity: 0; transition: transform 0.2s ease, opacity 0.2s ease; }
         .lightbox.show .lightbox-img { transform: scale(1); opacity: 1; }
         
-        /* Glassmorphism Professional Lightbox Controls */
-        .lightbox-close, .lightbox-nav { 
+        .lightbox-close { 
             position: absolute; display: flex; align-items: center; justify-content: center; 
-            width: 52px; height: 52px; background: rgba(19, 23, 34, 0.5); 
-            border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 50%; 
-            cursor: pointer; z-index: 4001; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); 
-            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); color: var(--text-main); 
+            width: 48px; height: 48px; background: transparent; border: none; 
+            cursor: pointer; z-index: 4001; transition: color 0.15s ease; color: #ffffff; 
+            top: 16px; right: 16px;
         }
-        .lightbox-close { top: 24px; right: 24px; }
-        .lightbox-close:hover { 
-            background: rgba(242, 54, 69, 0.15); border-color: rgba(242, 54, 69, 0.3); 
-            color: var(--loss-red); transform: rotate(90deg) scale(1.05); box-shadow: 0 0 20px rgba(242, 54, 69, 0.2); 
-        }
-        .lightbox-nav { top: 50%; transform: translateY(-50%); opacity: 0; visibility: hidden; }
-        .lightbox.show .lightbox-nav.visible { opacity: 1; visibility: visible; }
-        .lightbox-prev { left: 32px; }
-        .lightbox-next { right: 32px; }
-        .lightbox-nav:hover { 
-            background: rgba(0, 229, 255, 0.15); border-color: rgba(0, 229, 255, 0.3); 
-            color: var(--accent-neon); transform: translateY(-50%) scale(1.08); box-shadow: 0 0 20px rgba(0, 229, 255, 0.2); 
-        }
+        .lightbox-close:hover { color: var(--loss-red); }
         
-        .lightbox-indicator { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); color: var(--text-main); background: rgba(19, 23, 34, 0.6); padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 500; border: 1px solid rgba(255,255,255,0.08); z-index: 4001; display: none; backdrop-filter: blur(8px); }
+        .lightbox-nav { 
+            position: absolute; display: flex; align-items: center; justify-content: center; 
+            width: 36px; height: 64px; background: rgba(20, 20, 20, 0.5); border: none; border-radius: 6px;
+            cursor: pointer; z-index: 4001; transition: background 0.15s ease; color: #ffffff; 
+            top: 50%; transform: translateY(-50%); opacity: 0; visibility: hidden; 
+        }
+        .lightbox.show .lightbox-nav.visible { opacity: 1; visibility: visible; }
+        .lightbox-prev { left: 16px; }
+        .lightbox-next { right: 16px; }
+        .lightbox-nav:hover { background: rgba(255, 255, 255, 0.15); }
+        .lightbox-nav:active { background: rgba(255, 255, 255, 0.1); transform: translateY(-50%) scale(0.98); }
+        
+        .lightbox-indicator { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); color: var(--text-main); background: transparent; padding: 6px 16px; font-size: 13px; font-weight: 500; z-index: 4001; display: none; text-shadow: 0 1px 4px rgba(0,0,0,0.8); }
     </style>
 </head>
 <body>
@@ -377,7 +375,6 @@
                 </svg> Pattern Vault
             </div>
             
-            <!-- NEW: Unified Search & Filter Bar -->
             <div class="search-filter-group" id="mainSearchFilter">
                 <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
@@ -433,23 +430,23 @@
     <input type="file" id="importFile" accept=".json" style="display: none;">
 
     <div class="lightbox" id="lightbox">
-        <div class="lightbox-close" id="lightboxClose">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <button class="lightbox-close" id="lightboxClose">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
             </svg>
-        </div>
-        <div class="lightbox-nav lightbox-prev" id="lightboxPrev">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        </button>
+        <button class="lightbox-nav lightbox-prev" id="lightboxPrev">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M15 18l-6-6 6-6"></path>
             </svg>
-        </div>
+        </button>
         <img src="" alt="Chart" class="lightbox-img" id="lightboxImg">
-        <div class="lightbox-nav lightbox-next" id="lightboxNext">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <button class="lightbox-nav lightbox-next" id="lightboxNext">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M9 18l6-6-6-6"></path>
             </svg>
-        </div>
+        </button>
         <div class="lightbox-indicator" id="lightboxIndicator">1 / 2</div>
     </div>
 
@@ -469,6 +466,7 @@
                         <div class="form-group"><label>GST (%)</label><input type="number" step="any" id="setGST" required></div>
                     </div>
                 </div>
+                
                 <div style="margin-bottom: 24px;">
                     <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; margin-bottom: 12px;">
                         <h3 class="section-title" style="margin: 0; border: none; padding: 0;">Cloud Sync</h3>
@@ -478,7 +476,12 @@
                         <label>Google Web App URL (API Key)</label>
                         <input type="password" id="setSheetUrl" placeholder="https://script.google.com/macros/s/.../exec">
                     </div>
+                    <div class="form-row" style="margin-top: 10px;">
+                        <button type="button" class="btn" id="pushCloudBtn" style="flex: 1;" title="Upload your local data to cloud">Push to Cloud</button>
+                        <button type="button" class="btn btn-primary" id="pullCloudBtn" style="flex: 1;" title="Download data from cloud">Pull from Cloud</button>
+                    </div>
                 </div>
+                
                 <div style="margin-bottom: 24px;">
                     <h3 class="section-title">Data Management</h3>
                     <div class="form-row">
@@ -601,13 +604,11 @@
 
         let editingTradeId = null;
         
-        // Active states for the unified dropdown mapping
-        let activeView = 'tableView'; // Tracks active tab
+        let activeView = 'tableView'; 
         let currentVaultFilter = 'All'; 
         let currentTableFilter = 'Executed'; 
         let currentSearchQuery = '';
 
-        // Dropdown configuration data mapped to views
         const filterOptions = {
             tableView:[
                 { label: 'Executed Trades', value: 'Executed' },
@@ -625,21 +626,11 @@
         };
 
         const holidays2026 = {
-            "2026-01-26": "Republic Day",
-            "2026-03-03": "Holi",
-            "2026-03-26": "Shri Ram Navami",
-            "2026-03-31": "Shri Mahavir Jayanti",
-            "2026-04-03": "Good Friday",
-            "2026-04-14": "Dr. Ambedkar Jayanti",
-            "2026-05-01": "Maharashtra Day",
-            "2026-05-28": "Bakri Id",
-            "2026-06-26": "Muharram",
-            "2026-09-14": "Ganesh Chaturthi",
-            "2026-10-02": "Mahatma Gandhi Jayanti",
-            "2026-10-20": "Dussehra",
-            "2026-11-10": "Diwali Balipratipada",
-            "2026-11-24": "Gurpurab",
-            "2026-12-25": "Christmas"
+            "2026-01-26": "Republic Day", "2026-03-03": "Holi", "2026-03-26": "Shri Ram Navami",
+            "2026-03-31": "Shri Mahavir Jayanti", "2026-04-03": "Good Friday", "2026-04-14": "Dr. Ambedkar Jayanti",
+            "2026-05-01": "Maharashtra Day", "2026-05-28": "Bakri Id", "2026-06-26": "Muharram",
+            "2026-09-14": "Ganesh Chaturthi", "2026-10-02": "Mahatma Gandhi Jayanti", "2026-10-20": "Dussehra",
+            "2026-11-10": "Diwali Balipratipada", "2026-11-24": "Gurpurab", "2026-12-25": "Christmas"
         };
 
         const emptyVaultSvg = `<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-muted); opacity: 0.4; margin-bottom: 12px;"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path><line x1="9" y1="14" x2="15" y2="14"></line></svg>`;
@@ -652,10 +643,15 @@
             setupCustomDropdowns(); 
             setupDatePicker();
             setupFilterBar();
+            
+            // Auto fetch from cloud quietly if configured
+            if (feeSettings.sheetUrl && feeSettings.sheetUrl.trim() !== '') {
+                pullFromGoogleSheetsSilent();
+            }
         }
+        
         function renderUI() { renderTable(); renderGallery(); updateStats(); saveData(); }
 
-        // --- UNIFIED SEARCH & FILTER LOGIC ---
         function setupFilterBar() {
             const filterDropdown = document.getElementById('tableFilterDropdown');
             if(!filterDropdown) return;
@@ -693,37 +689,28 @@
                             currentVaultFilter = opt.value;
                             renderGallery();
                         }
-                        renderDropdown(); // Update UI to show selected state
+                        renderDropdown();
                         filterDropdown.classList.remove('open');
                     });
-                    
                     dropdownMenu.appendChild(item);
                 });
             };
 
             searchInput.addEventListener('input', (e) => {
                 currentSearchQuery = e.target.value.toLowerCase();
-                renderTable();
-                renderGallery(); // Search filters both views concurrently!
+                renderTable(); renderGallery();
             });
 
-            document.addEventListener('click', () => {
-                filterDropdown.classList.remove('open');
-            });
-
+            document.addEventListener('click', () => filterDropdown.classList.remove('open'));
             renderDropdown();
         }
 
-        // TABS - Also triggers dropdown rendering based on active view
         document.querySelectorAll('.tab').forEach(tab => { 
             tab.addEventListener('click', () => { 
                 document.querySelectorAll('.tab, .view-container').forEach(el => el.classList.remove('active')); 
                 tab.classList.add('active'); 
-                
                 activeView = tab.dataset.target;
                 document.getElementById(activeView).classList.add('active'); 
-                
-                // Redraw the global dropdown to match the view we just clicked
                 if(window.renderDropdown) window.renderDropdown();
             }); 
         });
@@ -739,9 +726,7 @@
 
         function setupDatePicker() {
             flatpickr("#tradeDate", {
-                dateFormat: "Y-m-d",
-                disableMobile: true, 
-                monthSelectorType: "static", 
+                dateFormat: "Y-m-d", disableMobile: true, monthSelectorType: "static", 
                 onDayCreate: function(dObj, dStr, fp, dayElem) {
                     const dateObj = dayElem.dateObj;
                     const year = dateObj.getFullYear();
@@ -789,9 +774,7 @@
             });
 
             document.addEventListener('click', function() {
-                document.querySelectorAll('.custom-select-wrapper').forEach(w => {
-                    w.classList.remove('open');
-                });
+                document.querySelectorAll('.custom-select-wrapper').forEach(w => w.classList.remove('open'));
             });
         }
 
@@ -869,11 +852,9 @@
             tbody.innerHTML = '';
             let filteredTrades = trades;
             
-            // Apply Dropdown Filter
             if (currentTableFilter === 'Executed') filteredTrades = trades.filter(t => !t.isSetupOnly);
             else if (currentTableFilter === 'Setups') filteredTrades = trades.filter(t => t.isSetupOnly);
 
-            // Apply Search Query
             if (currentSearchQuery) {
                 filteredTrades = filteredTrades.filter(t => (t.asset || '').toLowerCase().includes(currentSearchQuery) || (t.setup || '').toLowerCase().includes(currentSearchQuery));
             }
@@ -932,10 +913,8 @@
         function renderGallery() {
             const grid = document.getElementById('galleryGrid'); grid.innerHTML = '';
             
-            // Apply Dropdown Filter
             let filteredTrades = currentVaultFilter === 'All' ? trades : trades.filter(t => t.setup === currentVaultFilter);
             
-            // Apply Search Query
             if (currentSearchQuery) {
                 filteredTrades = filteredTrades.filter(t => (t.asset || '').toLowerCase().includes(currentSearchQuery) || (t.setup || '').toLowerCase().includes(currentSearchQuery));
             }
@@ -1073,9 +1052,9 @@
             checkUrlTick(`tradeImage${index}Url`); 
         };
 
-        function updateSyncStatusUI() {
+        function updateSyncStatusUI(isSynced = true) {
             const statusEl = document.getElementById('syncStatus');
-            if (feeSettings.sheetUrl && feeSettings.sheetUrl.trim() !== '') {
+            if (feeSettings.sheetUrl && feeSettings.sheetUrl.trim() !== '' && isSynced) {
                 statusEl.innerHTML = `<div style="width:8px;height:8px;border-radius:50%;background:#089981;box-shadow:0 0 6px #089981;"></div> Synced`;
                 statusEl.style.color = "#089981";
             } else {
@@ -1084,29 +1063,9 @@
             }
         }
 
-        document.getElementById('settingsBtn').addEventListener('click', () => {
-            document.getElementById('setBrokerage').value = feeSettings.brokerage;
-            document.getElementById('setSTT').value = feeSettings.stt;
-            document.getElementById('setExch').value = feeSettings.exch;
-            document.getElementById('setGST').value = feeSettings.gst;
-            document.getElementById('setSheetUrl').value = feeSettings.sheetUrl || '';
-            updateSyncStatusUI();
-            document.getElementById('settingsModalOverlay').style.display = 'flex';
-        });
+        // ====== CLOUD SYNC FUNCTIONS ====== //
 
-        document.getElementById('settingsForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            feeSettings = {
-                brokerage: parseFloat(document.getElementById('setBrokerage').value) || 0,
-                stt: parseFloat(document.getElementById('setSTT').value) || 0,
-                exch: parseFloat(document.getElementById('setExch').value) || 0,
-                gst: parseFloat(document.getElementById('setGST').value) || 0,
-                sheetUrl: document.getElementById('setSheetUrl').value.trim()
-            };
-            localStorage.setItem('pravinFeeSettings', JSON.stringify(feeSettings));
-            document.getElementById('settingsModalOverlay').style.display = 'none';
-        });
-
+        // Pushes individual logs automatically (Used when adding/editing/deleting a single log)
         function syncToGoogleSheets(dataObj, action) {
             if (!feeSettings.sheetUrl) return; 
             try {
@@ -1122,12 +1081,112 @@
                 fetch(feeSettings.sheetUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify(payload),
+                    redirect: 'follow'
                 }).catch(err => console.log("Cloud sync delayed/failed:", err));
             } catch(e) {
                 console.error("Failed to prepare cloud sync payload", e);
             }
         }
+
+        // Silent Pull on Initial Load
+        async function pullFromGoogleSheetsSilent() {
+            try {
+                let res = await fetch(feeSettings.sheetUrl + "?action=get", { redirect: 'follow' });
+                if (!res.ok) throw new Error("GET failed");
+                let data = await res.json();
+                if (Array.isArray(data)) {
+                    trades = data; saveData(); renderUI(); updateSyncStatusUI(true);
+                }
+            } catch (err) {
+                // Try fallback to POST if GET fails
+                try {
+                    let res = await fetch(feeSettings.sheetUrl, {
+                        method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                        body: JSON.stringify({ action: 'get' }),
+                        redirect: 'follow'
+                    });
+                    let data = await res.json();
+                    if (Array.isArray(data)) {
+                        trades = data; saveData(); renderUI(); updateSyncStatusUI(true);
+                    }
+                } catch(e2) {
+                    console.log("Silent cloud fetch failed.");
+                    updateSyncStatusUI(false);
+                }
+            }
+        }
+
+        // Manual Pull Action (Button)
+        document.getElementById('pullCloudBtn').addEventListener('click', async () => {
+            if (!feeSettings.sheetUrl) return alert("Please set your Google Web App URL first.");
+            document.getElementById('pullCloudBtn').textContent = "Pulling...";
+            try {
+                let res = await fetch(feeSettings.sheetUrl + "?action=get", { redirect: 'follow' });
+                if (!res.ok) throw new Error("HTTP " + res.status);
+                let data = await res.json();
+                if (Array.isArray(data)) {
+                    trades = data; saveData(); renderUI(); updateSyncStatusUI(true);
+                    alert("Data fully synchronized from Cloud!");
+                }
+            } catch (err) {
+                // If it fails, give a detailed error regarding strict browser rules
+                alert(`Sync Failed: ${err.message}\n\nTroubleshooting:\n1. Your Google Script MUST be deployed as "Execute as: Me" and "Who has access: Anyone".\n2. Since you are running from "file:///", your browser strict security might block the fetch request. To fix this completely, host this HTML file on a local server or GitHub pages.`);
+            }
+            document.getElementById('pullCloudBtn').textContent = "Pull from Cloud";
+        });
+
+        // Manual Push Action (Button)
+        document.getElementById('pushCloudBtn').addEventListener('click', async () => {
+            if (!feeSettings.sheetUrl) return alert("Please set your Google Web App URL first.");
+            document.getElementById('pushCloudBtn').textContent = "Pushing...";
+            try {
+                // Creates a clean copy of trades without massive base64 image strings to avoid Google Script size limits
+                const cleanTrades = trades.map(t => {
+                    let safe = { ...t };
+                    if (safe.image1 && safe.image1.startsWith('data:image')) safe.image1 = "";
+                    if (safe.image2 && safe.image2.startsWith('data:image')) safe.image2 = "";
+                    return safe;
+                });
+                
+                await fetch(feeSettings.sheetUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ action: 'saveAll', data: cleanTrades }),
+                    redirect: 'follow'
+                });
+                alert("All local data successfully pushed to Cloud!");
+                updateSyncStatusUI(true);
+            } catch (err) {
+                alert(`Push Failed: ${err.message}\n\nTroubleshooting:\n1. Ensure Google Script is deployed properly.\n2. Running from "file:///" might block outbound API calls due to strict browser security.`);
+            }
+            document.getElementById('pushCloudBtn').textContent = "Push to Cloud";
+        });
+
+        // Settings Modal Open
+        document.getElementById('settingsBtn').addEventListener('click', () => {
+            document.getElementById('setBrokerage').value = feeSettings.brokerage;
+            document.getElementById('setSTT').value = feeSettings.stt;
+            document.getElementById('setExch').value = feeSettings.exch;
+            document.getElementById('setGST').value = feeSettings.gst;
+            document.getElementById('setSheetUrl').value = feeSettings.sheetUrl || '';
+            updateSyncStatusUI(true);
+            document.getElementById('settingsModalOverlay').style.display = 'flex';
+        });
+
+        // Settings Form Save
+        document.getElementById('settingsForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            feeSettings = {
+                brokerage: parseFloat(document.getElementById('setBrokerage').value) || 0,
+                stt: parseFloat(document.getElementById('setSTT').value) || 0,
+                exch: parseFloat(document.getElementById('setExch').value) || 0,
+                gst: parseFloat(document.getElementById('setGST').value) || 0,
+                sheetUrl: document.getElementById('setSheetUrl').value.trim()
+            };
+            localStorage.setItem('pravinFeeSettings', JSON.stringify(feeSettings));
+            document.getElementById('settingsModalOverlay').style.display = 'none';
+        });
 
         document.getElementById('tradeForm').addEventListener('submit', (e) => {
             e.preventDefault();
