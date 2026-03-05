@@ -369,7 +369,61 @@ th {
     background-color: rgba(0, 229, 255, 0.06);
     box-shadow: 0 0 15px rgba(0, 229, 255, 0.2);
 }
+/* =========================================
+           PREMIUM KEYBOARD NAVIGATION HIGHLIGHTS
+           ========================================= */
+        
+        /* 1. Text Inputs always show focus normally */
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent-neon) !important;
+            box-shadow: 0 0 0 2px rgba(0, 229, 255, 0.15) !important;
+        }
 
+        /* 2. Professional :focus-visible for interactive elements 
+              (Shows glow for keyboard navigation, but HIDES it for mouse clicks!) */
+        .custom-select-trigger:focus-visible, 
+        button[type="submit"]:focus-visible,
+        .tag-toggle:focus-visible, 
+        .tag-add-btn:focus-visible {
+            outline: none;
+            border-color: var(--accent-neon) !important;
+            box-shadow: 0 0 0 2px rgba(0, 229, 255, 0.3) !important;
+        }
+
+        /* Prevent ugly mouse-click outlines */
+        .custom-select-trigger:focus:not(:focus-visible),
+        .dropdown-trigger:focus:not(:focus-visible),
+        button:focus:not(:focus-visible),
+        .tag-toggle:focus:not(:focus-visible),
+        .tag-add-btn:focus:not(:focus-visible) {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+
+        /* 3. Holistic Search & Filter Group Glow 
+              (Makes the entire parent container glow cleanly) */
+        .search-filter-group:focus-within {
+            border-color: var(--accent-neon) !important;
+            box-shadow: 0 0 0 2px rgba(0, 229, 255, 0.15) !important;
+        }
+        
+        /* Suppress internal borders so it doesn't look cheap/broken inside */
+        .search-filter-group input:focus,
+        .search-filter-group input:focus-visible,
+        .search-filter-group .dropdown-trigger:focus,
+        .search-filter-group .dropdown-trigger:focus-visible {
+            border-color: transparent !important;
+            box-shadow: none !important;
+            outline: none !important;
+        }
+
+        /* 4. Dropdown List Highlights */
+        .custom-option.highlighted, .dropdown-item.highlighted {
+            background-color: rgba(0, 229, 255, 0.15);
+            color: var(--accent-neon);
+            font-weight: 500;
+        }
 </style>
 </head>
 <body>
@@ -843,7 +897,7 @@ th {
             setupDatePicker();
             setupFilterBar();
             renderTagSelector();
-            
+            setupKeyboardShortcuts();
             if (feeSettings.sheetUrl && feeSettings.sheetUrl.trim() !== '') {
                 pullFromGoogleSheetsSilent();
             } else {
@@ -929,9 +983,10 @@ th {
             }
         }
 
-        function setupDatePicker() {
+function setupDatePicker() {
             flatpickr("#tradeDate", {
                 dateFormat: "Y-m-d", disableMobile: true, monthSelectorType: "static", 
+                clickOpens: false, // <-- Prevents auto-opening when focused via arrow keys
                 onDayCreate: function(dObj, dStr, fp, dayElem) {
                     const dateObj = dayElem.dateObj;
                     const year = dateObj.getFullYear();
@@ -947,6 +1002,14 @@ th {
                     }
                 }
             });
+
+            // Re-enable mouse click to explicitly open the calendar
+            const dateInput = document.getElementById('tradeDate');
+            if (dateInput) {
+                dateInput.addEventListener('click', function() {
+                    if (this._flatpickr) this._flatpickr.open();
+                });
+            }
         }
 
         function toggleExecutionFields() { 
@@ -1726,7 +1789,248 @@ th {
             document.getElementById('saveBtn').textContent = 'Save to Journal'; 
             document.getElementById('modalOverlay').style.display = 'flex'; 
         });
+// ==========================================
+        // ULTIMATE KEYBOARD SHORTCUTS & NAVIGATION
+        // ==========================================
+        function setupKeyboardShortcuts() {
+            try {
+                // 1. Make all dropdown triggers strictly focusable
+                document.querySelectorAll('.custom-select-trigger, .dropdown-trigger').forEach(el => {
+                    if (el) el.setAttribute('tabindex', '0');
+                });
 
+                document.addEventListener('keydown', (e) => {
+                    try {
+                        const isInput = e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable;
+                        
+                        // Let Flatpickr handle its own native keyboard navigation (Arrows/Enter to pick dates)
+                        const isFlatpickrOpen = document.querySelector('.flatpickr-calendar.open');
+                        if (isFlatpickrOpen) {
+                            if (e.key === 'Escape') document.getElementById('tradeDate')._flatpickr.close();
+                            return; 
+                        }
+
+                        let openDropdown = document.querySelector('.custom-select-wrapper.open');
+                        const tableFilter = document.getElementById('tableFilterDropdown');
+                        if (!openDropdown && tableFilter && tableFilter.classList.contains('open')) {
+                            openDropdown = tableFilter;
+                        }
+
+                        // --- 1. ESCAPE KEY (Universal Close) ---
+                        if (e.key === 'Escape') {
+                            const modalOverlay = document.getElementById('modalOverlay');
+                            const settingsOverlay = document.getElementById('settingsModalOverlay');
+                            const lightbox = document.getElementById('lightbox');
+                            
+                            if (modalOverlay && modalOverlay.style.display === 'flex') document.getElementById('closeModalBtn').click();
+                            if (settingsOverlay && settingsOverlay.style.display === 'flex') document.getElementById('closeSettingsBtn').click();
+                            if (lightbox && lightbox.classList.contains('show')) document.getElementById('lightboxClose').click();
+                            if (tableFilter && tableFilter.classList.contains('open')) tableFilter.classList.remove('open');
+                            
+                            document.querySelectorAll('.custom-select-wrapper.open').forEach(w => w.classList.remove('open'));
+                            document.querySelectorAll('.highlighted').forEach(el => el.classList.remove('highlighted'));
+                            
+                            if (isInput) e.target.blur();
+                            return;
+                        }
+
+                        // --- 2. DROPDOWN LIST NAVIGATION ---
+                        if (openDropdown) {
+                            const options = Array.from(openDropdown.querySelectorAll('.custom-option, .dropdown-item'));
+                            if (options.length > 0) {
+                                let highlightedIndex = options.findIndex(opt => opt.classList.contains('highlighted'));
+                                
+                                if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+                                    e.preventDefault(); 
+                                    if (highlightedIndex > -1) options[highlightedIndex].classList.remove('highlighted');
+                                    
+                                    if (e.key === 'ArrowDown') highlightedIndex = (highlightedIndex + 1) % options.length;
+                                    else highlightedIndex = (highlightedIndex - 1 + options.length) % options.length;
+                                    
+                                    options[highlightedIndex].classList.add('highlighted');
+                                    options[highlightedIndex].scrollIntoView({ block: 'nearest' });
+                                    return;
+                                }
+                                
+                                if (e.key === 'Enter') {
+                                    e.preventDefault();
+                                    if (highlightedIndex > -1) options[highlightedIndex].click();
+                                    else {
+                                        const selected = openDropdown.querySelector('.selected, .active') || options[0];
+                                        if (selected) selected.click();
+                                    }
+                                    document.querySelectorAll('.highlighted').forEach(el => el.classList.remove('highlighted'));
+                                    
+                                    const trigger = openDropdown.querySelector('.custom-select-trigger, .dropdown-trigger');
+                                    if (trigger) {
+                                        // FIX: If it's the main navbar filter, drop focus completely to clean the UI
+                                        if (openDropdown.id === 'tableFilterDropdown' || openDropdown.classList.contains('custom-filter-dropdown')) {
+                                            trigger.blur();
+                                            document.activeElement.blur();
+                                        } else {
+                                            // In Modals: return focus so user can ArrowDown to the next form field
+                                            trigger.focus();
+                                        }
+                                    }
+                                    return;
+                                }
+                            }
+                        }
+
+                        // --- 3. FORM FIELD NAVIGATION (Modals & Settings) ---
+                        const modalOverlay = document.getElementById('modalOverlay');
+                        const settingsOverlay = document.getElementById('settingsModalOverlay');
+                        const activeModal = (modalOverlay && modalOverlay.style.display === 'flex') ? modalOverlay : 
+                                            ((settingsOverlay && settingsOverlay.style.display === 'flex') ? settingsOverlay : null);
+
+                        if (activeModal && !openDropdown) {
+                            const focusables = Array.from(activeModal.querySelectorAll(
+                                'input:not([type="hidden"]), textarea, .custom-select-trigger, .tag-toggle, .tag-add-btn, button[type="submit"]'
+                            )).filter(el => el.offsetParent !== null);
+                            
+                            focusables.forEach(el => {
+                                if (!el.hasAttribute('tabindex') && el.tagName !== 'INPUT' && el.tagName !== 'TEXTAREA' && el.tagName !== 'BUTTON') {
+                                    el.setAttribute('tabindex', '0');
+                                }
+                            });
+
+                            const currentIndex = focusables.indexOf(document.activeElement);
+
+                            if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+                                let el = document.activeElement;
+                                
+                                if (el.tagName === 'TEXTAREA' || (el.tagName === 'INPUT' && el.type === 'text')) {
+                                    try {
+                                        if (e.key === 'ArrowUp' && el.selectionStart > 0) return; 
+                                        if (e.key === 'ArrowDown' && el.selectionEnd < el.value.length) return; 
+                                    } catch(err) {}
+                                }
+                                
+                                e.preventDefault();
+                                let targetIndex = currentIndex === -1 ? 0 : 
+                                    (e.key === 'ArrowDown' ? (currentIndex + 1) % focusables.length : (currentIndex - 1 + focusables.length) % focusables.length);
+                                
+                                focusables[targetIndex].focus();
+                                return;
+                            }
+
+                            if (e.key === 'Enter') {
+                                let el = document.activeElement;
+
+                                if (el.tagName === 'BUTTON' && el.type === 'submit') return; 
+
+                                if (el.classList.contains('tag-toggle') || el.classList.contains('tag-add-btn')) {
+                                    e.preventDefault();
+                                    el.click(); 
+                                    return; 
+                                }
+
+                                if (el.id === 'tradeDate') {
+                                    e.preventDefault();
+                                    if (el._flatpickr) el._flatpickr.open();
+                                    return;
+                                }
+
+                                if (el.classList.contains('custom-select-trigger')) {
+                                    e.preventDefault();
+                                    el.click(); 
+                                    setTimeout(() => {
+                                        const wrapper = el.closest('.custom-select-wrapper');
+                                        if(wrapper) {
+                                            const activeOpt = wrapper.querySelector('.custom-option.selected') || wrapper.querySelector('.custom-option');
+                                            if (activeOpt) activeOpt.classList.add('highlighted');
+                                        }
+                                    }, 50);
+                                    return;
+                                }
+
+                                if (el.tagName === 'TEXTAREA' && e.shiftKey) return; 
+
+                                e.preventDefault();
+                                let targetIndex = currentIndex === -1 ? 0 : (currentIndex + 1) % focusables.length;
+                                focusables[targetIndex].focus();
+                                return;
+                            }
+                        }
+
+                        // --- 4. ENTER KEY ON CLOSED FILTER MENU ---
+                        if (e.key === 'Enter' && e.target.classList.contains('dropdown-trigger')) {
+                            e.preventDefault();
+                            e.target.click(); 
+                            setTimeout(() => {
+                                const wrapper = e.target.closest('.custom-filter-dropdown');
+                                if(wrapper) {
+                                    const activeOpt = wrapper.querySelector('.dropdown-item.active') || wrapper.querySelector('.dropdown-item');
+                                    if (activeOpt) activeOpt.classList.add('highlighted');
+                                }
+                            }, 50);
+                            return;
+                        }
+
+                        // --- 5. GLOBAL SHORTCUTS PREVENTION ---
+                        if (isInput || activeModal || (document.getElementById('lightbox') && document.getElementById('lightbox').classList.contains('show'))) return;
+                        if (e.ctrlKey || e.altKey || e.metaKey) return;
+
+                        // --- 6. GLOBAL SHORTCUTS ---
+                        switch(e.key.toLowerCase()) {
+                            case 'n':
+                                e.preventDefault();
+                                document.getElementById('openModalBtn').click();
+                                break;
+                            case 's':
+                                e.preventDefault();
+                                document.getElementById('settingsBtn').click();
+                                break;
+                            case 't':
+                                e.preventDefault();
+                                const tableTab = document.querySelector('.tab[data-target="tableView"]');
+                                if(tableTab) tableTab.click();
+                                break;
+                            case 'p':
+                            case 'v':
+                                e.preventDefault();
+                                const vaultTab = document.querySelector('.tab[data-target="galleryView"]');
+                                if(vaultTab) vaultTab.click();
+                                break;
+                            case '/':
+                                e.preventDefault();
+                                document.getElementById('searchInput').focus();
+                                break;
+                            case 'f': { 
+                                e.preventDefault();
+                                const filterTrigger = document.querySelector('#tableFilterDropdown .dropdown-trigger');
+                                if(filterTrigger) {
+                                    filterTrigger.click(); 
+                                    filterTrigger.focus(); 
+                                    setTimeout(() => {
+                                        const filterMenu = document.getElementById('tableFilterDropdown');
+                                        if (filterMenu) {
+                                            const activeItem = filterMenu.querySelector('.dropdown-item.active') || filterMenu.querySelector('.dropdown-item');
+                                            if (activeItem) activeItem.classList.add('highlighted');
+                                        }
+                                    }, 50);
+                                }
+                                break;
+                            }
+                        }
+                    } catch (innerErr) {
+                        console.error("Keyboard shortcut logic issue:", innerErr);
+                    }
+                });
+
+                document.addEventListener('mousemove', (e) => {
+                    try {
+                        if (e.target && e.target.classList && (e.target.classList.contains('custom-option') || e.target.classList.contains('dropdown-item'))) {
+                            document.querySelectorAll('.highlighted').forEach(el => el.classList.remove('highlighted'));
+                            e.target.classList.add('highlighted');
+                        }
+                    } catch (err) {}
+                });
+
+            } catch (outerErr) {
+                console.error("Failed to setup shortcuts:", outerErr);
+            }
+        }
         init();
     </script>
 </body>
