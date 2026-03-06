@@ -706,9 +706,10 @@
                         </div>
                         <div class="custom-select-options">
                             <div class="custom-option selected" data-value="Head and Shoulders">Head and Shoulders</div>
+			<div class="custom-option" data-value="Breakout & Retest">Breakout & Retest</div>
+<div class="custom-option" data-value=" Reverse Breakout & Retest">Reverse Br & Re</div>
                             <div class="custom-option" data-value="Double Top">Double Top</div>
                             <div class="custom-option" data-value="Double Bottom">Double Bottom</div>
-                            <div class="custom-option" data-value="Breakout & Retest">Breakout & Retest</div>
                             <div class="custom-option" data-value="Other">Other</div>
                         </div>
                         <input type="hidden" id="tradeSetup" value="Head and Shoulders">
@@ -848,7 +849,7 @@
         const emptyVaultSvg = `<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-muted); opacity: 0.4; margin-bottom: 12px;"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path><line x1="9" y1="14" x2="15" y2="14"></line></svg>`;
 
         // ====== TAGS LOGIC ======
-        const defaultTags =['A+ Setup', 'Perfect Execution', 'FOMO', 'Revenge Trade', 'Chased Price', 'Early Exit', 'Hesitated', 'Picked Other', 'Missed Entry'];
+        const defaultTags =['A+ Setup', 'Perfect Execution', 'FOMO', 'Revenge Trade', 'Chased Price', 'Early Exit', 'Hesitated', 'Picked Other', 'Missed Entry', 'Early entry'];
         let customTags = JSON.parse(localStorage.getItem('pravinCustomTags')) ||[];
         let allTags =[...new Set([...defaultTags, ...customTags])];
         let activeTags =[];
