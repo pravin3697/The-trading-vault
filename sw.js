@@ -1,10 +1,9 @@
-const CACHE_NAME = 'trading-vault-v2'; // Changed to v2 to force update
+const CACHE_NAME = 'trading-vault-v3'; // Changed to v3!
 const ASSETS =[
   './',
   './index.html',
   './manifest.json',
-  './icon-192.png',
-  './icon-512.png',
+  './icon.svg',  // Changed to SVG
   'https://cdn.jsdelivr.net/npm/chart.js',
   'https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css',
   'https://cdn.jsdelivr.net/npm/flatpickr'
@@ -20,7 +19,6 @@ self.addEventListener('install', e => {
 });
 
 self.addEventListener('activate', e => {
-  // This deletes the old v1 cache so the new files load
   e.waitUntil(
     caches.keys().then(keys => {
       return Promise.all(
