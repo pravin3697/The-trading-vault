@@ -1,10 +1,10 @@
-const CACHE_NAME = 'trading-vault-v4';
+const CACHE_NAME = 'trading-vault-v5'; // Bumped to v5
 const ASSETS =[
   './',
   './index.html',
   './manifest.json',
-  './icon-192.png',
-  './icon-512.png',
+  './vault-192.png', // New name here
+  './vault-512.png', // New name here
   'https://cdn.jsdelivr.net/npm/chart.js',
   'https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css',
   'https://cdn.jsdelivr.net/npm/flatpickr'
